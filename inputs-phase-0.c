@@ -8,7 +8,7 @@
 
 char world[maxside][maxside];
 int energys[maxside][maxside] = {{0}};
-int animals_coordinate[maxanimals][2];
+int animals_coordinate[maxanimals][4];
 int side;
 
 
