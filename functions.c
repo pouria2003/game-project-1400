@@ -5,22 +5,13 @@
 char world[6][6] = {{'A', '.', '.', '#', '.', '.'}, {'.', '.', '.', '#', '.', '.'}, {'.', '#', '#', '#', '.', '.'}
         , {'.', '.', '.', '#', '.', '.'}, {'.', '.', '.', '.', '#', 'H'}, {'.', '.', '.', '.', '.', '.'}};
 
-int min(int a, int b){
-    if(a > b)return b;
-    return a;
-}
-
-int max(int a, int b){
-    if(a > b)return a;
-    return b;
-}
 
 void win(){
 }
 
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
-int single_move(char code, int * a, char mode){      // code jahat harkato moshakhas mikone
-    int row = a[0], col = a[1];
+int single_move(char code, int * r, int * c, char mode){      // code jahat harkato moshakhas mikone
+    int row = *r, col = *b;                                   // r hamon pointer be row va c pointer be column
     switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
         case '6':                                            // yani harkat ham dade she
             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
@@ -31,8 +22,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm'){
                     world[row][col + 1] = world[row][col];
                     world[row][col] = '.';
-                    a[1] += 1;
                 }
+                *c += 1;
                 break;
             }
             else return 0;
@@ -45,9 +36,9 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else  if (mode == 'm'){
                     world[row - 1][col + 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] -= 1;
-                    a[1] += 1;
                 }
+                *r -= 1;
+                *c += 1;
                 break;
             }
             else return 0;
@@ -59,9 +50,9 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 }
                 else if (mode == 'm'){
                     world[row - 1][col] = world[row][col];
-                    world[row][col] = '.';
-                    a[0] -= 1;
+                    world[row][col] = '.'; 
                 }
+                *r -= 1;
                 break;
             }
             else return 0;
@@ -74,9 +65,9 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm'){
                     world[row - 1][col - 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] -= 1;
-                    a[1] -= 1;
                 }
+                *r -= 1;
+                *c -= 1;
                 break;
             }
             else return 0;
@@ -89,8 +80,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row][col - 1] = world[row][col];
                     world[row][col] = '.';
-                    a[1] -= 1;
                 }
+                *c -= 1;
                 break;
             }
             else return 0;
@@ -103,9 +94,9 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row + 1][col - 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] += 1;
-                    a[1] -= 1;
                 }
+                *r += 1;
+                *c -= 1;
                 break;
             }
             else return 0;
@@ -118,8 +109,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row + 1][col] = world[row][col];
                     world[row][col] = '.';
-                    a[0] += 1;
                 }
+                *r += 1;
                 break;
             }
             else return 0;
@@ -132,9 +123,9 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row + 1][col + 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] += 1;
-                    a[1] += 1;
                 }
+                *r += 1;
+                *c += 1;
                 break;
             }
             else return 0;
@@ -142,74 +133,193 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
     return 1;
 }
 
-int shortest_way(int * a, const int * b){
-    int a_row = a[0], a_col = a[1], b_row = b[0], b_col = b[1];
-    int total_moves;
-    int orib_moves_number;
-    int non_orib_moves_numbers;
-    char way_code[20];      // code baraye zakhire harakata
-    int way_code_index = 0;
-    char orib_move, non_orib_move;
-    int ofoghi;
-    if(abs(b_row - a_row) > abs(b_col - a_col)){
-        total_moves = abs(b_row - a_row);
-        orib_moves_number = abs(b_col - a_col);
-        ofoghi = 0;
-    }
-    else{
-        orib_moves_number = abs(b_row - a_row);
-        total_moves = abs(b_col - a_col);
-        ofoghi = 1;
-    }
+    // int ModifyWay(int * way_code_index, char * way_code, char direct_move, char oblique_move, ){
+    //     while(*way_code_index){
+    //         way_code[*way_code_index] = '\0';
+    //         way_code_index--;
+    //         if(way_code[*way_code_index] == direct_move){
+    //             if(oblique_moves_number > 0){
+    //                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
+    //                     way_code[way_code_index] = oblique_move;
+    //                     oblique_moves_number--;
+    //                     direct_moves_numbers++;
+    //                     way_code_index++;
+    //                     a_row = a[0];
+    //                     a_col = a[1];
+    //                     for(int i = 0; i < way_code_index; i++){
+    //                         single_move(way_code[i], &a_row, &a_col, 'c');
+    //                     }
+    //                     return 1;
+    //                 }
+    //                 else direct_moves_numbers++;
+    //             }
+    //         }
+    //         else oblique_moves_number++;
+    //     }
+    //     return 0;
+    // }
 
-    non_orib_moves_numbers = total_moves - orib_moves_number;
+// int shortest_way(const int * a, const int * b){
+//     int a_row = a[0], a_col = a[1], b_row = b[0], b_col = b[1];
+//     int total_moves;
+//     int oblique_moves_number;
+//     int direct_moves_numbers;
+//     char way_code[20];      // code baraye zakhire harakata
+//     int way_code_index = 0;
+//     char oblique_move, direct_move;
+//     int ofoghi;
+//     int sw;             // jelo tar migam koja estefade mishe
+//     if(abs(b_row - a_row) > abs(b_col - a_col)){
+//         total_moves = abs(b_row - a_row);
+//         oblique_moves_number = abs(b_col - a_col);
+//         ofoghi = 0;
+//     }
+//     else{
+//         oblique_moves_number = abs(b_row - a_row);
+//         total_moves = abs(b_col - a_col);
+//         ofoghi = 1;
+//     }
 
-    if(b_row > a_row){
-        if(b_col > a_col){
-            orib_move = '3';
-            non_orib_move = (ofoghi) ? '6' : '2';
-        }
-        else{
-            orib_move = '1';
-            non_orib_move = (ofoghi) ? '4' : '2';
-        }
-    }
-    else{
-        if(b_col > a_col){
-            orib_move = '9';
-            non_orib_move = (ofoghi) ? '6' : '8';
-        }
-        else{
-            orib_move = '7';
-            non_orib_move = (ofoghi) ? '4' : '8';
-        }
-    }
-    while(1) {
-        if (non_orib_moves_numbers > 0) {
-            if (single_move(non_orib_move, a, 'c')) {
-                way_code[way_code_index] = non_orib_move;
-                way_code_index++;
-                non_orib_moves_numbers--;
-            } else if (orib_moves_number > 0) {
-                if (single_move(orib_move, a, 'c')) {
-                    way_code[way_code_index] = orib_move;
-                    way_code_index++;
-                    orib_moves_number--;
-                } else {
-                    way_code_index--;
-                    way_code[way_code_index] = '\0';
-                    way_code_index--;
-                    if (way_code[way_code_index] == non_orib_move) {
-                        way_code[way_code_index] = orib_move;
-                        orib_moves_number--;
-                        non_orib_moves_numbers++;
-                    }
-                }
-            }
-        } else if (orib_move > 0) {
+//     direct_moves_numbers = total_moves - oblique_moves_number;
 
-        }
-        else break;
+//     if(b_row > a_row){
+//         if(b_col > a_col){
+//             oblique_move = '3';
+//             direct_move = (ofoghi) ? '6' : '2';
+//         }
+//         else{
+//             oblique_move = '1';
+//             direct_move = (ofoghi) ? '4' : '2';
+//         }
+//     }
+//     else{
+//         if(b_col > a_col){
+//             oblique_move = '9';
+//             direct_move = (ofoghi) ? '6' : '8';
+//         }
+//         else{
+//             oblique_move = '7';
+//             direct_move = (ofoghi) ? '4' : '8';
+//         }
+//     }
 
-    }
-}
+    
+//     while(1) {
+//         if (direct_moves_numbers > 0) {
+//             if (single_move(direct_move, &a_row, &a_col, 'c')) {
+//                 way_code[way_code_index] = direct_move;
+//                 way_code_index++;
+//                 direct_moves_numbers--;
+//             } else if (oblique_moves_number > 0) {
+//                 if (single_move(oblique_move, &a_row, &a_col, 'c')) {
+//                     way_code[way_code_index] = oblique_move;
+//                     way_code_index++;
+//                     oblique_moves_number--;
+//                 } else
+//                 {
+//                     sw = 0;
+//                     while(way_code_index){
+//                         way_code[way_code_index] = '\0';
+//                         way_code_index--;
+//                         if(way_code[way_code_index] == direct_move){
+//                             if(oblique_moves_number > 0){
+//                                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
+//                                     way_code[way_code_index] = oblique_move;
+//                                     oblique_moves_number--;
+//                                     direct_moves_numbers++;
+//                                     way_code_index++;
+//                                     a_row = a[0];
+//                                     a_col = a[1];
+//                                     for(int i = 0; i < way_code_index; i++){
+//                                         single_move(way_code[i], &a_row, &a_col, 'c');
+//                                     }
+//                                     sw = 1;
+//                                     break;
+//                                 }
+//                                 else direct_moves_numbers++;
+//                             }
+//                         }
+//                         else oblique_moves_number++;
+//                     }
+//                     if(sw){
+//                         return 0;
+//                     }
+//                 }
+//             else{
+//                 sw = 0;
+//                     while(way_code_index){
+//                         way_code[way_code_index] = '\0';
+//                         way_code_index--;
+//                         if(way_code[way_code_index] == direct_move){
+//                             if(oblique_moves_number > 0){
+//                                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
+//                                     way_code[way_code_index] = oblique_move;
+//                                     oblique_moves_number--;
+//                                     direct_moves_numbers++;
+//                                     way_code_index++;
+//                                     a_row = a[0];
+//                                     a_col = a[1];
+//                                     for(int i = 0; i < way_code_index; i++){
+//                                         single_move(way_code[i], &a_row, &a_col, 'c');
+//                                     }
+//                                     sw = 1;
+//                                     break;
+//                                 }
+//                                 else direct_moves_numbers++;
+//                             }
+//                         }
+//                         else oblique_moves_number++;
+//                     }
+//                     if(sw){
+//                         return 0;
+//                     }
+//             }
+//         } else if (oblique_move > 0) {
+//             if (single_move(oblique_move, &a_row, &a_col, 'c')){
+//                 way_code[way_code_index] = oblique_move;
+//                 oblique_moves_number--;
+//                 way_code_index++;
+//             }else {
+//                 sw = 0;
+//                     while(way_code_index){
+//                         way_code[way_code_index] = '\0';
+//                         way_code_index--;
+//                         if(way_code[way_code_index] == direct_move){
+//                             if(oblique_moves_number > 0){
+//                                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
+//                                     way_code[way_code_index] = oblique_move;
+//                                     oblique_moves_number--;
+//                                     direct_moves_numbers++;
+//                                     way_code_index++;
+//                                     a_row = a[0];
+//                                     a_col = a[1];
+//                                     for(int i = 0; i < way_code_index; i++){
+//                                         single_move(way_code[i], &a_row, &a_col, 'c');
+//                                     }
+//                                     sw = 1;
+//                                     break;
+//                                 }
+//                                 else direct_moves_numbers++;
+//                             }
+//                         }
+//                         else oblique_moves_number++;
+//                     }
+//                     if(sw){
+//                         return 0;
+//                     }
+//             }
+            
+//         }
+//         else break;
+//     }
+//     }
+//     if(a_row == b_row && a_col == b_col){
+//     printf("%s", way_code);
+//     return 1;
+//     }
+// }
+// int a[2] = {0,0};
+// int b[2] = {4,2};
+// int main(){
+//     shortest_way(a, b);
+// }
