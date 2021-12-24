@@ -19,8 +19,8 @@ void win(){
 }
 
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
-int single_move(char code, int * a, char mode){      // code jahat harkato moshakhas mikone
-    int row = a[0], col = a[1];
+int single_move(char code, int * r, int * c, char mode){      // code jahat harkato moshakhas mikone
+    int row = * r , col = * c;
     switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
         case '6':                                            // yani harkat ham dade she
             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
@@ -31,7 +31,7 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm'){
                     world[row][col + 1] = world[row][col];
                     world[row][col] = '.';
-                    a[1] += 1;
+                    * c += 1;
                 }
                 break;
             }
@@ -45,8 +45,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else  if (mode == 'm'){
                     world[row - 1][col + 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] -= 1;
-                    a[1] += 1;
+                    * r -= 1;
+                    * c += 1;
                 }
                 break;
             }
@@ -60,7 +60,7 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm'){
                     world[row - 1][col] = world[row][col];
                     world[row][col] = '.';
-                    a[0] -= 1;
+                    * r -= 1;
                 }
                 break;
             }
@@ -74,8 +74,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm'){
                     world[row - 1][col - 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] -= 1;
-                    a[1] -= 1;
+                    * r -= 1;
+                    * c -= 1;
                 }
                 break;
             }
@@ -89,7 +89,7 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row][col - 1] = world[row][col];
                     world[row][col] = '.';
-                    a[1] -= 1;
+                    * c -= 1;
                 }
                 break;
             }
@@ -103,8 +103,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row + 1][col - 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] += 1;
-                    a[1] -= 1;
+                    * r += 1;
+                    * c -= 1;
                 }
                 break;
             }
@@ -118,7 +118,7 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row + 1][col] = world[row][col];
                     world[row][col] = '.';
-                    a[0] += 1;
+                    * r += 1;
                 }
                 break;
             }
@@ -132,8 +132,8 @@ int single_move(char code, int * a, char mode){      // code jahat harkato mosha
                 else if (mode == 'm') {
                     world[row + 1][col + 1] = world[row][col];
                     world[row][col] = '.';
-                    a[0] += 1;
-                    a[1] += 1;
+                    * r += 1;
+                    * c += 1;
                 }
                 break;
             }
