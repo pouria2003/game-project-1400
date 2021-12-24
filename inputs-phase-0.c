@@ -4,9 +4,11 @@
 #include <string.h>
 
 #define maxside 20
+#define maxanimals 20
 
 char world[maxside][maxside];
 int energys[maxside][maxside] = {{0}};
+int animals_coordinate[maxanimals][2];
 int side;
 
 
@@ -20,7 +22,7 @@ int main(){
       }
    }
    char MyAnimal;
-   int separator_counter = 0;
+   int separator_counter = 0, animals_coordinate_index = 0;
    char temp[100];
    scanf("%d", &side);     // size jahane
    while(separator_counter < 4){       // in halghe hame vorodi haro mibare to world
@@ -31,7 +33,6 @@ int main(){
          scanf("%s", temp);
          row = find_integer(temp);
          col = find_integer(temp);
-         world[row][col] =  'F';
          energys[row][col] += food_energy;
       }
 
@@ -72,6 +73,9 @@ int main(){
                row = find_integer(temp);
                column = find_integer(temp);
                world[row][column] = animal;
+               animals_coordinate[animals_coordinate_index][0] = row;
+               animals_coordinate[animals_coordinate_index][1] = col;
+               animals_coordinate_index++;
             }
 
          }
