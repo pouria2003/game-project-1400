@@ -19,7 +19,8 @@ void win(){
 }
 
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
-int single_move(char code, int row, int col, char mode){      // code jahat harkato moshakhas mikone
+int single_move(char code, int * a, char mode){      // code jahat harkato moshakhas mikone
+    int row = a[0], col = a[1];
     switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
         case '6':                                            // yani harkat ham dade she
             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
@@ -30,6 +31,7 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm'){
                     world[row][col + 1] = world[row][col];
                     world[row][col] = '.';
+                    a[1] += 1;
                 }
                 break;
             }
@@ -43,6 +45,8 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else  if (mode == 'm'){
                     world[row - 1][col + 1] = world[row][col];
                     world[row][col] = '.';
+                    a[0] -= 1;
+                    a[1] += 1;
                 }
                 break;
             }
@@ -56,6 +60,7 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm'){
                     world[row - 1][col] = world[row][col];
                     world[row][col] = '.';
+                    a[0] -= 1;
                 }
                 break;
             }
@@ -69,6 +74,8 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm'){
                     world[row - 1][col - 1] = world[row][col];
                     world[row][col] = '.';
+                    a[0] -= 1;
+                    a[1] -= 1;
                 }
                 break;
             }
@@ -82,6 +89,7 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm') {
                     world[row][col - 1] = world[row][col];
                     world[row][col] = '.';
+                    a[1] -= 1;
                 }
                 break;
             }
@@ -95,6 +103,8 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm') {
                     world[row + 1][col - 1] = world[row][col];
                     world[row][col] = '.';
+                    a[0] += 1;
+                    a[1] -= 1;
                 }
                 break;
             }
@@ -108,6 +118,7 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm') {
                     world[row + 1][col] = world[row][col];
                     world[row][col] = '.';
+                    a[0] += 1;
                 }
                 break;
             }
@@ -121,6 +132,8 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
                 else if (mode == 'm') {
                     world[row + 1][col + 1] = world[row][col];
                     world[row][col] = '.';
+                    a[0] += 1;
+                    a[1] += 1;
                 }
                 break;
             }
@@ -129,31 +142,74 @@ int single_move(char code, int row, int col, char mode){      // code jahat hark
     return 1;
 }
 
-int shortest_way(const int * a, const int * b){
+int shortest_way(int * a, const int * b){
     int a_row = a[0], a_col = a[1], b_row = b[0], b_col = b[1];
-    int total_moves = max(abs(b_row - a_row) , abs(b_col - a_col));
-    int orib_num = min(abs(b_row - a_row) , abs(b_col - a_col));
-    char way_code[20];      // code baraye zakhire harakatame
-    int row_direction, col_direction;    // ina mige bayad dar satr va soton be rast beram ya chap va bala ya payin
+    int total_moves;
+    int orib_moves_number;
+    int non_orib_moves_numbers;
+    char way_code[20];      // code baraye zakhire harakata
+    int way_code_index = 0;
+    char orib_move, non_orib_move;
+    int ofoghi;
+    if(abs(b_row - a_row) > abs(b_col - a_col)){
+        total_moves = abs(b_row - a_row);
+        orib_moves_number = abs(b_col - a_col);
+        ofoghi = 0;
+    }
+    else{
+        orib_moves_number = abs(b_row - a_row);
+        total_moves = abs(b_col - a_col);
+        ofoghi = 1;
+    }
+
+    non_orib_moves_numbers = total_moves - orib_moves_number;
+
     if(b_row > a_row){
         if(b_col > a_col){
-            row_direction = 1;
-            col_direction = 1;
+            orib_move = '3';
+            non_orib_move = (ofoghi) ? '6' : '2';
         }
         else{
-            row_direction = 1;
-            col_direction = -1;
+            orib_move = '1';
+            non_orib_move = (ofoghi) ? '4' : '2';
         }
     }
     else{
         if(b_col > a_col){
-            row_direction = -1;
-            col_direction = 1;
+            orib_move = '9';
+            non_orib_move = (ofoghi) ? '6' : '8';
         }
         else{
-            row_direction = -1;
-            col_direction = -1;
+            orib_move = '7';
+            non_orib_move = (ofoghi) ? '4' : '8';
         }
     }
+    while(1) {
+        if (non_orib_moves_numbers > 0) {
+            if (single_move(non_orib_move, a, 'c')) {
+                way_code[way_code_index] = non_orib_move;
+                way_code_index++;
+                non_orib_moves_numbers--;
+            } else if (orib_moves_number > 0) {
+                if (single_move(orib_move, a, 'c')) {
+                    way_code[way_code_index] = orib_move;
+                    way_code_index++;
+                    orib_moves_number--;
+                } else {
+                    way_code_index--;
+                    way_code[way_code_index] = '\0';
+                    way_code_index--;
+                    if (way_code[way_code_index] == non_orib_move) {
+                        way_code[way_code_index] = orib_move;
+                        orib_moves_number--;
+                        non_orib_moves_numbers++;
+                    }
+                }
+            }
+        } else if (orib_move > 0) {
 
+        }
+        else break;
+
+    }
 }
