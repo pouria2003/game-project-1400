@@ -90,6 +90,7 @@ int main(){
          }
       }
    }
+//   num(animals_coordinate[0][0], animals_coordinate[0][1], &animals_coordinate[0][0], &animals_coordinate[0][1], 'f');
 
    while(1){
       for(int i = 0; i < animals_coordinate_index; i++){
@@ -102,7 +103,7 @@ int main(){
       }
 
       print();
-      Sleep(5000);
+      Sleep(30000);
       system("cls");
    }
    return 0;

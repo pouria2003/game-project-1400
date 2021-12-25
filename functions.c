@@ -193,16 +193,24 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
 
 void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
-    if((start_x == stop_x) && (start_y == stop_y) && (mode = 'g')){
+    if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){
+//    	integer_world_copy[]
+    	printf("i come here!\n");
+        for(int i = 0; i < side; i++){
+            for(int j = 0; j < side; j++){
+                printf("%d ", integer_world_copy[i][j]);
+            }
+            printf("\n");
+        }
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
             single_move('8', pstop_x, pstop_y, 'm');
             return;
         }
-        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x + 1 < side && stop_y > 0){
+        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  <= side && stop_y > 0){
             single_move('1', pstop_x, pstop_y, 'm');
             return;
         }
-        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x + 1 < side && stop_y + 1 < side){
+        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  <= side && stop_y  <= side){
             single_move('3', pstop_x, pstop_y, 'm');
             return;
         }
@@ -210,11 +218,11 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
             single_move('7', pstop_x, pstop_y, 'm');
             return;
         }
-        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y + 1 < side){
+        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  <= side){
             single_move('9', pstop_x, pstop_y, 'm');
             return;
         }
-        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y + 1 < side){
+        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  <= side){
             single_move('6', pstop_x, pstop_y, 'm');
             return;
         }
@@ -222,12 +230,19 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
             single_move('4', pstop_x, pstop_y, 'm');
             return;
         }
-        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x + 1 < side){
+        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  <= side){
             single_move('2', pstop_x, pstop_y, 'm');
             return;
         }
     }
     if(world[start_x][start_y] == 'H' && mode == 'f'){
+    	printf("%d  %d\n", start_x, start_y);
+        for(int i = 0; i < side; i++){
+            for(int j = 0; j < side; j++){
+                printf("%d ", integer_world_copy[i][j]);
+            }
+            printf("\n");
+        }
         hx = start_x;
         hy = start_y;
         return;
@@ -292,6 +307,8 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
     }
 
     counter++;
+
+//    integer_world_copy[start_x][start_y] = 0;
     if(counter < lastmojaveindex){
         num(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
     }
@@ -309,135 +326,6 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
         num(lastmojaver[0][0], lastmojaver[0][1], pstop_x, pstop_y, mode);
     }
 }
-
-
-
-
-/* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
-// int single_move(char code, int * r, int * c, char mode){      // code jahat harkato moshakhas mikone
-//     int row = *r, col = *c;                                   // r hamon pointer be row va c pointer be column
-
-//     switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
-//         case '6':                                            // yani harkat ham dade she
-//             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
-//                 if(world[row][col + 1] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm'){
-//                     world[row][col + 1] = world[row][col];
-//                     world[row][col] = '.';
-//                     *c += 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//         case '9':
-//             if(world[row - 1][col + 1] == '.'|| world[row - 1][col + 1] == 'H'){
-//                 if(world[row - 1][col + 1] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else  if (mode == 'm'){
-//                     world[row - 1][col + 1] = world[row][col];
-//                     world[row][col] = '.';
-//                     *r -= 1;
-//                     *c += 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//         case '8':
-//             if(world[row - 1][col] == '.'|| world[row - 1][col] == 'H'){
-//                 if(world[row - 1][col] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm'){
-//                     world[row - 1][col] = world[row][col];
-//                     world[row][col] = '.'; 
-//                     *r -= 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//         case '7':
-//             if(world[row - 1][col - 1] == '.'|| world[row - 1][col - 1] == 'H'){
-//                 if(world[row - 1][col - 1] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm'){
-//                     world[row - 1][col - 1] = world[row][col];
-//                     world[row][col] = '.';
-//                     *r -= 1;
-//                     *c -= 1;
-//                 }
-                
-//                 break;
-//             }
-//             else return 0;
-//         case '4':
-//             if(world[row][col - 1] == '.'|| world[row][col - 1] == 'H'){
-//                 if(world[row][col - 1] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm') {
-//                     world[row][col - 1] = world[row][col];
-//                     world[row][col] = '.';
-//                     *c -= 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//         case '1':
-//             if(world[row + 1][col - 1] == '.'|| world[row + 1][col - 1] == 'H'){
-//                 if(world[row + 1][col - 1] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm') {
-//                     world[row + 1][col - 1] = world[row][col];
-//                     world[row][col] = '.';
-//                     *r += 1;
-//                     *c -= 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//         case '2':
-//             if(world[row + 1][col] == '.'|| world[row + 1][col] == 'H'){
-//                 if(world[row + 1][col] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm') {
-//                     world[row + 1][col] = world[row][col];
-//                     world[row][col] = '.';
-//                     *r += 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//         case '3':
-//             if(world[row + 1][col + 1] == '.'|| world[row + 1][col + 1] == 'H'){
-//                 if(world[row + 1][col + 1] == 'H'){
-//                     win(world[*r][*c]);
-//                     return 0;
-//                 }
-//                 else if (mode == 'm') {
-//                     world[row + 1][col + 1] = world[row][col];
-//                     world[row][col] = '.';
-//                     *r += 1;
-//                     *c += 1;
-//                 }
-//                 break;
-//             }
-//             else return 0;
-//     }
-//     return 1;
-// }
 
 int find_integer(char * str){    // int function yek string migire va avalin addi ke dakhel string peyda kone barmigardone va  
    int ans = 0;                  // charracter haye string ro bejaye adade mikone '.'
