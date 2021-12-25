@@ -10,7 +10,7 @@
 char world[maxside][maxside];
 int integer_world_copy[20][20];
 int energys[maxside][maxside] = {{0}};
-int animals_coordinate[maxanimals][4];
+int animals_coordinate[maxanimals][2];
 int side;
 int lastmojaver[100][2] = {{0,0}};
 int currentmojaver[100][2];
@@ -83,13 +83,25 @@ int main(){
                animals_coordinate[animals_coordinate_index][1] = column;
                animals_coordinate_index++;
             }
-
          }
          else{
             MyAnimal = temp[0];
             separator_counter++;
          }
       }
+   }
+
+   while(1){
+      for(int i = 0; i < animals_coordinate_index; i++){
+         num(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
+         printf("heaven is on %d %d\n", hx, hy);
+         num(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
+         printf("Animal went to %d %d\n", animals_coordinate[i][0], animals_coordinate[i][1]);
+      }
+
+      print();
+      Sleep(5000);
+      system("cls");
    }
    return 0;
 }
