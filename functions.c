@@ -2,7 +2,7 @@
 #include <string.h>
 #include <math.h>
 
-
+extern int integer_world_copy[20][20];
 extern char world[20][20];
 extern int energys[20][20];
 extern int animals_coordinate[20][4];
@@ -15,78 +15,89 @@ extern int counter;
 extern int hx;
 extern int hy;
 
-
 void win(){
 }
 
-void num(char world[][20], int world2[][20],int x,int y,int size){
-    if(world[x][y] == 'H'){
-        hx = x;
-        hy = y;
+void CreateWorldCopy(int hex, int hey, int ax, int ay){
+    for(int i = 0; i < side; i++){
+        for(int j = 0; j < side; j++){
+            if(world[i][j] = '.') integer_world_copy[i][j] = 0;
+            else integer_world_copy[i][j] = -1;
+        }
+    }
+    integer_world_copy[hex][hey] = integer_world_copy[ax][ay] = 0;
+
+}
+
+void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => finde heaven , g => go
+    if((start_x == stop_x) && (start_y == stop_y) && (mode = 'g'));
+    if(world[start_x][start_y] == 'H'){
+        hx = start_x;
+        hy = start_y;
         return;
     }
-    printf("x = %d, y = %d\n", x, y);
-    int a = world2[x][y] + 1;
-    if(x > 0 && world2[x-1][y] == 0){
-        world2[x-1][y] = a;
-        printf("in r = %d , j = %d changed to %d\n", x - 1, y, a);
-        currentmojaver[currentmojaverindex][0] = x - 1;
-        currentmojaver[currentmojaverindex][1] = y;
+    // printf("x = %d, y = %d\n", x, y);
+    int a = integer_world_copy[start_x][start_y] + 1;
+    if(start_x > 0 && integer_world_copy[start_x - 1][start_y] == 0){
+        integer_world_copy[start_x - 1][start_y] = a;
+        // printf("in r = %d , j = %d changed to %d\n", x - 1, y, a);
+        currentmojaver[currentmojaverindex][0] = start_x - 1;
+        currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
-    if(x < size && y > 0 && world2[x+1][y-1] == 0){
-        world2[x+1][y-1] = a;
-        printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
-        currentmojaver[currentmojaverindex][0] = x + 1;
-        currentmojaver[currentmojaverindex][1] = y - 1;
+    if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
+        integer_world_copy[start_x + 1][start_y - 1] = a;
+        // printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
+        currentmojaver[currentmojaverindex][0] = start_x + 1;
+        currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
-    if(x < size && y < size && world2[x+1][y+1] == 0){
-        world2[x+1][y+1]=a;
-        printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
-        currentmojaver[currentmojaverindex][0] = x + 1;
-        currentmojaver[currentmojaverindex][1] = y + 1;
+    if(start_x < side && start_y < side && integer_world_copy[start_x + 1][start_y + 1] == 0){
+        integer_world_copy[start_x + 1][start_y + 1]=a;
+        // printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
+        currentmojaver[currentmojaverindex][0] = start_x + 1;
+        currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
-    if(x > 0 && y > 0 && world2[x-1][y-1] == 0){
-        world2[x-1][y-1] = a;
-        printf("in r = %d , j = %d changed to %d\n", x - 1, y - 1, a);
-        currentmojaver[currentmojaverindex][0] = x - 1;
-        currentmojaver[currentmojaverindex][1] = y - 1;
+    if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
+        integer_world_copy[start_x - 1][start_y - 1] = a;
+        // printf("in r = %d , j = %d changed to %d\n", x - 1, y - 1, a);
+        currentmojaver[currentmojaverindex][0] = start_x - 1;
+        currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
-    if(x > 0 && y < size && world2[x-1][y+1] == 0){
-        world2[x-1][y+1] = a;
-        printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
-        currentmojaver[currentmojaverindex][0] = x - 1;
-        currentmojaver[currentmojaverindex][1] = y + 1;
+    if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
+        integer_world_copy[start_x - 1][start_y + 1] = a;
+        // printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
+        currentmojaver[currentmojaverindex][0] = start_x - 1;
+        currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
-    if(y < size && world2[x][y+1] == 0){
-        world2[x][y+1]=a;
-        printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
-        currentmojaver[currentmojaverindex][0] = x;
-        currentmojaver[currentmojaverindex][1] = y + 1;
+    if(start_y < side && integer_world_copy[start_x][start_y + 1] == 0){
+        integer_world_copy[start_x][start_y + 1]=a;
+        // printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
+        currentmojaver[currentmojaverindex][0] = start_x;
+        currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
-    if(y > 0 && world2[x][y-1] == 0){
-        world2[x][y-1]=a;
-        printf("in r = %d , j = %d changed to %d\n", x , y - 1, a);
-        currentmojaver[currentmojaverindex][0] = x;
-        currentmojaver[currentmojaverindex][1] = y - 1;
+    if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
+        integer_world_copy[start_x][start_y - 1]=a;
+        // printf("in r = %d , j = %d changed to %d\n", x , y - 1, a);
+        currentmojaver[currentmojaverindex][0] = start_x;
+        currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
-    if(x < size && world2[x+1][y]==0){
-        world2[x+1][y]=a;
-        printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
-        currentmojaver[currentmojaverindex][0] = x + 1;
-        currentmojaver[currentmojaverindex][1] = y;
+    if(start_x < side && integer_world_copy[start_x+1][start_y]==0){
+        integer_world_copy[start_x+1][start_y]=a;
+        // printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
+        currentmojaver[currentmojaverindex][0] = start_x + 1;
+        currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
 
     counter++;
     if(counter < lastmojaveindex){
-        num(world, world2, lastmojaver[counter][0], lastmojaver[counter][1], 6);
+        num(lastmojaver[counter][0], lastmojaver[counter][1]);
     }
     else{
         if(currentmojaverindex == 0){
@@ -99,7 +110,7 @@ void num(char world[][20], int world2[][20],int x,int y,int size){
         counter = 0;
         lastmojaveindex = currentmojaverindex;
         currentmojaverindex = 0;
-        num(world, world2, lastmojaver[0][0], lastmojaver[0][1], 6);
+        num(lastmojaver[0][0], lastmojaver[0][1]);
     }
 }
 

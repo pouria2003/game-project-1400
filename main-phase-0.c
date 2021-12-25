@@ -8,6 +8,7 @@
 #define maxanimals 20
 
 char world[maxside][maxside];
+int integer_world_copy[20][20];
 int energys[maxside][maxside] = {{0}};
 int animals_coordinate[maxanimals][4];
 int side;
