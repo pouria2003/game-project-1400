@@ -19,7 +19,7 @@ extern int hy;
 void win(){
 }
 
-void num(char world[][20], int world2[][20],int x,int y,int size){
+void num(int x,int y){
     if(world[x][y] == 'H'){
         hx = x;
         hy = y;
@@ -34,14 +34,14 @@ void num(char world[][20], int world2[][20],int x,int y,int size){
         currentmojaver[currentmojaverindex][1] = y;
         currentmojaverindex++;
     }
-    if(x < size && y > 0 && world2[x+1][y-1] == 0){
+    if(x < side && y > 0 && world2[x+1][y-1] == 0){
         world2[x+1][y-1] = a;
         printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
         currentmojaver[currentmojaverindex][0] = x + 1;
         currentmojaver[currentmojaverindex][1] = y - 1;
         currentmojaverindex++;
     }
-    if(x < size && y < size && world2[x+1][y+1] == 0){
+    if(x < side && y < side && world2[x+1][y+1] == 0){
         world2[x+1][y+1]=a;
         printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
         currentmojaver[currentmojaverindex][0] = x + 1;
@@ -55,14 +55,14 @@ void num(char world[][20], int world2[][20],int x,int y,int size){
         currentmojaver[currentmojaverindex][1] = y - 1;
         currentmojaverindex++;
     }
-    if(x > 0 && y < size && world2[x-1][y+1] == 0){
+    if(x > 0 && y < side && world2[x-1][y+1] == 0){
         world2[x-1][y+1] = a;
         printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
         currentmojaver[currentmojaverindex][0] = x - 1;
         currentmojaver[currentmojaverindex][1] = y + 1;
         currentmojaverindex++;
     }
-    if(y < size && world2[x][y+1] == 0){
+    if(y < side && world2[x][y+1] == 0){
         world2[x][y+1]=a;
         printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
         currentmojaver[currentmojaverindex][0] = x;
@@ -76,7 +76,7 @@ void num(char world[][20], int world2[][20],int x,int y,int size){
         currentmojaver[currentmojaverindex][1] = y - 1;
         currentmojaverindex++;
     }
-    if(x < size && world2[x+1][y]==0){
+    if(x < side && world2[x+1][y]==0){
         world2[x+1][y]=a;
         printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
         currentmojaver[currentmojaverindex][0] = x + 1;
