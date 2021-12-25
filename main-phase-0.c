@@ -6,11 +6,13 @@
 
 #define maxside 20
 #define maxanimals 20
+#define maxuseranimals 10
 
 char world[maxside][maxside];
 int integer_world_copy[20][20];
 int energys[maxside][maxside] = {{0}};
 int animals_coordinate[maxanimals][2];
+int user_animals_coordinate[maxuseranimals][2];
 int side;
 int lastmojaver[100][2] = {{0,0}};
 int currentmojaver[100][2];
@@ -27,8 +29,8 @@ int main(){
          world[i][j] = '.';
       }
    }
-   char MyAnimal;
-   int separator_counter = 0, animals_coordinate_index = 0;
+   char UserAnimal;
+   int separator_counter = 0, animals_coordinate_index = 0, user_animals_coordinate_index = 0, user_move;
    char temp[100];
    scanf("%d", &side);     // size jahane
    while(separator_counter < 4){       // in halghe hame vorodi haro mibare to world
@@ -85,14 +87,37 @@ int main(){
             }
          }
          else{
-            MyAnimal = temp[0];
+            UserAnimal = temp[0];
             separator_counter++;
          }
       }
    }
-//   num(animals_coordinate[0][0], animals_coordinate[0][1], &animals_coordinate[0][0], &animals_coordinate[0][1], 'f');
+
+   for(int i = 0; i < side; i++){
+      for(int j = 0; j < side; j++){
+         if(world[i][j] == UserAnimal){
+            for(int k = 0; k < animals_coordinate_index; k++){
+               if(i == animals_coordinate[k][0] && j == animals_coordinate[k][1]){
+                  user_animals_coordinate[user_animals_coordinate_index][0] = i;
+                  user_animals_coordinate[user_animals_coordinate_index][1] = j;
+                  user_animals_coordinate_index++;
+                  animals_coordinate_index--;
+                  shift_eb_payin(k, animals_coordinate_index);
+               }
+            }
+         }
+      }
+   }
+
+   printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
+   4 5 6\n7 8 9\nConsider 5 as yout current location and choose yout move.\n");
 
    while(1){
+      for(int i = 0; i < user_animals_coordinate_index; i++){
+         printf("choose your momve : ");
+         scanf("%d", &user_move);
+         single_move(user_move + '0', & user_animals_coordinate[i][0], & user_animals_coordinate[i][1], 'm');
+      }
       for(int i = 0; i < animals_coordinate_index; i++){
          CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
          num(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');

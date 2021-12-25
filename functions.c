@@ -9,6 +9,7 @@ extern int integer_world_copy[20][20];
 extern char world[20][20];
 extern int energys[20][20];
 extern int animals_coordinate[20][2];
+extern int user_animals_coordinate[10][2];
 extern int side;
 extern int lastmojaver[100][2];
 extern int currentmojaver[100][2];
@@ -348,5 +349,12 @@ void print(){
             printf("|");
         }
         printf("\n");
+    }
+}
+
+void shift_eb_payin(int index, int last_index){
+    for(; index < last_index; index++){
+        animals_coordinate[index][0] = animals_coordinate[index + 1][0];
+        animals_coordinate[index][1] = animals_coordinate[index + 1][1];
     }
 }
