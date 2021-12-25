@@ -96,14 +96,14 @@ int main(){
       for(int i = 0; i < animals_coordinate_index; i++){
          CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
          num(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
-         printf("heaven is on %d %d\n", hx, hy);
+//         printf("heaven is on %d %d\n", hx, hy);
          CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
          num(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
-         printf("Animal went to %d %d\n", animals_coordinate[i][0], animals_coordinate[i][1]);
+//         printf("Animal went to %d %d\n", animals_coordinate[i][0], animals_coordinate[i][1]);
       }
 
       print();
-      Sleep(30000);
+      Sleep(3000);
       system("cls");
    }
    return 0;

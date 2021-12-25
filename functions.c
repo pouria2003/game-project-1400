@@ -20,6 +20,7 @@ extern int hy;
 
 int win( char A )
 {
+	system("cls");
     char str[5] = "Type";
     for (int i=0; i<4 ; i++)
     {
@@ -194,14 +195,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
 void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){
-//    	integer_world_copy[]
-    	printf("i come here!\n");
-        for(int i = 0; i < side; i++){
-            for(int j = 0; j < side; j++){
-                printf("%d ", integer_world_copy[i][j]);
-            }
-            printf("\n");
-        }
+    	integer_world_copy[hx][hy] = 0;
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
             single_move('8', pstop_x, pstop_y, 'm');
             return;
@@ -236,13 +230,6 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
         }
     }
     if(world[start_x][start_y] == 'H' && mode == 'f'){
-    	printf("%d  %d\n", start_x, start_y);
-        for(int i = 0; i < side; i++){
-            for(int j = 0; j < side; j++){
-                printf("%d ", integer_world_copy[i][j]);
-            }
-            printf("\n");
-        }
         hx = start_x;
         hy = start_y;
         return;
