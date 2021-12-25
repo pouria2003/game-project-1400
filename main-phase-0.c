@@ -111,13 +111,17 @@ int main(){
 
    printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
    4 5 6\n7 8 9\nConsider 5 as yout current location and choose yout move.\n");
+   print();
 
    while(1){
       for(int i = 0; i < user_animals_coordinate_index; i++){
          printf("choose your momve : ");
          scanf("%d", &user_move);
          single_move(user_move + '0', & user_animals_coordinate[i][0], & user_animals_coordinate[i][1], 'm');
+         system("cls");
+         print();
       }
+      system("cls");
       for(int i = 0; i < animals_coordinate_index; i++){
          CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
          num(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
