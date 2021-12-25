@@ -18,12 +18,6 @@ extern int hy;
 void win(){
 }
 
-<<<<<<< HEAD
-void num(int x,int y){
-    if(world[x][y] == 'H'){
-        hx = x;
-        hy = y;
-=======
 void CreateWorldCopy(int hex, int hey, int ax, int ay){
     for(int i = 0; i < side; i++){
         for(int j = 0; j < side; j++){
@@ -37,7 +31,7 @@ void CreateWorldCopy(int hex, int hey, int ax, int ay){
 
 void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => finde heaven , g => go
     if((start_x == stop_x) && (start_y == stop_y) && (mode = 'g')){
-        if(stop_x-1>=0 && stop_x-1<side && stop_y>=0 && stop_y<side&& integer_world_copy[stop_x-1][stop_y]==integer_world_copy[stop_x][stop_y]-1){
+        if(integer_world_copy[stop_x-1][stop_y]==integer_world_copy[stop_x][stop_y]-1 && stop_x > 0){
             single_move('8',&stop_x,&stop_y,'m');
         }
         if(stop_x+1>=0 && stop_x+1<side && stop_y-1>=0 && stop_y-1<side&& integer_world_copy[stop_x+1][stop_y-1]==integer_world_copy[stop_x][stop_y]-1){
@@ -65,7 +59,6 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
     if(world[start_x][start_y] == 'H'){
         hx = start_x;
         hy = start_y;
->>>>>>> fixfunctions
         return;
     }
     // printf("x = %d, y = %d\n", x, y);
@@ -77,20 +70,6 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
-<<<<<<< HEAD
-    if(x < side && y > 0 && world2[x+1][y-1] == 0){
-        world2[x+1][y-1] = a;
-        printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
-        currentmojaver[currentmojaverindex][0] = x + 1;
-        currentmojaver[currentmojaverindex][1] = y - 1;
-        currentmojaverindex++;
-    }
-    if(x < side && y < side && world2[x+1][y+1] == 0){
-        world2[x+1][y+1]=a;
-        printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
-        currentmojaver[currentmojaverindex][0] = x + 1;
-        currentmojaver[currentmojaverindex][1] = y + 1;
-=======
     if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
         integer_world_copy[start_x + 1][start_y - 1] = a;
         // printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
@@ -103,7 +82,6 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
         // printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
->>>>>>> fixfunctions
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
@@ -113,20 +91,6 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
-<<<<<<< HEAD
-    if(x > 0 && y < side && world2[x-1][y+1] == 0){
-        world2[x-1][y+1] = a;
-        printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
-        currentmojaver[currentmojaverindex][0] = x - 1;
-        currentmojaver[currentmojaverindex][1] = y + 1;
-        currentmojaverindex++;
-    }
-    if(y < side && world2[x][y+1] == 0){
-        world2[x][y+1]=a;
-        printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
-        currentmojaver[currentmojaverindex][0] = x;
-        currentmojaver[currentmojaverindex][1] = y + 1;
-=======
     if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
         integer_world_copy[start_x - 1][start_y + 1] = a;
         // printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
@@ -139,7 +103,6 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
         // printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
->>>>>>> fixfunctions
         currentmojaverindex++;
     }
     if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
@@ -149,19 +112,11 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
-<<<<<<< HEAD
-    if(x < side && world2[x+1][y]==0){
-        world2[x+1][y]=a;
-        printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
-        currentmojaver[currentmojaverindex][0] = x + 1;
-        currentmojaver[currentmojaverindex][1] = y;
-=======
     if(start_x < side && integer_world_copy[start_x+1][start_y]==0){
         integer_world_copy[start_x+1][start_y]=a;
         // printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y;
->>>>>>> fixfunctions
         currentmojaverindex++;
     }
 
