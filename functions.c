@@ -31,29 +31,29 @@ void CreateWorldCopy(int hex, int hey, int ax, int ay){
 
 void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => finde heaven , g => go
     if((start_x == stop_x) && (start_y == stop_y) && (mode = 'g')){
-        if(integer_world_copy[stop_x-1][stop_y]==integer_world_copy[stop_x][stop_y]-1 && stop_x > 0){
-            single_move('8',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
+            single_move('8', &stop_x, &stop_y, 'm');
         }
-        if(stop_x+1>=0 && stop_x+1<side && stop_y-1>=0 && stop_y-1<side&& integer_world_copy[stop_x+1][stop_y-1]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('1',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x + 1 < side && stop_y > 0){
+            single_move('1', &stop_x, &stop_y, 'm');
         }
-        if(stop_x+1>=0 && stop_x+1<side && stop_y+1>=0 && stop_y+1<side&& integer_world_copy[stop_x+1][stop_y+1]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('3',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x + 1 < side && stop_y + 1 < side){
+            single_move('3', &stop_x, &stop_y, 'm');
         }
-        if(stop_x-1>=0 && stop_x-1<side && stop_y-1>=0 && stop_y-1<side&& integer_world_copy[stop_x-1][stop_y-1]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('7',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y > 0){
+            single_move('7', &stop_x, &stop_y, 'm');
         }
-        if(stop_x-1>=0 && stop_x-1<side && stop_y+1>=0 && stop_y+1<side&& integer_world_copy[stop_x-1][stop_y+1]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('9',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y + 1 < side){
+            single_move('9', &stop_x, &stop_y, 'm');
         }
-        if(stop_x>=0 && stop_x<side && stop_y+1>=0 && stop_y+1<side&& integer_world_copy[stop_x][stop_y+1]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('6',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y + 1 < side){
+            single_move('6', &stop_x, &stop_y, 'm');
         }
-        if(stop_x>=0 && stop_x<side && stop_y-1>=0 && stop_y-1<side&& integer_world_copy[stop_x][stop_y-1]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('4',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y > 0){
+            single_move('4', &stop_x, &stop_y, 'm');
         }
-        if(stop_x+1>=0 && stop_x+1<side && stop_y>=0 && stop_y<side&& integer_world_copy[stop_x+1][stop_y]==integer_world_copy[stop_x][stop_y]-1){
-            single_move('2',&stop_x,&stop_y,'m');
+        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x + 1 < side){
+            single_move('2', &stop_x, &stop_y, 'm');
         }
     }
     if(world[start_x][start_y] == 'H'){
