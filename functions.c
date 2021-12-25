@@ -2,16 +2,113 @@
 #include <string.h>
 #include <math.h>
 
-char world[6][6] = {{'A', '.', '.', '#', '.', '.'}, {'.', '.', '.', '#', '.', '.'}, {'.', '#', '#', '#', '.', '.'}
-        , {'.', '.', '.', '#', '.', '.'}, {'.', '.', '.', '.', '#', 'H'}, {'.', '.', '.', '.', '.', '.'}};
+
+extern char world[20][20];
+extern int energys[20][20];
+extern int animals_coordinate[20][4];
+extern int side;
+extern int lastmojaver[100][2];
+extern int currentmojaver[100][2];
+extern int lastmojaveindex;
+extern int currentmojaverindex;
+extern int counter;
+extern int hx;
+extern int hy;
 
 
 void win(){
 }
 
+void num(char world[][20], int world2[][20],int x,int y,int size){
+    if(world[x][y] == 'H'){
+        hx = x;
+        hy = y;
+        return;
+    }
+    printf("x = %d, y = %d\n", x, y);
+    int a = world2[x][y] + 1;
+    if(x > 0 && world2[x-1][y] == 0){
+        world2[x-1][y] = a;
+        printf("in r = %d , j = %d changed to %d\n", x - 1, y, a);
+        currentmojaver[currentmojaverindex][0] = x - 1;
+        currentmojaver[currentmojaverindex][1] = y;
+        currentmojaverindex++;
+    }
+    if(x < size && y > 0 && world2[x+1][y-1] == 0){
+        world2[x+1][y-1] = a;
+        printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
+        currentmojaver[currentmojaverindex][0] = x + 1;
+        currentmojaver[currentmojaverindex][1] = y - 1;
+        currentmojaverindex++;
+    }
+    if(x < size && y < size && world2[x+1][y+1] == 0){
+        world2[x+1][y+1]=a;
+        printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
+        currentmojaver[currentmojaverindex][0] = x + 1;
+        currentmojaver[currentmojaverindex][1] = y + 1;
+        currentmojaverindex++;
+    }
+    if(x > 0 && y > 0 && world2[x-1][y-1] == 0){
+        world2[x-1][y-1] = a;
+        printf("in r = %d , j = %d changed to %d\n", x - 1, y - 1, a);
+        currentmojaver[currentmojaverindex][0] = x - 1;
+        currentmojaver[currentmojaverindex][1] = y - 1;
+        currentmojaverindex++;
+    }
+    if(x > 0 && y < size && world2[x-1][y+1] == 0){
+        world2[x-1][y+1] = a;
+        printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
+        currentmojaver[currentmojaverindex][0] = x - 1;
+        currentmojaver[currentmojaverindex][1] = y + 1;
+        currentmojaverindex++;
+    }
+    if(y < size && world2[x][y+1] == 0){
+        world2[x][y+1]=a;
+        printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
+        currentmojaver[currentmojaverindex][0] = x;
+        currentmojaver[currentmojaverindex][1] = y + 1;
+        currentmojaverindex++;
+    }
+    if(y > 0 && world2[x][y-1] == 0){
+        world2[x][y-1]=a;
+        printf("in r = %d , j = %d changed to %d\n", x , y - 1, a);
+        currentmojaver[currentmojaverindex][0] = x;
+        currentmojaver[currentmojaverindex][1] = y - 1;
+        currentmojaverindex++;
+    }
+    if(x < size && world2[x+1][y]==0){
+        world2[x+1][y]=a;
+        printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
+        currentmojaver[currentmojaverindex][0] = x + 1;
+        currentmojaver[currentmojaverindex][1] = y;
+        currentmojaverindex++;
+    }
+
+    counter++;
+    if(counter < lastmojaveindex){
+        num(world, world2, lastmojaver[counter][0], lastmojaver[counter][1], 6);
+    }
+    else{
+        if(currentmojaverindex == 0){
+            return;
+        }
+        for(int i = 0; i < currentmojaverindex; i++){
+            lastmojaver[i][0] = currentmojaver[i][0];
+            lastmojaver[i][1] = currentmojaver[i][1];
+        }
+        counter = 0;
+        lastmojaveindex = currentmojaverindex;
+        currentmojaverindex = 0;
+        num(world, world2, lastmojaver[0][0], lastmojaver[0][1], 6);
+    }
+}
+
+
+
+
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
 int single_move(char code, int * r, int * c, char mode){      // code jahat harkato moshakhas mikone
-    int row = *r, col = *b;                                   // r hamon pointer be row va c pointer be column
+    int row = *r, col = *c;                                   // r hamon pointer be row va c pointer be column
     switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
         case '6':                                            // yani harkat ham dade she
             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
@@ -133,193 +230,27 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
     return 1;
 }
 
-    // int ModifyWay(int * way_code_index, char * way_code, char direct_move, char oblique_move, ){
-    //     while(*way_code_index){
-    //         way_code[*way_code_index] = '\0';
-    //         way_code_index--;
-    //         if(way_code[*way_code_index] == direct_move){
-    //             if(oblique_moves_number > 0){
-    //                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
-    //                     way_code[way_code_index] = oblique_move;
-    //                     oblique_moves_number--;
-    //                     direct_moves_numbers++;
-    //                     way_code_index++;
-    //                     a_row = a[0];
-    //                     a_col = a[1];
-    //                     for(int i = 0; i < way_code_index; i++){
-    //                         single_move(way_code[i], &a_row, &a_col, 'c');
-    //                     }
-    //                     return 1;
-    //                 }
-    //                 else direct_moves_numbers++;
-    //             }
-    //         }
-    //         else oblique_moves_number++;
-    //     }
-    //     return 0;
-    // }
+int find_integer(char * str){    // int function yek string migire va avalin addi ke dakhel string peyda kone barmigardone va  
+   int ans = 0;                  // charracter haye string ro bejaye adade mikone '.'
+   for(int i = 0; str[i]; i++){
+      if(str[i] > 47 && str[i] < 58){
+         ans = str[i] - '0';
+         str[i] = '.';
+         i++;
+         if(str[i] > 47 && str[i] < 58){
+            ans *= 10;
+            ans += str[i] - '0';
+            str[i] = '.';
+            return ans;
+         }
+         return ans;
+      }
+   }
+}
 
-// int shortest_way(const int * a, const int * b){
-//     int a_row = a[0], a_col = a[1], b_row = b[0], b_col = b[1];
-//     int total_moves;
-//     int oblique_moves_number;
-//     int direct_moves_numbers;
-//     char way_code[20];      // code baraye zakhire harakata
-//     int way_code_index = 0;
-//     char oblique_move, direct_move;
-//     int ofoghi;
-//     int sw;             // jelo tar migam koja estefade mishe
-//     if(abs(b_row - a_row) > abs(b_col - a_col)){
-//         total_moves = abs(b_row - a_row);
-//         oblique_moves_number = abs(b_col - a_col);
-//         ofoghi = 0;
-//     }
-//     else{
-//         oblique_moves_number = abs(b_row - a_row);
-//         total_moves = abs(b_col - a_col);
-//         ofoghi = 1;
-//     }
-
-//     direct_moves_numbers = total_moves - oblique_moves_number;
-
-//     if(b_row > a_row){
-//         if(b_col > a_col){
-//             oblique_move = '3';
-//             direct_move = (ofoghi) ? '6' : '2';
-//         }
-//         else{
-//             oblique_move = '1';
-//             direct_move = (ofoghi) ? '4' : '2';
-//         }
-//     }
-//     else{
-//         if(b_col > a_col){
-//             oblique_move = '9';
-//             direct_move = (ofoghi) ? '6' : '8';
-//         }
-//         else{
-//             oblique_move = '7';
-//             direct_move = (ofoghi) ? '4' : '8';
-//         }
-//     }
-
-    
-//     while(1) {
-//         if (direct_moves_numbers > 0) {
-//             if (single_move(direct_move, &a_row, &a_col, 'c')) {
-//                 way_code[way_code_index] = direct_move;
-//                 way_code_index++;
-//                 direct_moves_numbers--;
-//             } else if (oblique_moves_number > 0) {
-//                 if (single_move(oblique_move, &a_row, &a_col, 'c')) {
-//                     way_code[way_code_index] = oblique_move;
-//                     way_code_index++;
-//                     oblique_moves_number--;
-//                 } else
-//                 {
-//                     sw = 0;
-//                     while(way_code_index){
-//                         way_code[way_code_index] = '\0';
-//                         way_code_index--;
-//                         if(way_code[way_code_index] == direct_move){
-//                             if(oblique_moves_number > 0){
-//                                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
-//                                     way_code[way_code_index] = oblique_move;
-//                                     oblique_moves_number--;
-//                                     direct_moves_numbers++;
-//                                     way_code_index++;
-//                                     a_row = a[0];
-//                                     a_col = a[1];
-//                                     for(int i = 0; i < way_code_index; i++){
-//                                         single_move(way_code[i], &a_row, &a_col, 'c');
-//                                     }
-//                                     sw = 1;
-//                                     break;
-//                                 }
-//                                 else direct_moves_numbers++;
-//                             }
-//                         }
-//                         else oblique_moves_number++;
-//                     }
-//                     if(sw){
-//                         return 0;
-//                     }
-//                 }
-//             else{
-//                 sw = 0;
-//                     while(way_code_index){
-//                         way_code[way_code_index] = '\0';
-//                         way_code_index--;
-//                         if(way_code[way_code_index] == direct_move){
-//                             if(oblique_moves_number > 0){
-//                                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
-//                                     way_code[way_code_index] = oblique_move;
-//                                     oblique_moves_number--;
-//                                     direct_moves_numbers++;
-//                                     way_code_index++;
-//                                     a_row = a[0];
-//                                     a_col = a[1];
-//                                     for(int i = 0; i < way_code_index; i++){
-//                                         single_move(way_code[i], &a_row, &a_col, 'c');
-//                                     }
-//                                     sw = 1;
-//                                     break;
-//                                 }
-//                                 else direct_moves_numbers++;
-//                             }
-//                         }
-//                         else oblique_moves_number++;
-//                     }
-//                     if(sw){
-//                         return 0;
-//                     }
-//             }
-//         } else if (oblique_move > 0) {
-//             if (single_move(oblique_move, &a_row, &a_col, 'c')){
-//                 way_code[way_code_index] = oblique_move;
-//                 oblique_moves_number--;
-//                 way_code_index++;
-//             }else {
-//                 sw = 0;
-//                     while(way_code_index){
-//                         way_code[way_code_index] = '\0';
-//                         way_code_index--;
-//                         if(way_code[way_code_index] == direct_move){
-//                             if(oblique_moves_number > 0){
-//                                 if(single_move(oblique_move, &a_row, &a_col, 'c')){
-//                                     way_code[way_code_index] = oblique_move;
-//                                     oblique_moves_number--;
-//                                     direct_moves_numbers++;
-//                                     way_code_index++;
-//                                     a_row = a[0];
-//                                     a_col = a[1];
-//                                     for(int i = 0; i < way_code_index; i++){
-//                                         single_move(way_code[i], &a_row, &a_col, 'c');
-//                                     }
-//                                     sw = 1;
-//                                     break;
-//                                 }
-//                                 else direct_moves_numbers++;
-//                             }
-//                         }
-//                         else oblique_moves_number++;
-//                     }
-//                     if(sw){
-//                         return 0;
-//                     }
-//             }
-            
-//         }
-//         else break;
-//     }
-//     }
-//     if(a_row == b_row && a_col == b_col){
-//     printf("%s", way_code);
-//     return 1;
-//     }
-// }
-// int a[2] = {0,0};
-// int b[2] = {4,2};
-// int main(){
-//     shortest_way(a, b);
-// }
+int is_equal_str(const char * First_Str, const char * Second_Str){   // in function barabari do ta string ro check mikone
+   for(int i = 0; First_Str[i] || Second_Str[i]; i++){
+      if(First_Str[i] != Second_Str[i])return 0;
+   }
+   return 1;
+}

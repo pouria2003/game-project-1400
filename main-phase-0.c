@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string.h>
+#include "functions.c"
 
 #define maxside 20
 #define maxanimals 20
@@ -10,10 +11,14 @@ char world[maxside][maxside];
 int energys[maxside][maxside] = {{0}};
 int animals_coordinate[maxanimals][4];
 int side;
+int lastmojaver[100][2] = {{0,0}};
+int currentmojaver[100][2];
+int lastmojaveindex = 1;
+int currentmojaverindex = 0;
+int counter = 0;
+int hx;
+int hy;
 
-
-int find_integer(char * );
-int is_equal_str(const char * , const char * );
 
 int main(){
    for(int i = 0; i <20; i++){      // inja hame khune ha . mishe
@@ -74,7 +79,7 @@ int main(){
                column = find_integer(temp);
                world[row][column] = animal;
                animals_coordinate[animals_coordinate_index][0] = row;
-               animals_coordinate[animals_coordinate_index][1] = col;
+               animals_coordinate[animals_coordinate_index][1] = column;
                animals_coordinate_index++;
             }
 
@@ -85,36 +90,6 @@ int main(){
          }
       }
    }
-   // for(int i = 0; i < side; i++){
-   //    for(int j = 0; j < side; j++){
-   //       printf("%c", world[i][j]);
-   //    }
-   //    printf("\n");
-   // }
    return 0;
 }
 
-int find_integer(char * str){    // int function yek string migire va avalin addi ke dakhel string peyda kone barmigardone va  
-   int ans = 0;                  // charracter haye string ro bejaye adade mikone '.'
-   for(int i = 0; str[i]; i++){
-      if(str[i] > 47 && str[i] < 58){
-         ans = str[i] - '0';
-         str[i] = '.';
-         i++;
-         if(str[i] > 47 && str[i] < 58){
-            ans *= 10;
-            ans += str[i] - '0';
-            str[i] = '.';
-            return ans;
-         }
-         return ans;
-      }
-   }
-}
-
-int is_equal_str(const char * First_Str, const char * Second_Str){   // in function barabari do ta string ro check mikone
-   for(int i = 0; First_Str[i] || Second_Str[i]; i++){
-      if(First_Str[i] != Second_Str[i])return 0;
-   }
-   return 1;
-}
