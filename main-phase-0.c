@@ -93,8 +93,10 @@ int main(){
 
    while(1){
       for(int i = 0; i < animals_coordinate_index; i++){
+         CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
          num(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
          printf("heaven is on %d %d\n", hx, hy);
+         CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
          num(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
          printf("Animal went to %d %d\n", animals_coordinate[i][0], animals_coordinate[i][1]);
       }

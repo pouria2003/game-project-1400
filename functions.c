@@ -54,14 +54,14 @@ int win( char A )
     exit (0);
 }
 
-void CreateWorldCopy(int hex, int hey, int ax, int ay){
+void CreateWorldCopy(int ax, int ay){
     for(int i = 0; i < side; i++){
         for(int j = 0; j < side; j++){
-            if(world[i][j] = '.') integer_world_copy[i][j] = 0;
+            if(world[i][j] == '.' || world[i][j] == 'H') integer_world_copy[i][j] = 0;
             else integer_world_copy[i][j] = -1;
         }
     }
-    integer_world_copy[hex][hey] = integer_world_copy[ax][ay] = 0;
+    integer_world_copy[ax][ay] = 0;
 
 }
 
@@ -227,7 +227,7 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
             return;
         }
     }
-    if(world[start_x][start_y] == 'H'){
+    if(world[start_x][start_y] == 'H' && mode == 'f'){
         hx = start_x;
         hy = start_y;
         return;
