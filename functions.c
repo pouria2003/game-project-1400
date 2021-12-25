@@ -16,6 +16,7 @@ extern int hx;
 extern int hy;
 
 void win(){
+    printf("someone won \n");
 }
 
 void CreateWorldCopy(int hex, int hey, int ax, int ay){
@@ -122,7 +123,7 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
 
     counter++;
     if(counter < lastmojaveindex){
-        num(lastmojaver[counter][0], lastmojaver[counter][1]);
+        num(lastmojaver[counter][0], lastmojaver[counter][1], stop_x, stop_y, mode);
     }
     else{
         if(currentmojaverindex == 0){
@@ -135,7 +136,7 @@ void num(int start_x,int start_y, int stop_x, int stop_y, char mode){ // f => fi
         counter = 0;
         lastmojaveindex = currentmojaverindex;
         currentmojaverindex = 0;
-        num(lastmojaver[0][0], lastmojaver[0][1]);
+        num(lastmojaver[0][0], lastmojaver[0][1], stop_x, stop_y, mode);
     }
 }
 
