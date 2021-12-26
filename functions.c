@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <conio.h>
 #include <time.h>
+#include <stdlib.h>
 
 extern int integer_world_copy[20][20];
 extern char world[20][20];
@@ -59,8 +60,8 @@ int win( char A )
 void CreateWorldCopy(int ax, int ay){
     for(int i = 0; i < side; i++){
         for(int j = 0; j < side; j++){
-            if(world[i][j] == '.' || world[i][j] == 'H') integer_world_copy[i][j] = 0;
-            else integer_world_copy[i][j] = -1;
+            if(world[i][j] == '#')integer_world_copy[i][j] = -1;
+            else integer_world_copy[i][j] = 0;
         }
     }
     integer_world_copy[ax][ay] = 0;
@@ -68,7 +69,7 @@ void CreateWorldCopy(int ax, int ay){
 }
 
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
-int single_move(char code, int * r, int * c, char mode){      // code jahat harkato moshakhas mikone
+int single_move(char code, int * r, int * c){      // code jahat harkato moshakhas mikone
     int row = *r, col = *c;                                   // r hamon pointer be row va c pointer be column
 
     switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
@@ -78,7 +79,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm'){
+                else{
                     world[row][col + 1] = world[row][col];
                     world[row][col] = '.';
                     *c += 1;
@@ -92,7 +93,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else  if (mode == 'm'){
+                else{
                     world[row - 1][col + 1] = world[row][col];
                     world[row][col] = '.';
                     *r -= 1;
@@ -107,7 +108,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm'){
+                else{
                     world[row - 1][col] = world[row][col];
                     world[row][col] = '.'; 
                     *r -= 1;
@@ -121,7 +122,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm'){
+                else {
                     world[row - 1][col - 1] = world[row][col];
                     world[row][col] = '.';
                     *r -= 1;
@@ -137,7 +138,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm') {
+                else{
                     world[row][col - 1] = world[row][col];
                     world[row][col] = '.';
                     *c -= 1;
@@ -151,7 +152,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm') {
+                else {
                     world[row + 1][col - 1] = world[row][col];
                     world[row][col] = '.';
                     *r += 1;
@@ -166,7 +167,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm') {
+                else {
                     world[row + 1][col] = world[row][col];
                     world[row][col] = '.';
                     *r += 1;
@@ -180,7 +181,7 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                     win(world[*r][*c]);
                     return 0;
                 }
-                else if (mode == 'm') {
+                else {
                     world[row + 1][col + 1] = world[row][col];
                     world[row][col] = '.';
                     *r += 1;
@@ -189,46 +190,69 @@ int single_move(char code, int * r, int * c, char mode){      // code jahat hark
                 break;
             }
             else return 0;
+        default : 
+            return 0;
     }
     return 1;
 }
 
-void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
+void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){
     	integer_world_copy[hx][hy] = 0;
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
-            single_move('8', pstop_x, pstop_y, 'm');
-            return;
+            if(single_move('8', pstop_x, pstop_y))return;
         }
-        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  <= side && stop_y > 0){
-            single_move('1', pstop_x, pstop_y, 'm');
-            return;
+        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y > 0){
+            if(single_move('1', pstop_x, pstop_y))return;
         }
-        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  <= side && stop_y  <= side){
-            single_move('3', pstop_x, pstop_y, 'm');
-            return;
+        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y  < side){
+            if(single_move('3', pstop_x, pstop_y))return;
         }
         if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y > 0){
-            single_move('7', pstop_x, pstop_y, 'm');
-            return;
+            if(single_move('7', pstop_x, pstop_y))return;
         }
-        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  <= side){
-            single_move('9', pstop_x, pstop_y, 'm');
-            return;
+        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  < side){
+            if(single_move('9', pstop_x, pstop_y))return;
         }
-        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  <= side){
-            single_move('6', pstop_x, pstop_y, 'm');
-            return;
+        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  < side){
+            if(single_move('6', pstop_x, pstop_y))return;
         }
         if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y > 0){
-            single_move('4', pstop_x, pstop_y, 'm');
-            return;
+            if(single_move('4', pstop_x, pstop_y))return;
         }
-        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  <= side){
-            single_move('2', pstop_x, pstop_y, 'm');
-            return;
+        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
+            if(single_move('2', pstop_x, pstop_y))return;
         }
+
+/*#########################################################################################################################################*/
+
+        if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
+            if(single_move('8', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y > 0){
+            if(single_move('1', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y  < side){
+            if(single_move('3', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y > 0){
+            if(single_move('7', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y  < side){
+            if(single_move('9', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_y  < side){
+            if(single_move('6', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_y > 0){
+            if(single_move('4', pstop_x, pstop_y))return;
+        }
+        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x  < side){
+            if(single_move('2', pstop_x, pstop_y))return;
+        }
+
+        
     }
     if(world[start_x][start_y] == 'H' && mode == 'f'){
         hx = start_x;
@@ -298,10 +322,11 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
 
 //    integer_world_copy[start_x][start_y] = 0;
     if(counter < lastmojaveindex){
-        num(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
+        FindWay(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
     }
     else{
         if(currentmojaverindex == 0){
+        	printf("im here for %c!\n", world[stop_x][stop_y]);
             return;
         }
         for(int i = 0; i < currentmojaverindex; i++){
@@ -311,7 +336,7 @@ void num(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // 
         counter = 0;
         lastmojaveindex = currentmojaverindex;
         currentmojaverindex = 0;
-        num(lastmojaver[0][0], lastmojaver[0][1], pstop_x, pstop_y, mode);
+        FindWay(lastmojaver[0][0], lastmojaver[0][1], pstop_x, pstop_y, mode);
     }
 }
 
