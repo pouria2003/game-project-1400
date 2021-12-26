@@ -47,10 +47,10 @@ int win( char A )
     system ("Color 07");
     system ("cls");
     Sleep(1000);
-    char str2[200] = "Congratulations! Your actions toward saving your species across the apocalypse have been successful! Your kind will now live in peace and serenity.";
-    for (int i=0; i<147 ; i++)
+    char str2[200] = "Congratulations! Your actions towards saving your species across the apocalypse have been successful! Your kind will now live in peace and serenity.";
+    for (int i=0; i<148 ; i++)
     {
-        if (i>=0 && i<=15) system ("Color 5E");
+        if (i>=0 && i<=15) system ("Color 90");
         printf ("%c",str2[i]);
         Sleep(120);
     }
