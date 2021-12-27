@@ -20,6 +20,8 @@ extern int counter;
 extern int hx;
 extern int hy;
 
+/*######################################################################  WIN  ##############################################################################*/
+
 int win( char A )
 {
 	system("cls");
@@ -68,12 +70,14 @@ void CreateWorldCopy(int ax, int ay){
 
 }
 
+/*######################################################################  SINGLE MOVE  ##############################################################################*/
+
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
 int single_move(char code, int * r, int * c){      // code jahat harkato moshakhas mikone
     int row = *r, col = *c;                                   // r hamon pointer be row va c pointer be column
 
-    switch (code) {                                          // mode agar c bashe yani faghat check she agar m bashe
-        case '6':                                            // yani harkat ham dade she
+    switch (code) {  
+        case '6':                                           
             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
                 if(world[row][col + 1] == 'H'){
                     win(world[*r][*c]);
@@ -196,10 +200,12 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
     return 1;
 }
 
+/*######################################################################  FIND WAY  ##############################################################################*/
+
 void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
-    if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){
-    	integer_world_copy[hx][hy] = 0;
+    if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
+    	integer_world_copy[hx][hy] = 0;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
             if(single_move('8', pstop_x, pstop_y))return;
         }
@@ -225,7 +231,7 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
             if(single_move('2', pstop_x, pstop_y))return;
         }
 
-/*#########################################################################################################################################*/
+        /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========*/
 
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
             if(single_move('8', pstop_x, pstop_y))return;
@@ -252,67 +258,67 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
             if(single_move('2', pstop_x, pstop_y))return;
         }
 
-        
+        for(int i = 1; i < 10; i++){
+            if(single_move(i + '0', pstop_x, pstop_y))return;
+        }
     }
-    if(world[start_x][start_y] == 'H' && mode == 'f'){
-        hx = start_x;
+
+
+
+    if(world[start_x][start_y] == 'H' && mode == 'f'){      // inja mal vaghtie ke ro mode find heaven bashim va mige vaghti be behesh residi mokhtasetesh
+        hx = start_x;                                       // negah dar va az tabea bia biroon
         hy = start_y;
         return;
     }
-    // printf("x = %d, y = %d\n", x, y);
+
     int a = integer_world_copy[start_x][start_y] + 1;
+
+    /*======== inja ma miaim mojaver haye ghabli (adad ghbli) ro check mikonim va adad jadid ro midim behesh va mirizimesh to mojaver haye jadid  ========*/ 
+
     if(start_x > 0 && integer_world_copy[start_x - 1][start_y] == 0){
         integer_world_copy[start_x - 1][start_y] = a;
-        // printf("in r = %d , j = %d changed to %d\n", x - 1, y, a);
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
     if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
         integer_world_copy[start_x + 1][start_y - 1] = a;
-        // printf("in r = %d , j = %d changed to %d\n", x + 1, y - 1, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && start_y < side && integer_world_copy[start_x + 1][start_y + 1] == 0){
         integer_world_copy[start_x + 1][start_y + 1]=a;
-        // printf("in r = %d , j = %d changed to %d\n", x + 1, y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
         integer_world_copy[start_x - 1][start_y - 1] = a;
-        // printf("in r = %d , j = %d changed to %d\n", x - 1, y - 1, a);
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
         integer_world_copy[start_x - 1][start_y + 1] = a;
-        // printf("in r = %d , j = %d changed to %d\n", x - 1, y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y < side && integer_world_copy[start_x][start_y + 1] == 0){
         integer_world_copy[start_x][start_y + 1]=a;
-        // printf("in r = %d , j = %d changed to %d\n", x, y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
         integer_world_copy[start_x][start_y - 1]=a;
-        // printf("in r = %d , j = %d changed to %d\n", x , y - 1, a);
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && integer_world_copy[start_x+1][start_y]==0){
         integer_world_copy[start_x+1][start_y]=a;
-        // printf("in r = %d , j = %d changed to %d\n", x + 1, y, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
@@ -320,13 +326,13 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
 
     counter++;
 
-//    integer_world_copy[start_x][start_y] = 0;
+    /*========== inja ham rikhtan mojaver hay e jadid to mojaver haye ghbli va amade shodan baraye farakhani dobare va dar sorat niaz biroon omadan =============*/
+
     if(counter < lastmojaveindex){
         FindWay(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
     }
     else{
         if(currentmojaverindex == 0){
-        	printf("im here for %c!\n", world[stop_x][stop_y]);
             return;
         }
         for(int i = 0; i < currentmojaverindex; i++){
@@ -339,6 +345,8 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
         FindWay(lastmojaver[0][0], lastmojaver[0][1], pstop_x, pstop_y, mode);
     }
 }
+
+/*######################################################################  FIND INTEGER  ##############################################################################*/
 
 int find_integer(char * str){    // int function yek string migire va avalin addi ke dakhel string peyda kone barmigardone va  
    int ans = 0;                  // charracter haye string ro bejaye adade mikone '.'
@@ -358,6 +366,8 @@ int find_integer(char * str){    // int function yek string migire va avalin add
    }
 }
 
+/*######################################################################  IS EQUAL STR  ##############################################################################*/
+
 int is_equal_str(const char * First_Str, const char * Second_Str){   // in function barabari do ta string ro check mikone
    for(int i = 0; First_Str[i] || Second_Str[i]; i++){
       if(First_Str[i] != Second_Str[i])return 0;
@@ -365,8 +375,10 @@ int is_equal_str(const char * First_Str, const char * Second_Str){   // in funct
    return 1;
 }
 
-void print(){
-    int i, j;
+/*######################################################################  PRINT  ##############################################################################*/
+
+void print(){           // function print kardan hamoone
+    int i, j;  
     for(i = 0; i < side; i++){
         printf("|");
         for(j = 0; j < side; j++){
@@ -377,7 +389,9 @@ void print(){
     }
 }
 
-void shift_eb_payin(int index, int last_index){
+/*######################################################################  SHIFT BE PAYIN  ##############################################################################*/
+
+void shift_eb_payin(int index, int last_index){     // baraye joda kardan goone karbare
     for(; index < last_index; index++){
         animals_coordinate[index][0] = animals_coordinate[index + 1][0];
         animals_coordinate[index][1] = animals_coordinate[index + 1][1];
