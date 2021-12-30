@@ -5,18 +5,18 @@
 #include "functions.c"
 
 #define maxside 20
-#define maxanimals 20
+#define maxanimals 50
 #define maxuseranimals 10
 
 char world[maxside][maxside];
 int integer_world_copy[20][20];
-int energys[maxside][maxside] = {{0}};
+int energys[maxside][maxside];
 int animals_coordinate[maxanimals][2];
 int user_animals_coordinate[maxuseranimals][2];
 int side;
 int lastmojaver[100][2] = {{0,0}};
 int currentmojaver[100][2];
-int lastmojaveindex = 1;
+int lastmojaveindex = 0;
 int currentmojaverindex = 0;
 int counter = 0;
 int hx;
@@ -111,15 +111,15 @@ int main(){
 
    printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
 4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nif you are ready press number 5 : ");
-	
+
 	scanf("%d", &user_move);
 	if(user_move != 5){
 		printf("see you later");
 		exit(0);
 	}
-	
+
 	system("cls");
-   
+
 	int sw = 1;
 
    while(1){
