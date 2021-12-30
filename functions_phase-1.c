@@ -37,30 +37,6 @@ int counter = 0;
 int hx;
 int hy;
 
-// struct Animal{
-//    int row;
-//    int column;
-//    int energy;
-//    int single_move_energy;
-//    int movement_number;
-//    int reproduction_energy;
-//    int attack_energy;
-//    int defense_energy;
-// };
-
-// extern int integer_world_copy[20][20];
-// extern char world[20][20];
-// extern int energys[20][20];
-// extern struct Animal program_animals[20];
-// extern struct Animal user_animals[10];
-// extern int side;
-// extern int lastmojaver[100][2];
-// extern int currentmojaver[100][2];
-// extern int lastmojaveindex;
-// extern int currentmojaverindex;
-// extern int counter;
-// extern int hx;
-// extern int hy;
 
 /*######################################################################  WIN  ##############################################################################*/
 
