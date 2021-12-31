@@ -207,7 +207,7 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
 void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
-    	integer_world_copy[hx][hy] = 0;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
+    	integer_world_copy[hx][hy] = 1;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
             if(single_move('8', pstop_x, pstop_y))return;
         }
@@ -278,56 +278,48 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
     /*======== inja ma miaim mojaver haye ghabli (adad ghbli) ro check mikonim va adad jadid ro midim behesh va mirizimesh to mojaver haye jadid  ========*/ 
 
     if(start_x > 0 && integer_world_copy[start_x - 1][start_y] == 0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x - 1, start_y, integer_world_copy[start_x - 1][start_y], a, currentmojaverindex);
         integer_world_copy[start_x - 1][start_y] = a;
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
     if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x + 1, start_y - 1, integer_world_copy[start_x + 1][start_y - 1], a, currentmojaverindex);
         integer_world_copy[start_x + 1][start_y - 1] = a;
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && start_y < side && integer_world_copy[start_x + 1][start_y + 1] == 0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x + 1, start_y + 1, integer_world_copy[start_x + 1][start_y + 1], a, currentmojaverindex);
         integer_world_copy[start_x + 1][start_y + 1]=a;
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x - 1, start_y - 1, integer_world_copy[start_x - 1][start_y - 1],  a, currentmojaverindex);
         integer_world_copy[start_x - 1][start_y - 1] = a;
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x - 1, start_y + 1, integer_world_copy[start_x - 1][start_y + 1],  a, currentmojaverindex);
         integer_world_copy[start_x - 1][start_y + 1] = a;
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y < side && integer_world_copy[start_x][start_y + 1] == 0){
-    //	printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x , start_y + 1, integer_world_copy[start_x ][start_y + 1],  a, currentmojaverindex);
         integer_world_copy[start_x][start_y + 1]=a;
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x , start_y - 1, integer_world_copy[start_x][start_y - 1],  a, currentmojaverindex);
         integer_world_copy[start_x][start_y - 1]=a;
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && integer_world_copy[start_x+1][start_y]==0){
-    	//printf("%d %d ke bod %d shod %d  va raft to khune %d current\n", start_x + 1, start_y, integer_world_copy[start_x + 1][start_y],  a, currentmojaverindex);
         integer_world_copy[start_x + 1][start_y]=a;
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y;
@@ -335,20 +327,13 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
     }
 
     counter++;
-    if(mode == 'g') integer_world_copy[hx][hy] == 0;
+    if(mode == 'g') integer_world_copy[hx][hy] == 1;
     /*========== inja ham rikhtan mojaver hay e jadid to mojaver haye ghbli va amade shodan baraye farakhani dobare va dar sorat niaz biroon omadan =============*/
 
     if(counter < lastmojaveindex){
-    	//printf("mojaver badi ba shomare khune %d %d ke hast %d\n\n", lastmojaver[counter][0],lastmojaver[counter][1], integer_world_copy[lastmojaver[counter][0]][lastmojaver[counter][1]]);
         FindWay(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
     }
     else{
-//    	   for(int i = 0; i < side; i++){
-//        for(int j = 0; j < side; j++){
-//         	printf("%d ", integer_world_copy[i][j]);
-//		}
-//		printf("\n");
-//	}
         if(currentmojaverindex == 0){
             return;
         }
@@ -356,11 +341,6 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
             lastmojaver[i][0] = currentmojaver[i][0];
             lastmojaver[i][1] = currentmojaver[i][1];
         }
-        //printf("alan ke last taze shode chapesh mikonam : \n");
-//        for(int i = 0; i < currentmojaverindex; i++){
-//        	printf("%d %d \n", lastmojaver[i][0], lastmojaver[i][1]);
-//		}
-        //printf("current raft to last va ba khune %d %d , shomare %d farakhuni shod\n\n", lastmojaver[0][0],lastmojaver[0][1], integer_world_copy[lastmojaver[0][0]][lastmojaver[0][1]]);
         counter = 0;
         lastmojaveindex = currentmojaverindex;
         currentmojaverindex = 0;
