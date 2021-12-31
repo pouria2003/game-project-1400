@@ -111,12 +111,12 @@ int main(){
       }
    }
 
-   printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
-4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nif you are ready press number 5 : ");
+   printf("Hello player\nWelcome to our game\nHere's how the game works:\nYou can choose your move based on this\n1 2 3\n\
+4 5 6\n7 8 9\nConsider 5 as your current location and choose your move.\nif you are ready press number 5 : ");
 
 	scanf("%d", &user_move);
 	if(user_move != 5){
-		printf("see you later");
+		printf("see you later!");
 		exit(0);
 	}
 	system("cls");
@@ -128,7 +128,7 @@ int main(){
       for(int i = 0; i < user_animals_coordinate_index; i++){
          do{
          if(!sw)printf("\a");
-         printf("choose your momve : ");
+         printf("choose your move : ");
          scanf("%d", &user_move);
          sw = single_move(user_move + '0', & user_animals_coordinate[i][0], & user_animals_coordinate[i][1]);
          }while(!sw);
