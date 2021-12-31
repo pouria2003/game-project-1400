@@ -93,6 +93,47 @@ int main(){
       }
    }
    
+   
+   
+   
+   
+//   print();
+//   CreateWorldCopy();
+//   hx = 2, hy = 3;
+//   FindWay(hx , hy, &animals_coordinate[0][0], &animals_coordinate[0][1], 'g');
+//   for(int i = 0; i < side; i++){
+//        for(int j = 0; j < side; j++){
+//         	printf("%d ", integer_world_copy[i][j]);
+//		}
+//		printf("\n");
+//	}
+//	CreateWorldCopy();
+//	print();
+//	currentmojaverindex = 0;
+//	lastmojaveindex = 0;
+//	hx = 2, hy = 3;
+//	for(int i = 0; i < side; i++){
+//        for(int j = 0; j < side; j++){
+//         	printf("%d ", integer_world_copy[i][j]);
+//		}
+//		printf("\n");
+//	}
+//	FindWay(2, 3, &animals_coordinate[1][0], &animals_coordinate[1][1], 'g');
+//	for(int i = 0; i < side; i++){
+//        for(int j = 0; j < side; j++){
+//         	printf("%d ", integer_world_copy[i][j]);
+//		}
+//		printf("\n");
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
    for(int i = 0; i < side; i++){
       for(int j = 0; j < side; j++){
@@ -134,20 +175,28 @@ int main(){
          system("cls");
          print();
       }
-      Sleep(2500);
+      Sleep(2000);
       system("cls");
       for(int i = 0; i < animals_coordinate_index; i++){
          CreateWorldCopy();
          counter = 0;
          lastmojaveindex = 0;
+         currentmojaverindex = 0;
 		   FindWay(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
-         CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
-		 
+        	CreateWorldCopy();
 		   counter = 0;
 		   lastmojaveindex = 0;
+		   currentmojaverindex = 0;
          FindWay(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
          print();
-      	 Sleep(2500);
+//         printf("\n alan khune %d %d hastim va behesht khune %d %d e\n", animals_coordinate[i][0], animals_coordinate[i][1], hx, hy);
+//         for(int i = 0; i < side; i++){
+//         	for(int j = 0; j < side; j++){
+//         		printf("%d ", integer_world_copy[i][j]);
+//			 }
+//			 printf("\n");
+//		 }
+      	 Sleep(2000);
 		 
       	 system("cls");
       }
