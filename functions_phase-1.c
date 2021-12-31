@@ -5,7 +5,6 @@
 #include <conio.h>
 #include <time.h>
 #include <stdlib.h>
-// #include "main-phase-1.c"
 
 
 struct Animal{
@@ -28,6 +27,8 @@ int integer_world_copy[maxside][maxside];
 int energys[maxside][maxside] = {{0}};
 struct Animal program_animals[maxanimals];
 struct Animal user_animals[maxuseranimals];
+int program_animals_index = 0;
+int user_animals_index = 0;
 int side;
 int lastmojaver[100][2];
 int currentmojaver[100][2];
@@ -86,7 +87,7 @@ void CreateWorldCopy(int ax, int ay){
             else integer_world_copy[i][j] = 0;
         }
     }
-    integer_world_copy[ax][ay] = 0;
+   // integer_world_copy[ax][ay] = 0;
 
 }
 
@@ -95,7 +96,7 @@ void CreateWorldCopy(int ax, int ay){
 /* in function gharare yek tak harkato ham check kone ham age lazem shod heyvoon ro ja be ja kone */
 int single_move(char code, int * r, int * c){      // code jahat harkato moshakhas mikone
     int row = *r, col = *c;                                   // r hamon pointer be row va c pointer be column
-
+	
     switch (code) {
         case '6':
             if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
@@ -217,6 +218,7 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
         default :
             return 0;
     }
+    
     return 1;
 }
 
@@ -226,6 +228,8 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
     int stop_x = *pstop_x, stop_y = *pstop_y;
     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
     	integer_world_copy[hx][hy] = 0;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
+    	printf("here is start of ifs\n");
+    	Sleep(1000);
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
             if(single_move('8', pstop_x, pstop_y))return;
         }
@@ -250,7 +254,8 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
         if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
             if(single_move('2', pstop_x, pstop_y))return;
         }
-
+		printf("here is end of that");
+		Sleep(1000);
         /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========*/
 
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
@@ -343,7 +348,8 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
-
+	
+	integer_world_copy[hx][hy] = 0;
     counter++;
 
     /*========== inja ham rikhtan mojaver hay e jadid to mojaver haye ghbli va amade shodan baraye farakhani dobare va dar sorat niaz biroon omadan =============*/
@@ -409,11 +415,13 @@ void print(){           // function print kardan hamoone
     }
 }
 
-/*######################################################################  SHIFT BE PAYIN  ##############################################################################*/
+/*###################################################### TRANSFER TO USER ANIMALS ##########################################################*/
 
-// void shift_eb_payin(int index, int last_index){     // baraye joda kardan goone karbare
-//     for(; index < last_index; index++){
-//         animals_coordinate[index][0] = animals_coordinate[index + 1][0];
-//         animals_coordinate[index][1] = animals_coordinate[index + 1][1];
-//     }
-// }
+void TransferToUserAnimals(int trans_index){        // in func ye index az program animals migire va mohtavasho mirirze to user animals
+    user_animals[user_animals_index] = program_animals[trans_index];
+    program_animals_index--;
+    user_animals_index++;
+    for(int i = trans_index; i < program_animals_index; i++){
+        program_animals[i] = program_animals[i + 1];
+    }
+}

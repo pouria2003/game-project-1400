@@ -9,7 +9,7 @@
 extern int integer_world_copy[20][20];
 extern char world[20][20];
 extern int energys[20][20];
-extern int animals_coordinate[20][2];
+extern int animals_coordinate[50][2];
 extern int user_animals_coordinate[10][2];
 extern int side;
 extern int lastmojaver[100][2];
@@ -61,14 +61,14 @@ int win( char A )
 
 /*######################################################################  CREATE WORLD COPY  ##############################################################################*/
 
-void CreateWorldCopy(int ax, int ay){
+void CreateWorldCopy(){
     for(int i = 0; i < side; i++){
         for(int j = 0; j < side; j++){
             if(world[i][j] == '#')integer_world_copy[i][j] = -1;
             else integer_world_copy[i][j] = 0;
         }
     }
-    integer_world_copy[ax][ay] = 0;
+    //integer_world_copy[ax][ay] = 0;
 
 }
 
@@ -279,58 +279,67 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
 
     if(start_x > 0 && integer_world_copy[start_x - 1][start_y] == 0){
         integer_world_copy[start_x - 1][start_y] = a;
+       // printf("%d %d shod %d\n", start_x - 1, start_y, a);
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
     if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
         integer_world_copy[start_x + 1][start_y - 1] = a;
+        //printf("%d %d shod %d\n", start_x + 1, start_y - 1, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && start_y < side && integer_world_copy[start_x + 1][start_y + 1] == 0){
         integer_world_copy[start_x + 1][start_y + 1]=a;
+        //printf("%d %d shod %d\n", start_x + 1, start_y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
         integer_world_copy[start_x - 1][start_y - 1] = a;
+        //printf("%d %d shod %d\n", start_x - 1, start_y - 1, a);
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
         integer_world_copy[start_x - 1][start_y + 1] = a;
+        //printf("%d %d shod %d\n", start_x - 1, start_y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y < side && integer_world_copy[start_x][start_y + 1] == 0){
         integer_world_copy[start_x][start_y + 1]=a;
+        //printf("%d %d shod %d\n", start_x , start_y + 1, a);
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
         integer_world_copy[start_x][start_y - 1]=a;
+        //printf("%d %d shod %d\n", start_x , start_y - 1, a);
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && integer_world_copy[start_x+1][start_y]==0){
-        integer_world_copy[start_x+1][start_y]=a;
+        integer_world_copy[start_x + 1][start_y]=a;
+       // printf("%d %d shod %d\n", start_x + 1, start_y, a);
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
 
     counter++;
-
+    if(mode == 'g') integer_world_copy[hx][hy] == 0;
     /*========== inja ham rikhtan mojaver hay e jadid to mojaver haye ghbli va amade shodan baraye farakhani dobare va dar sorat niaz biroon omadan =============*/
 
     if(counter < lastmojaveindex){
+    	//printf("here go with shomare khune %d %d ke hast %d\n\n", lastmojaver[counter][0],lastmojaver[counter][1], integer_world_copy[lastmojaver[counter][0]][lastmojaver[counter][1]]);
         FindWay(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
     }
     else{
@@ -341,6 +350,7 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
             lastmojaver[i][0] = currentmojaver[i][0];
             lastmojaver[i][1] = currentmojaver[i][1];
         }
+        //printf("after for we go with khune %d %d , shomare\n\n", lastmojaver[0][0],lastmojaver[0][1], integer_world_copy[lastmojaver[0][0]][lastmojaver[0][1]]);
         counter = 0;
         lastmojaveindex = currentmojaverindex;
         currentmojaverindex = 0;

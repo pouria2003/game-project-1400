@@ -92,7 +92,8 @@ int main(){
          }
       }
    }
-
+   
+	
    for(int i = 0; i < side; i++){
       for(int j = 0; j < side; j++){
          if(world[i][j] == UserAnimal){
@@ -117,7 +118,6 @@ int main(){
 		printf("see you later");
 		exit(0);
 	}
-
 	system("cls");
 
 	int sw = 1;
@@ -137,16 +137,20 @@ int main(){
       Sleep(2500);
       system("cls");
       for(int i = 0; i < animals_coordinate_index; i++){
+         CreateWorldCopy();
+         counter = 0;
+         lastmojaveindex = 0;
+		   FindWay(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
          CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
-         FindWay(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
-         CreateWorldCopy(animals_coordinate[i][0], animals_coordinate[i][1]);
+		 
+		   counter = 0;
+		   lastmojaveindex = 0;
          FindWay(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
          print();
       	 Sleep(2500);
+		 
       	 system("cls");
       }
-
-
    }
    return 0;
 }
