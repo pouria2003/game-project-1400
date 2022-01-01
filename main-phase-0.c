@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string.h>
-#include "functions.c"
+#include "functions-phase0.c"
 
 #define maxside 20
 #define maxanimals 50
@@ -29,10 +29,14 @@ int main(){
          world[i][j] = '.';
       }
    }
+
+/* #########################################   GEREFTAN DATA AZ TERMINAL  ##########################################*/
+
    char UserAnimal;
    int separator_counter = 0, animals_coordinate_index = 0, user_animals_coordinate_index = 0, user_move;
    char temp[100];
    scanf("%d", &side);     // size jahane
+
    while(separator_counter < 4){       // in halghe hame vorodi haro mibare to world
       scanf("%s", temp);
       if(temp[0] == 'F'){
@@ -93,8 +97,8 @@ int main(){
       }
    }
 		
-	
-	
+/* #########################################   JODA KARDAN GONE HAYE KARBAR   ##########################################*/
+
    for(int i = 0; i < side; i++){
       for(int j = 0; j < side; j++){
          if(world[i][j] == UserAnimal){
@@ -111,6 +115,8 @@ int main(){
       }
    }
 
+/* ##################################################   SHORO BAZI   ##################################################*/
+
    printf("Hello player\nWelcome to our game\nHere's how the game works:\nYou can choose your move based on this\n1 2 3\n\
 4 5 6\n7 8 9\nConsider 5 as your current location and choose your move.\nif you are ready press number 5 : ");
 
@@ -124,7 +130,7 @@ int main(){
 	int sw = 1;
 
    while(1){
-   	  print();
+   	print();
       for(int i = 0; i < user_animals_coordinate_index; i++){
          do{
          if(!sw)printf("\a");
@@ -138,20 +144,20 @@ int main(){
       Sleep(2000);
       system("cls");
       for(int i = 0; i < animals_coordinate_index; i++){
-        CreateWorldCopy();
-        counter = 0;
-        lastmojaveindex = 0;
-        currentmojaverindex = 0;
-		FindWay(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
-        CreateWorldCopy();
-        integer_world_copy[hx][hy] = 1;
-		counter = 0;
-		lastmojaveindex = 0;
-		currentmojaverindex = 0;
-        FindWay(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
-        print();
-      	Sleep(2000);		 
-      	system("cls");
+         CreateWorldCopy();
+         counter = 0;
+         lastmojaveindex = 0;
+         currentmojaverindex = 0;
+		   FindWay(animals_coordinate[i][0], animals_coordinate[i][1], &animals_coordinate[i][0], &animals_coordinate[i][1], 'f');
+         CreateWorldCopy();
+         integer_world_copy[hx][hy] = 1;
+		   counter = 0;
+		   lastmojaveindex = 0;
+		   currentmojaverindex = 0;
+         FindWay(hx, hy, &animals_coordinate[i][0], &animals_coordinate[i][1], 'g');
+         print();
+         Sleep(2000);		 
+         system("cls");
       }
    }
    return 0;

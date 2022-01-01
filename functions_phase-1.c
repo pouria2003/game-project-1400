@@ -80,15 +80,13 @@ int win( char A )
 
 /*######################################################################  CREATE WORLD COPY  ##############################################################################*/
 
-void CreateWorldCopy(int ax, int ay){
+void CreateWorldCopy(){
     for(int i = 0; i < side; i++){
         for(int j = 0; j < side; j++){
             if(world[i][j] == '#')integer_world_copy[i][j] = -1;
             else integer_world_copy[i][j] = 0;
         }
     }
-   // integer_world_copy[ax][ay] = 0;
-
 }
 
 /*######################################################################  SINGLE MOVE  ##############################################################################*/
@@ -227,9 +225,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
 void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
-    	integer_world_copy[hx][hy] = 0;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
-    	printf("here is start of ifs\n");
-    	Sleep(1000);
+    	integer_world_copy[hx][hy] = 1;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
+
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
             if(single_move('8', pstop_x, pstop_y))return;
         }
@@ -254,8 +251,7 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
         if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
             if(single_move('2', pstop_x, pstop_y))return;
         }
-		printf("here is end of that");
-		Sleep(1000);
+
         /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========*/
 
         if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
