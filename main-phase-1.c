@@ -115,7 +115,7 @@ int main()
 /* ##################################################   SHORO BAZI   ##################################################*/
 
    printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
-4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nif you are ready press number 5 : ");
+4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
 
 	scanf("%d", &user_move);
 	if(user_move != 5){

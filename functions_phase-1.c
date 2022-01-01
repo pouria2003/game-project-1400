@@ -96,123 +96,115 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
     int row = *r, col = *c;                                   // r hamon pointer be row va c pointer be column
 	
     switch (code) {
-        case '6':
-            if(world[row][col + 1] == '.'|| world[row][col + 1] == 'H'){
-                if(world[row][col + 1] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else{
-                    world[row][col + 1] = world[row][col];
-                    world[row][col] = '.';
-                    *c += 1;
-                }
-                break;
-            }
-            else return 0;
-        case '9':
-            if(world[row - 1][col + 1] == '.'|| world[row - 1][col + 1] == 'H'){
-                if(world[row - 1][col + 1] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else{
-                    world[row - 1][col + 1] = world[row][col];
-                    world[row][col] = '.';
-                    *r -= 1;
-                    *c += 1;
-                }
-                break;
-            }
-            else return 0;
-        case '8':
-            if(world[row - 1][col] == '.'|| world[row - 1][col] == 'H'){
-                if(world[row - 1][col] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else{
-                    world[row - 1][col] = world[row][col];
-                    world[row][col] = '.';
-                    *r -= 1;
-                }
-                break;
-            }
-            else return 0;
-        case '7':
-            if(world[row - 1][col - 1] == '.'|| world[row - 1][col - 1] == 'H'){
-                if(world[row - 1][col - 1] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else {
-                    world[row - 1][col - 1] = world[row][col];
-                    world[row][col] = '.';
-                    *r -= 1;
-                    *c -= 1;
-                }
 
-                break;
+        case '6':
+            if(world[row][col + 1] == '.'){
+                world[row][col + 1] = world[row][col];
+                world[row][col] = '.';
+                *c += 1;
+            }
+            else if(world[row][col + 1] == 'H'){
+                win(world[*r][*c]);
+                return 1;
             }
             else return 0;
+            break;
+
+        case '9':
+            if(world[row - 1][col + 1] == '.'){
+                world[row - 1][col + 1] = world[row][col];
+                world[row][col] = '.';
+                *r -= 1;
+                *c += 1;
+            }
+            else if(world[row - 1][col + 1] == 'H'){
+                win(world[*r][*c]);
+                return 1;
+            }
+            else return 0;
+            break;
+
+        case '8':
+            if(world[row - 1][col] == '.'){
+                world[row - 1][col] = world[row][col];
+                world[row][col] = '.';
+                *r -= 1;
+            }
+            else if(world[row - 1][col] == 'H'){
+                win(world[*r][*c]);
+                return 1;
+            }
+            else return 0;
+            break;
+
+        case '7':
+            if(world[row - 1][col - 1] == '.'){
+                world[row - 1][col - 1] = world[row][col];
+                world[row][col] = '.';
+                *r -= 1;
+                *c -= 1;
+            }
+            else if(world[row - 1][col - 1] == 'H'){
+                win(world[*r][*c]);
+                return 1;
+            }
+            else return 0;
+            break;
+
         case '4':
-            if(world[row][col - 1] == '.'|| world[row][col - 1] == 'H'){
-                if(world[row][col - 1] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else{
-                    world[row][col - 1] = world[row][col];
-                    world[row][col] = '.';
-                    *c -= 1;
-                }
-                break;
+            if(world[row][col - 1] == '.'){
+                world[row][col - 1] = world[row][col];
+                world[row][col] = '.';
+                *c -= 1;
+            }
+            else if(world[row][col - 1] == 'H'){
+                win(world[*r][*c]);
+                return 1;
             }
             else return 0;
+            break;
+
         case '1':
-            if(world[row + 1][col - 1] == '.'|| world[row + 1][col - 1] == 'H'){
-                if(world[row + 1][col - 1] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else {
-                    world[row + 1][col - 1] = world[row][col];
-                    world[row][col] = '.';
-                    *r += 1;
-                    *c -= 1;
-                }
-                break;
+            if(world[row + 1][col - 1] == '.'){
+                world[row + 1][col - 1] = world[row][col];
+                world[row][col] = '.';
+                *r += 1;
+                *c -= 1;
+            }
+            else if(world[row + 1][col - 1] == 'H'){
+                win(world[*r][*c]);
+                return 1;
             }
             else return 0;
+            break;
+
         case '2':
-            if(world[row + 1][col] == '.'|| world[row + 1][col] == 'H'){
-                if(world[row + 1][col] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else {
-                    world[row + 1][col] = world[row][col];
-                    world[row][col] = '.';
-                    *r += 1;
-                }
-                break;
+            if(world[row + 1][col] == '.'){
+                world[row + 1][col] = world[row][col];
+                world[row][col] = '.';
+                *r += 1;
+            }
+            else if(world[row + 1][col] == 'H'){
+                win(world[*r][*c]);
+                return 1;
             }
             else return 0;
+            break;
+
         case '3':
-            if(world[row + 1][col + 1] == '.'|| world[row + 1][col + 1] == 'H'){
-                if(world[row + 1][col + 1] == 'H'){
-                    win(world[*r][*c]);
-                    return 0;
-                }
-                else {
-                    world[row + 1][col + 1] = world[row][col];
-                    world[row][col] = '.';
-                    *r += 1;
-                    *c += 1;
-                }
-                break;
+            if(world[row + 1][col + 1] == '.'){
+                world[row + 1][col + 1] = world[row][col];
+                world[row][col] = '.';
+                *r += 1;
+                *c += 1;
+            }
+            else if(world[row + 1][col + 1] == 'H'){
+                win(world[*r][*c]);
+                return 1;
             }
             else return 0;
+            break;
+
         default :
             return 0;
     }
@@ -284,37 +276,49 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
         }
     }
 
-
-
-    if(world[start_x][start_y] == 'H' && mode == 'f'){      // inja mal vaghtie ke ro mode find heaven bashim va mige vaghti be behesh residi mokhtasetesh
-        hx = start_x;                                       // negah dar va az tabea bia biroon
-        hy = start_y;
-        return;
-    }
-
     int a = integer_world_copy[start_x][start_y] + 1;
 
     /*======== inja ma miaim mojaver haye ghabli (adad ghbli) ro check mikonim va adad jadid ro midim behesh va mirizimesh to mojaver haye jadid  ========*/
 
     if(start_x > 0 && integer_world_copy[start_x - 1][start_y] == 0){
         integer_world_copy[start_x - 1][start_y] = a;
+        if(world[start_x - 1][start_y] == 'H' && mode == 'f'){     
+            hx = start_x - 1;                                      
+            hy = start_y;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
     }
     if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
         integer_world_copy[start_x + 1][start_y - 1] = a;
+        if(world[start_x + 1][start_y - 1] == 'H' && mode == 'f'){     
+            hx = start_x + 1;                                      
+            hy = start_y - 1;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
     if(start_x < side && start_y < side && integer_world_copy[start_x + 1][start_y + 1] == 0){
         integer_world_copy[start_x + 1][start_y + 1]=a;
+        if(world[start_x + 1][start_y + 1] == 'H' && mode == 'f'){     
+            hx = start_x + 1;                                      
+            hy = start_y + 1;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
+        if(world[start_x - 1][start_y - 1] == 'H' && mode == 'f'){     
+            hx = start_x - 1;                                      
+            hy = start_y - 1;
+            return;
+        }
         integer_world_copy[start_x - 1][start_y - 1] = a;
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
@@ -322,24 +326,44 @@ void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){
     }
     if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
         integer_world_copy[start_x - 1][start_y + 1] = a;
+        if(world[start_x - 1][start_y + 1] == 'H' && mode == 'f'){     
+            hx = start_x - 1;                                      
+            hy = start_y + 1;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x - 1;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y < side && integer_world_copy[start_x][start_y + 1] == 0){
         integer_world_copy[start_x][start_y + 1]=a;
+        if(world[start_x][start_y + 1] == 'H' && mode == 'f'){     
+            hx = start_x;                                      
+            hy = start_y;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y + 1;
         currentmojaverindex++;
     }
     if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
         integer_world_copy[start_x][start_y - 1]=a;
+        if(world[start_x][start_y - 1] == 'H' && mode == 'f'){
+            hx = start_x; 
+            hy = start_y - 1;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x;
         currentmojaver[currentmojaverindex][1] = start_y - 1;
         currentmojaverindex++;
     }
-    if(start_x < side && integer_world_copy[start_x+1][start_y]==0){
-        integer_world_copy[start_x+1][start_y]=a;
+    if(start_x < side && integer_world_copy[start_x + 1][start_y] == 0){
+        integer_world_copy[start_x + 1][start_y]=a;
+        if(world[start_x + 1][start_y] == 'H' && mode == 'f'){     
+            hx = start_x + 1;                                      
+            hy = start_y;
+            return;
+        }
         currentmojaver[currentmojaverindex][0] = start_x + 1;
         currentmojaver[currentmojaverindex][1] = start_y;
         currentmojaverindex++;
