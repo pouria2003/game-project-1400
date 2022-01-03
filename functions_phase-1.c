@@ -447,25 +447,25 @@ void TransferToUserAnimals(int trans_index){        // in func ye index az progr
 }
 
 /*###################################################### CREATE WORLD 3 ##########################################################*/
-void CreateWorld3(int world2[][20],int x,int y){
-int i,j,a,b,c;
-a=world2[x][y];
-world3[x][y]=a+1;
-for(i=-1;i<=1;i++){
-    for(j=-1;j<=1;j++){
-        if(j!=0 &&i !=0){
-        if(world2[x+i][y+j]==a-1) {
-            if(a==1){   //yani reside be behesht
-                world3[x+i][y+j]=1;
-                return;
+void CreateWorld3(int x,int y){
+    int i,j,a,b,c;
+    a = integer_world_copy[x][y];
+    world3[x][y] = a;
+    for(i = -1; i <= 1 ; i++){
+        for(j = -1 ;j <= 1; j++){
+            if(j != 0 && i != 0){
+                if(integer_world_copy[x + i][y + j] == a - 1 && (world[x + i][y + j] == '.' || world[x + i][y + j] == 'H')) {
+                    if(a == 2){   //yani reside be behesht
+                        world3[x+i][y+j] = 1;
+                        return;
+                    }
+                    else{
+                        CreateWorld3(x + i, y + j);        
+                    }
+                }
             }
-            else{
-                world3[x+i][y+j]=a+1;
-                CreateWorld3(world2,x+i,y+j);        
-        }}}
+        }
     }
-}
-
 }
 
 /*###################################################### MOVE WITH WORLD 3 ##########################################################*/
