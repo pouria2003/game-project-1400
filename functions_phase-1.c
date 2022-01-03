@@ -445,3 +445,45 @@ void TransferToUserAnimals(int trans_index){        // in func ye index az progr
         program_animals[i] = program_animals[i + 1];
     }
 }
+
+/*###################################################### CREATE WORLD 3 ##########################################################*/
+void CreateWorld3(int world2[][20],int x,int y){
+int i,j,a,b,c;
+a=world2[x][y];
+world3[x][y]=a+1;
+for(i=-1;i<=1;i++){
+    for(j=-1;j<=1;j++){
+        if(j!=0 &&i !=0){
+        if(world2[x+i][y+j]==a-1) {
+            if(a==1){   //yani reside be behesht
+                world3[x+i][y+j]=1;
+                return;
+            }
+            else{
+                world3[x+i][y+j]=a+1;
+                CreateWorld3(world2,x+i,y+j);        
+        }}}
+    }
+}
+
+}
+
+/*###################################################### MOVE WITH WORLD 3 ##########################################################*/
+int MoveWithWorld3(int world3[][20],int x,int y,int movementsNum){
+int i,j,cur=world3[x][y],counter=0;
+while(counter<movementsNum){
+for(i=-1;i<=1;i++){
+    for(j=-1;j<=1;j++){
+        if(world3[x+i][y+i]==cur-1){
+            world[x+i][y+j]=world[x][y];
+            cur=world3[x+i][y+j];
+            counter++;
+            if(world[x+i][y+i]=='H') return(1);
+            // mokhtasate jadid ro mibarim tuye araye coordinate
+        }
+    }
+}
+}
+// mokhtasate jadide heyvoon ro mibarim tuye araye coordinate
+return(0);
+}
