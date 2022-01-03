@@ -24,6 +24,7 @@ struct Animal{
 
 char world[maxside][maxside];
 int integer_world_copy[maxside][maxside];
+int world3[maxside][maxside];
 int energys[maxside][maxside] = {{0}};
 struct Animal program_animals[maxanimals];
 struct Animal user_animals[maxuseranimals];
@@ -41,7 +42,7 @@ int hy;
 
 /*######################################################################  WIN  ##############################################################################*/
 
-int win( char A )
+void win( char A )
 {
 	system("cls");
     char str[5] = "Type";
@@ -216,65 +217,65 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
 
 void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
-    if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
-    	integer_world_copy[hx][hy] = 1;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
+    // if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g')){        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
+    // 	integer_world_copy[hx][hy] = 1;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
 
-        if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
-            if(single_move('8', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y > 0){
-            if(single_move('1', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y  < side){
-            if(single_move('3', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y > 0){
-            if(single_move('7', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  < side){
-            if(single_move('9', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  < side){
-            if(single_move('6', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y > 0){
-            if(single_move('4', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
-            if(single_move('2', pstop_x, pstop_y))return;
-        }
+    //     if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
+    //         if(single_move('8', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y > 0){
+    //         if(single_move('1', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y  < side){
+    //         if(single_move('3', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y > 0){
+    //         if(single_move('7', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  < side){
+    //         if(single_move('9', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  < side){
+    //         if(single_move('6', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y > 0){
+    //         if(single_move('4', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
+    //         if(single_move('2', pstop_x, pstop_y))return;
+    //     }
 
-        /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========*/
+    //     /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========*/
 
-        if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
-            if(single_move('8', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y > 0){
-            if(single_move('1', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y  < side){
-            if(single_move('3', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y > 0){
-            if(single_move('7', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y  < side){
-            if(single_move('9', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_y  < side){
-            if(single_move('6', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_y > 0){
-            if(single_move('4', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x  < side){
-            if(single_move('2', pstop_x, pstop_y))return;
-        }
+    //     if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
+    //         if(single_move('8', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y > 0){
+    //         if(single_move('1', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y  < side){
+    //         if(single_move('3', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y > 0){
+    //         if(single_move('7', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y  < side){
+    //         if(single_move('9', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_y  < side){
+    //         if(single_move('6', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_y > 0){
+    //         if(single_move('4', pstop_x, pstop_y))return;
+    //     }
+    //     if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x  < side){
+    //         if(single_move('2', pstop_x, pstop_y))return;
+    //     }
 
-        for(int i = 1; i < 10; i++){
-            if(single_move(i + '0', pstop_x, pstop_y))return;
-        }
-    }
+    //     for(int i = 1; i < 10; i++){
+    //         if(single_move(i + '0', pstop_x, pstop_y))return;
+    //     }
+    // }
 
     int a = integer_world_copy[start_x][start_y] + 1;
 
@@ -447,43 +448,61 @@ void TransferToUserAnimals(int trans_index){        // in func ye index az progr
 }
 
 /*###################################################### CREATE WORLD 3 ##########################################################*/
-void CreateWorld3(int world2[][20],int x,int y){
-int i,j,a,b,c;
-a=world2[x][y];
-world3[x][y]=a+1;
-for(i=-1;i<=1;i++){
-    for(j=-1;j<=1;j++){
-        if(j!=0 &&i !=0){
-        if(world2[x+i][y+j]==a-1) {
-            if(a==1){   //yani reside be behesht
-                world3[x+i][y+j]=1;
-                return;
+
+void CreateWorld3(int x,int y){
+    int i,j,a,b,c;
+    a = integer_world_copy[x][y];
+    world3[x][y] = a;
+    for(i = -1; i <= 1 ; i++){
+        for(j = -1 ;j <= 1; j++){
+            if(j != 0 && i != 0){
+                if(integer_world_copy[x + i][y + j] == a - 1 && (world[x + i][y + j] == '.' || world[x + i][y + j] == 'H')) {
+                    if(a == 2){   //yani reside be behesht
+                        world3[x+i][y+j] = 1;
+                        return;
+                    }
+                    else{
+                        CreateWorld3(x + i, y + j);        
+                    }
+                }
             }
-            else{
-                world3[x+i][y+j]=a+1;
-                CreateWorld3(world2,x+i,y+j);        
-        }}}
-    }
-}
-
-}
-
-/*###################################################### MOVE WITH WORLD 3 ##########################################################*/
-int MoveWithWorld3(int world3[][20],int x,int y,int movementsNum){
-int i,j,cur=world3[x][y],counter=0;
-while(counter<movementsNum){
-for(i=-1;i<=1;i++){
-    for(j=-1;j<=1;j++){
-        if(world3[x+i][y+i]==cur-1){
-            world[x+i][y+j]=world[x][y];
-            cur=world3[x+i][y+j];
-            counter++;
-            if(world[x+i][y+i]=='H') return(1);
-            // mokhtasate jadid ro mibarim tuye araye coordinate
         }
     }
 }
-}
-// mokhtasate jadide heyvoon ro mibarim tuye araye coordinate
-return(0);
+
+/*###################################################### MOVE WITH WORLD 3 ##########################################################*/
+
+int Move(int *row, int *column){
+    int x = *row, y = *column;
+    int cur = world3[x][y], sw = 0;
+        for(int i = -1; i <= 1; i++){
+            for(int j = -1; j <= 1; j++){
+                if(world3[x + i][y + i] == cur - 1){
+                    if(world[x+i][y+i] == 'H') win(world[x][y]);
+                    world[x + i][y + j] = world[x][y];
+                    world[x][y] = '.';
+                    sw = 1;
+                    return 1;
+                }
+            }
+        }
+        if(!sw){
+            cur = integer_world_copy[x][y];
+            for(int i = -1; i <= 1; i++){
+                for(int j = -1; j <= 1; j++){
+                    if(integer_world_copy[x + i][y + i] == cur){
+                        world[x + i][y + j] = world[x][y];
+                        world[x][y] = '.';
+                        sw = 1;
+                        return 0;
+                    }
+                }
+            }
+        }
+        if(!sw){
+            for(int i = 1; i < 10; i++){
+                if(single_move(i + '0', row, column))return 0;
+            }
+        }
+    return(0);
 }

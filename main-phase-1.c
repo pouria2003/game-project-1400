@@ -4,7 +4,6 @@
 #include <string.h>
 #include "functions_phase-1.c"
 
-
 int main()
 {
    for(int i = 0; i <20; i++){
@@ -102,7 +101,33 @@ int main()
       }
    }
    fclose(inputs);
-	
+
+   // ********************************************* test world 3 ******************************** */
+// print();
+
+//    CreateWorldCopy();
+//    integer_world_copy[2][1] = 1;
+//    FindWay(2, 1, &program_animals[0].row, &program_animals[0].column, 'g');
+//    integer_world_copy[2][1] = 1;
+//    for(int i = 0 ; i < side; i++){
+//       for(int j = 0; j < side; j++){
+//          printf("%d ", integer_world_copy[i][j]);
+//       }
+//       printf("\n");
+//    }
+
+//    printf("-------------------------------------\n");
+
+//    printf("animal is in %d %d\n", program_animals[0].row, program_animals[0].column);
+//    CreateWorld3(program_animals[0].row, program_animals[0].column);
+
+//    for(int i = 0 ; i < side; i++){
+//       for(int j = 0; j < side; j++){
+//          printf("%d ", world3[i][j]);
+//       }
+//       printf("\n");
+//    }
+
 /* #########################################   JODA KARDAN GONE HAYE KARBAR   ##########################################*/
 
    for(int i = 0; i < program_animals_index; i++){
@@ -112,7 +137,7 @@ int main()
       }
    }
 
-/* ##################################################   SHORO BAZI   ##################################################*/
+// /* ##################################################   SHORO BAZI   ##################################################*/
 
    printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
 4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
@@ -128,16 +153,18 @@ int main()
 	int sw = 1;
 
    while(1){
-   		print();
+   	print();
       for(int i = 0; i < user_animals_index; i++){
-         do{
-         if(!sw)printf("\a");
-         printf("choose your momve : ");
-         scanf("%d", &user_move);
-         sw = single_move(user_move + '0', &user_animals[i].row, &user_animals[i].column);
-         }while(!sw);
-         system("cls");
-         print();
+         for(int k = 0; k < user_animals[i].movement_number; k++){
+            do{
+            if(!sw)printf("\a");
+            printf("choose your momve : ");
+            scanf("%d", &user_move);
+            sw = single_move(user_move + '0', &user_animals[i].row, &user_animals[i].column);
+            }while(!sw);
+            system("cls");
+            print();
+         }
       }
       Sleep(2000);
       system("cls");
@@ -153,9 +180,14 @@ int main()
          lastmojaveindex = 0;
          currentmojaverindex = 0;
          FindWay(hx, hy, &program_animals[i].row, &program_animals[i].column, 'g');
-         print();
-      	Sleep(2000);
-      	system("cls");
+         CreateWorld3(program_animals[i].row, program_animals[i].column);
+         for(int k = 0; k < program_animals[i].movement_number; k++){
+            int move_result = Move(&program_animals[i].row, &program_animals[i].column);
+            print();
+      	   Sleep(2000);
+      	   system("cls");
+            if(!move_result)CreateWorld3(program_animals[i].row, program_animals[i].column);
+         }
       }
    }
    return 0;
