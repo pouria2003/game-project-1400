@@ -481,6 +481,8 @@ int Move(int *row, int *column){
                     if(world[x+i][y+i] == 'H') win(world[x][y]);
                     world[x + i][y + j] = world[x][y];
                     world[x][y] = '.';
+                    *row += i;
+                    *column += j;
                     sw = 1;
                     return 1;
                 }
@@ -493,6 +495,8 @@ int Move(int *row, int *column){
                     if(integer_world_copy[x + i][y + i] == cur){
                         world[x + i][y + j] = world[x][y];
                         world[x][y] = '.';
+                        *row += i;
+                    	*column += j;
                         sw = 1;
                         return 0;
                     }
