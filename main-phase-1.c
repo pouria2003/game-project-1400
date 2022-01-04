@@ -94,7 +94,7 @@ int main()
                program_animals[program_animals_index].row = row;
                program_animals[program_animals_index].column = col;
                program_animals_index++;
-               
+
             }
          }
 
@@ -102,32 +102,58 @@ int main()
    }
    fclose(inputs);
 
+
+
+
+
+
+
+
    // ********************************************* test world 3 ******************************** */
-// print();
 
-//    CreateWorldCopy();
-//    integer_world_copy[2][1] = 1;
-//    FindWay(2, 1, &program_animals[0].row, &program_animals[0].column, 'g');
-//    integer_world_copy[2][1] = 1;
-//    for(int i = 0 ; i < side; i++){
-//       for(int j = 0; j < side; j++){
-//          printf("%d ", integer_world_copy[i][j]);
-//       }
-//       printf("\n");
-//    }
+/* print();
 
-//    printf("-------------------------------------\n");
+    for(int  i = 0; i < program_animals_index; i++){
+           printf("started\n");
+        CreateWorldCopy();
+        counter = 0;
+        lastmojaveindex = 0;
+        currentmojaverindex = 0;
+        FindWay(program_animals[i].row , program_animals[i].column, &program_animals[i].row, &program_animals[i].column, 'f');
+        CreateWorldCopy();
+        integer_world_copy[hx][hy] = 1;
+        counter = 0;
+        lastmojaveindex = 0;
+        currentmojaverindex = 0;
+        FindWay(hx, hy, &program_animals[i].row, &program_animals[i].column, 'g');
+        for(int i = 0 ; i < side; i++){
+            for(int j = 0; j < side; j++){
+                printf("%d ", integer_world_copy[i][j]);
+            }
+            printf("\n");
+        }
 
-//    printf("animal is in %d %d\n", program_animals[0].row, program_animals[0].column);
-//    CreateWorld3(program_animals[0].row, program_animals[0].column);
 
-//    for(int i = 0 ; i < side; i++){
-//       for(int j = 0; j < side; j++){
-//          printf("%d ", world3[i][j]);
-//       }
-//       printf("\n");
-//    }
+       for(int i = 0; i < side; i++){
+            for(int j = 0; j <side; j++){
+                world3[i][j] = 0;
+            }
+       }
+        printf("-------------------------------------\n");
 
+        printf("animal is in %d %d\n", program_animals[i].row , program_animals[i].column);
+
+        CreateWorld3(program_animals[i].row , program_animals[i].column);
+
+        for(int i = 0 ; i < side; i++){
+            for(int j = 0; j < side; j++){
+            printf("%d ", world3[i][j]);
+            }
+            printf("\n");
+        }
+        Sleep(1000);
+        printf("ende\n");
+    }
 /* #########################################   JODA KARDAN GONE HAYE KARBAR   ##########################################*/
 
    for(int i = 0; i < program_animals_index; i++){
@@ -180,13 +206,51 @@ int main()
          lastmojaveindex = 0;
          currentmojaverindex = 0;
          FindWay(hx, hy, &program_animals[i].row, &program_animals[i].column, 'g');
+
+         for(int i = 0; i < side; i++){
+        for(int j = 0; j < side; j++){
+            world3[i][j] = 0;
+            }
+        }
+
+       /* print();
+
+        printf("in avaleshe \n");
+    for(int k = 0; k < side; k++){
+        for(int  t = 0; t < side; t ++){
+            printf("%d ", world3[k][t]);
+        }
+        printf("\n");
+    }
          CreateWorld3(program_animals[i].row, program_animals[i].column);
+
+
+         printf("for animal in %d %d\n", program_animals[i].row, program_animals[i].column);
+         for(int i = 0 ; i < side; i++){
+       for(int j = 0; j < side; j++){
+          printf("%d ", integer_world_copy[i][j]);
+       }
+       printf("\n");
+    }
+
+    printf("-------------------------------------\n");*/
+        CreateWorld3(program_animals[i].row, program_animals[i].column);
+       /* for(int i = 0 ; i < side; i++){
+       for(int j = 0; j < side; j++){
+          printf("%d ", world3[i][j]);
+       }
+       printf("\n");
+      }
+    Sleep(15000);*/
          for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
-      	   Sleep(2000);
-      	   system("cls");
-            if(!move_result)CreateWorld3(program_animals[i].row, program_animals[i].column);
+            Sleep(2000);
+            system("cls");
+            if(!move_result){
+                    printf("random move\n*************\n");
+                    CreateWorld3(program_animals[i].row, program_animals[i].column);
+            }
          }
       }
    }
