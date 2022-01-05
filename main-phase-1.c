@@ -241,16 +241,12 @@ int main()
        }
        printf("\n");
       }
-    Sleep(15000);*/
+    Sleep(10000);*/
          for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
             Sleep(2000);
             system("cls");
-            if(!move_result){
-                    printf("random move\n*************\n");
-                    CreateWorld3(program_animals[i].row, program_animals[i].column);
-            }
          }
       }
    }

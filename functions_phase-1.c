@@ -760,10 +760,34 @@ int Move(int *row, int *column){
         }*/
 
 
+    if(integer_world_copy[x + 1][y] == integer_world_copy[x][y] && x < side - 1){
+        if(single_move('2', row, column))return 1;
+    }
+   if(integer_world_copy[x - 1][y] == integer_world_copy[x][y] && x > 0){
+        if(single_move('8', row, column))return 1;
+   }
+   if(integer_world_copy[x + 1][y + 1] == integer_world_copy[x][y] && x < side - 1 && y < side - 1){
+        if(single_move('3', row, column))return 1;
+   }
+   if(integer_world_copy[x - 1][y + 1] == integer_world_copy[x][y] && y < side - 1 && x > 0){
+        if(single_move('9', row, column))return 1;
+   }
+   if(integer_world_copy[x][y + 1] == integer_world_copy[x][y] && y < side - 1){
+        if(single_move('6', row, column))return 1;
+   }
+   if(integer_world_copy[x + 1][y - 1] == integer_world_copy[x][y] && x < side - 1 && y > 0){
+        if(single_move('1', row, column))return 1;
+   }
+   if(integer_world_copy[x - 1][y - 1] == integer_world_copy[x][y] && x > 0 && y > 0){
+        if(single_move('7', row, column))return 1;
+   }
+   if(integer_world_copy[x][y - 1] == integer_world_copy[x][y] && y > 0){
+        if(single_move('4', row, column))return 1;
+   }
 
 
 
-        if(1){
+      /*  if(1){
             printf("come to random section\n");
             cur = integer_world_copy[x][y];
             for(int i = -1; i <= 1; i++){
@@ -778,10 +802,11 @@ int Move(int *row, int *column){
                     }
                 }
             }
-        }
-        if(1){
-            for(int i = 1; i < 10; i++){
-                if(single_move(i + '0', row, column))return 0;
-            }
-        }
+        }*/
+
+    for(int i = 1; i < 10; i++)
+        if(single_move(i + '0', row, column))
+            return 0;
+
+
 }
