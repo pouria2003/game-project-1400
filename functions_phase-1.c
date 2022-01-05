@@ -44,7 +44,6 @@ int hy;
 
 void win( char A )
 {
-    exit(0);
 	system("cls");
     char str[5] = "Type";
     for (int i=0; i<4 ; i++)
@@ -216,248 +215,9 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
 
 /*######################################################################  FIND WAY  ##############################################################################*/
 
-/*void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
-    int stop_x = *pstop_x, stop_y = *pstop_y;
-     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g'))return;        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
-    // 	integer_world_copy[hx][hy] = 1;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
-
-    //     if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
-    //         if(single_move('8', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y > 0){
-    //         if(single_move('1', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y  < side){
-    //         if(single_move('3', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y > 0){
-    //         if(single_move('7', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  < side){
-    //         if(single_move('9', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  < side){
-    //         if(single_move('6', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y > 0){
-    //         if(single_move('4', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
-    //         if(single_move('2', pstop_x, pstop_y))return;
-    //     }
-
-    //     /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========*/
-
-    //     if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
-    //         if(single_move('8', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y > 0){
-    //         if(single_move('1', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y  < side){
-    //         if(single_move('3', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y > 0){
-    //         if(single_move('7', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y  < side){
-    //         if(single_move('9', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_y  < side){
-    //         if(single_move('6', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_y > 0){
-    //         if(single_move('4', pstop_x, pstop_y))return;
-    //     }
-    //     if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x  < side){
-    //         if(single_move('2', pstop_x, pstop_y))return;
-    //     }
-
-    //     for(int i = 1; i < 10; i++){
-    //         if(single_move(i + '0', pstop_x, pstop_y))return;
-    //     }
-    // }
-
-    //int a = integer_world_copy[start_x][start_y] + 1;
-
-    /*======== inja ma miaim mojaver haye ghabli (adad ghbli) ro check mikonim va adad jadid ro midim behesh va mirizimesh to mojaver haye jadid  ========
-
-    if(start_x > 0 && integer_world_copy[start_x - 1][start_y] == 0){
-        integer_world_copy[start_x - 1][start_y] = a;
-        if(world[start_x - 1][start_y] == 'H' && mode == 'f'){
-            hx = start_x - 1;
-            hy = start_y;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x - 1;
-        currentmojaver[currentmojaverindex][1] = start_y;
-        currentmojaverindex++;
-    }
-    if(start_x < side && start_y > 0 && integer_world_copy[start_x + 1][start_y-1] == 0){
-        integer_world_copy[start_x + 1][start_y - 1] = a;
-        if(world[start_x + 1][start_y - 1] == 'H' && mode == 'f'){
-            hx = start_x + 1;
-            hy = start_y - 1;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x + 1;
-        currentmojaver[currentmojaverindex][1] = start_y - 1;
-        currentmojaverindex++;
-    }
-    if(start_x < side && start_y < side && integer_world_copy[start_x + 1][start_y + 1] == 0){
-        integer_world_copy[start_x + 1][start_y + 1]=a;
-        if(world[start_x + 1][start_y + 1] == 'H' && mode == 'f'){
-            hx = start_x + 1;
-            hy = start_y + 1;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x + 1;
-        currentmojaver[currentmojaverindex][1] = start_y + 1;
-        currentmojaverindex++;
-    }
-    if(start_x > 0 && start_y > 0 && integer_world_copy[start_x - 1][start_y - 1] == 0){
-        if(world[start_x - 1][start_y - 1] == 'H' && mode == 'f'){
-            hx = start_x - 1;
-            hy = start_y - 1;
-            return;
-        }
-        integer_world_copy[start_x - 1][start_y - 1] = a;
-        currentmojaver[currentmojaverindex][0] = start_x - 1;
-        currentmojaver[currentmojaverindex][1] = start_y - 1;
-        currentmojaverindex++;
-    }
-    if(start_x > 0 && start_y < side && integer_world_copy[start_x - 1][start_y + 1] == 0){
-        integer_world_copy[start_x - 1][start_y + 1] = a;
-        if(world[start_x - 1][start_y + 1] == 'H' && mode == 'f'){
-            hx = start_x - 1;
-            hy = start_y + 1;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x - 1;
-        currentmojaver[currentmojaverindex][1] = start_y + 1;
-        currentmojaverindex++;
-    }
-    if(start_y < side && integer_world_copy[start_x][start_y + 1] == 0){
-        integer_world_copy[start_x][start_y + 1]=a;
-        if(world[start_x][start_y + 1] == 'H' && mode == 'f'){
-            hx = start_x;
-            hy = start_y;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x;
-        currentmojaver[currentmojaverindex][1] = start_y + 1;
-        currentmojaverindex++;
-    }
-    if(start_y > 0 && integer_world_copy[start_x][start_y - 1] == 0){
-        integer_world_copy[start_x][start_y - 1]=a;
-        if(world[start_x][start_y - 1] == 'H' && mode == 'f'){
-            hx = start_x;
-            hy = start_y - 1;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x;
-        currentmojaver[currentmojaverindex][1] = start_y - 1;
-        currentmojaverindex++;
-    }
-    if(start_x < side && integer_world_copy[start_x + 1][start_y] == 0){
-        integer_world_copy[start_x + 1][start_y]=a;
-        if(world[start_x + 1][start_y] == 'H' && mode == 'f'){
-            hx = start_x + 1;
-            hy = start_y;
-            return;
-        }
-        currentmojaver[currentmojaverindex][0] = start_x + 1;
-        currentmojaver[currentmojaverindex][1] = start_y;
-        currentmojaverindex++;
-    }
-
-	integer_world_copy[hx][hy] = 1;
-    counter++;
-
-    /*========== inja ham rikhtan mojaver hay e jadid to mojaver haye ghbli va amade shodan baraye farakhani dobare va dar sorat niaz biroon omadan =============
-
-    if(counter < lastmojaveindex){
-        FindWay(lastmojaver[counter][0], lastmojaver[counter][1], pstop_x, pstop_y, mode);
-    }
-    else{
-        if(currentmojaverindex == 0){
-            return;
-        }
-        for(int i = 0; i < currentmojaverindex; i++){
-            lastmojaver[i][0] = currentmojaver[i][0];
-            lastmojaver[i][1] = currentmojaver[i][1];
-        }
-        counter = 0;
-        lastmojaveindex = currentmojaverindex;
-        currentmojaverindex = 0;
-        FindWay(lastmojaver[0][0], lastmojaver[0][1], pstop_x, pstop_y, mode);
-    }
-}*/
-
-
-
 void FindWay(int start_x, int start_y, int * pstop_x, int * pstop_y, char mode){ // f => finde heaven , g => go
     int stop_x = *pstop_x, stop_y = *pstop_y;
     if((start_x == stop_x) && (start_y == stop_y) && (mode == 'g'))return;        // inja mal tamom kardan tabea dar halatie ke ro mode g bashe ke mige age
-/*    	integer_world_copy[hx][hy] = 1;                                     // be heyvoon resid adadet dige adad nazar va harkat kon be khune i ke faselash kamtare
-        if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0){
-            if(single_move('8', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y > 0){
-            if(single_move('1', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x  < side && stop_y  < side){
-            if(single_move('3', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y > 0){
-            if(single_move('7', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_x > 0 && stop_y  < side){
-            if(single_move('9', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y  < side){
-            if(single_move('6', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] - 1 && stop_y > 0){
-            if(single_move('4', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] -1 && stop_x  < side){
-            if(single_move('2', pstop_x, pstop_y))return;
-        }
-
-        /* =============== agar dor heyvoon az heyvoon haye dige joori por bashe ke natoone faselasho kam kone be inja mirese ke faselasho taghir nade  ===========
-
-        if(integer_world_copy[stop_x-1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x > 0){
-            if(single_move('8', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y > 0){
-            if(single_move('1', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x  < side && stop_y  < side){
-            if(single_move('3', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y > 0){
-            if(single_move('7', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x-1][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_x > 0 && stop_y  < side){
-            if(single_move('9', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y+1] == integer_world_copy[stop_x][stop_y] && stop_y  < side){
-            if(single_move('6', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x][stop_y-1] == integer_world_copy[stop_x][stop_y] && stop_y > 0){
-            if(single_move('4', pstop_x, pstop_y))return;
-        }
-        if(integer_world_copy[stop_x+1][stop_y] == integer_world_copy[stop_x][stop_y] && stop_x  < side){
-            if(single_move('2', pstop_x, pstop_y))return;
-        }
-
-        for(int i = 1; i < 10; i++){
-            if(single_move(i + '0', pstop_x, pstop_y))return;
-        }
-    }
-
-*/
 
     if(world[start_x][start_y] == 'H' && mode == 'f'){      // inja mal vaghtie ke ro mode find heaven bashim va mige vaghti be behesh residi mokhtasetesh
         hx = start_x;                                       // negah dar va az tabea bia biroon
@@ -600,11 +360,9 @@ void CreateWorld3(int x,int y){
     int i,j,a,b,c;
     a = integer_world_copy[x][y];
     world3[x][y] = a;
-   // printf("puted %d in %d %d \n", a , x , y);
    if(integer_world_copy[x + 1][y] == a - 1 && x < side - 1){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x + 1][y] = 1;
-            //printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
@@ -612,98 +370,62 @@ void CreateWorld3(int x,int y){
         }
    }
     if(integer_world_copy[x - 1][y] == a - 1 && x > 0){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x - 1][y] = 1;
-           // printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
             CreateWorld3(x - 1, y);
         }
    }if(integer_world_copy[x + 1][y + 1] == a - 1 && x < side - 1 && y < side - 1){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x + 1][y + 1] = 1;
-           // printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
             CreateWorld3(x + 1, y + 1);
         }
    }if(integer_world_copy[x - 1][y + 1] == a - 1 && y < side - 1 && x > 0){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x - 1][y + 1] = 1;
-           // printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
             CreateWorld3(x - 1, y + 1);
         }
    }if(integer_world_copy[x][y + 1] == a - 1 && y < side - 1){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x][y + 1] = 1;
-           // printf("puted 1 in %d %d \n", x , y);
             return;
         }
         else{
             CreateWorld3(x, y + 1);
         }
    }if(integer_world_copy[x + 1][y - 1] == a - 1 && x < side - 1 && y > 0){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x + 1][y - 1] = 1;
-           // printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
             CreateWorld3(x + 1, y - 1);
         }
    }if(integer_world_copy[x - 1][y - 1] == a - 1 && x > 0 && y > 0){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x - 1][y - 1] = 1;
-            //printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
             CreateWorld3(x - 1, y - 1);
         }
    }if(integer_world_copy[x][y - 1] == a - 1  && y > 0){
-        if(a == 2){   //yani reside be behesht
+        if(a == 2){
             world3[x][y - 1] = 1;
-            //printf("puted 1 in %d %d \n", x , y);
             return;
                     }
         else{
             CreateWorld3(x, y - 1);
         }
    }
-
-
-
-
-
-
-
-
-
-
-
-  /* for(i = -1; i <= 1 ; i++){
-        for(j = -1 ;j <= 1; j++){
-            if(j != 0 && i != 0){
-                if((integer_world_copy[x + i][y + j] == a - 1) && (world[x + i][y + j] == '.' || world[x + i][y + j] == 'H')) {
-                    if(a == 2){   //yani reside be behesht
-                        /*printf("i am here in createworld3 and find heaven\n");
-                        Sleep(3000);
-                        world3[x + i][y + j] = 1;
-                        printf("puted %d in %d %d \n", a , x , y);
-                        return;
-                    }
-                    else{
-                        CreateWorld3(x + i, y + j);
-                    }
-                }
-            }
-        }
-    }*/
 }
 
 /*###################################################### MOVE WITH WORLD 3 ##########################################################*/
@@ -737,30 +459,6 @@ int Move(int *row, int *column){
         if(single_move('4', row, column))return 1;
    }
 
-
-
-
-       /*for(int i = -1; i <= 1; i++){
-            for(int j = -1; j <= 1; j++){
-                if((world3[x + i][y + i] == cur - 1) && (world[x + i][y + j] == '.' || world[x + i][y + j] == 'H')){
-                    printf("my x is %d , my y is %d and i found %d %d ke tosh hast %d \n", x, y, x + i, y + j, world3[x + i][y + j]);
-                    Sleep(8000);
-                    if(world[x + i][y + i] == 'H'){
-                        printf("im here find heaven\n");
-                        Sleep(2000);
-                        win(world[x][y]);
-                    }
-                    world[x + i][y + j] = world[x][y];
-                    world[x][y] = '.';
-                    *row += i;
-                    *column += j;
-                    sw = 1;
-                    return 1;
-                }
-            }
-        }*/
-
-
     if(integer_world_copy[x + 1][y] == integer_world_copy[x][y] && x < side - 1){
         if(single_move('2', row, column))return 0;
     }
@@ -785,25 +483,6 @@ int Move(int *row, int *column){
    if(integer_world_copy[x][y - 1] == integer_world_copy[x][y] && y > 0){
         if(single_move('4', row, column))return 0;
    }
-
-
-
-      /*  if(1){
-            printf("come to random section\n");
-            cur = integer_world_copy[x][y];
-            for(int i = -1; i <= 1; i++){
-                for(int j = -1; j <= 1; j++){
-                    if(integer_world_copy[x + i][y + i] == cur){
-                        world[x + i][y + j] = world[x][y];
-                        world[x][y] = '.';
-                        *row += i;
-                    	*column += j;
-                        sw = 1;
-                        return 0;
-                    }
-                }
-            }
-        }*/
 
     for(int i = 1; i < 10; i++)
         if(single_move(i + '0', row, column))

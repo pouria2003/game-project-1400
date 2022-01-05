@@ -103,57 +103,6 @@ int main()
    fclose(inputs);
 
 
-
-
-
-
-
-
-   // ********************************************* test world 3 ******************************** */
-
-/* print();
-
-    for(int  i = 0; i < program_animals_index; i++){
-           printf("started\n");
-        CreateWorldCopy();
-        counter = 0;
-        lastmojaveindex = 0;
-        currentmojaverindex = 0;
-        FindWay(program_animals[i].row , program_animals[i].column, &program_animals[i].row, &program_animals[i].column, 'f');
-        CreateWorldCopy();
-        integer_world_copy[hx][hy] = 1;
-        counter = 0;
-        lastmojaveindex = 0;
-        currentmojaverindex = 0;
-        FindWay(hx, hy, &program_animals[i].row, &program_animals[i].column, 'g');
-        for(int i = 0 ; i < side; i++){
-            for(int j = 0; j < side; j++){
-                printf("%d ", integer_world_copy[i][j]);
-            }
-            printf("\n");
-        }
-
-
-       for(int i = 0; i < side; i++){
-            for(int j = 0; j <side; j++){
-                world3[i][j] = 0;
-            }
-       }
-        printf("-------------------------------------\n");
-
-        printf("animal is in %d %d\n", program_animals[i].row , program_animals[i].column);
-
-        CreateWorld3(program_animals[i].row , program_animals[i].column);
-
-        for(int i = 0 ; i < side; i++){
-            for(int j = 0; j < side; j++){
-            printf("%d ", world3[i][j]);
-            }
-            printf("\n");
-        }
-        Sleep(1000);
-        printf("ende\n");
-    }
 /* #########################################   JODA KARDAN GONE HAYE KARBAR   ##########################################*/
 
    for(int i = 0; i < program_animals_index; i++){
@@ -188,12 +137,12 @@ int main()
             scanf("%d", &user_move);
             sw = single_move(user_move + '0', &user_animals[i].row, &user_animals[i].column);
             }while(!sw);
-           // system("cls");
+            system("cls");
             print();
          }
       }
       Sleep(2000);
-      //system("cls");
+      system("cls");
       for(int i = 0; i < program_animals_index; i++){
          CreateWorldCopy();
          counter = 0;
@@ -208,40 +157,11 @@ int main()
          FindWay(hx, hy, &program_animals[i].row, &program_animals[i].column, 'g');
 
          for(int i = 0; i < side; i++){
-        for(int j = 0; j < side; j++){
-            world3[i][j] = 0;
+            for(int j = 0; j < side; j++){
+                world3[i][j] = 0;
             }
         }
-
-       /* print();
-
-        printf("in avaleshe \n");
-    for(int k = 0; k < side; k++){
-        for(int  t = 0; t < side; t ++){
-            printf("%d ", world3[k][t]);
-        }
-        printf("\n");
-    }
-         CreateWorld3(program_animals[i].row, program_animals[i].column);
-
-
-         printf("for animal in %d %d\n", program_animals[i].row, program_animals[i].column);
-         for(int i = 0 ; i < side; i++){
-       for(int j = 0; j < side; j++){
-          printf("%d ", integer_world_copy[i][j]);
-       }
-       printf("\n");
-    }
-
-    printf("-------------------------------------\n");*/
         CreateWorld3(program_animals[i].row, program_animals[i].column);
-        for(int i = 0 ; i < side; i++){
-       for(int j = 0; j < side; j++){
-          printf("%d ", world3[i][j]);
-       }
-       printf("\n");
-      }
-    //Sleep(10000);
          for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
@@ -260,4 +180,3 @@ int main()
    }
    return 0;
 }
-
