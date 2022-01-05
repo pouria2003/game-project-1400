@@ -188,12 +188,12 @@ int main()
             scanf("%d", &user_move);
             sw = single_move(user_move + '0', &user_animals[i].row, &user_animals[i].column);
             }while(!sw);
-            system("cls");
+           // system("cls");
             print();
          }
       }
       Sleep(2000);
-      system("cls");
+      //system("cls");
       for(int i = 0; i < program_animals_index; i++){
          CreateWorldCopy();
          counter = 0;
@@ -235,20 +235,29 @@ int main()
 
     printf("-------------------------------------\n");*/
         CreateWorld3(program_animals[i].row, program_animals[i].column);
-       /* for(int i = 0 ; i < side; i++){
+        for(int i = 0 ; i < side; i++){
        for(int j = 0; j < side; j++){
           printf("%d ", world3[i][j]);
        }
        printf("\n");
       }
-    Sleep(10000);*/
+    //Sleep(10000);
          for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
             Sleep(2000);
             system("cls");
+            if(!move_result){
+                for(int i = 0; i < side; i++){
+                    for(int j = 0; j < side; j++){
+                        world3[i][j] = 0;
+                    }
+                }
+                CreateWorld3(program_animals[i].row, program_animals[i].column);
+           }
          }
       }
    }
    return 0;
 }
+
