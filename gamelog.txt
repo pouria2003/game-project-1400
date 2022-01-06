@@ -1,0 +1,23 @@
+__Round1__
+Kind A has 2 animal(s), look at how their coordinate changed in this round:
+From (3,5) to (2,6)
+From (2,5) to (1,6)
+Kind B has 3 animal(s), look at how their coordinate changed in this round:
+From (4,6) to (2,4)
+From (7,7) to (5,7)
+From (3,9) to (3,7)
+Kind C has 3 animal(s), look at how their coordinate changed in this round:
+From (4,7) to (3,4)
+From (5,6) to (4,5)
+From (7,1) to (4,1)
+__Round2__
+Kind A has 2 animal(s), look at how their coordinate changed in this round:
+From (2,6) to (1,5)
+From (1,6) to (0,5)
+Kind B has 3 animal(s), look at how their coordinate changed in this round:
+From (2,4) to (0,2)
+From (5,7) to (3,5)
+From (3,7) to (5,6)
+Kind C has 3 animal(s), look at how their coordinate changed in this round:
+From (3,4) to (0,1)
+and in this movement type C won!

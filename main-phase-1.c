@@ -9,13 +9,12 @@ char ResumeTheGame(FILE *);
 
 int main()
 {
-
     FILE * gamelog = fopen("gamelog.txt", "w");
     FILE * savedgame;
-
    char User_Animal;
    int user_move;
-
+   int kind_animals_number[20][2];
+    int kind_animals_number_index = 0;
    for(int i = 0; i <20; i++){
       for(int j = 0; j < 20; j++){
          world[i][j] = '.';
@@ -30,15 +29,15 @@ int main()
     }
 
    else{
-      char inputfile = (g == 3) ? "randommap.txt" : "map-phase1.txt";
+      char inputfile[20];
+      if(g == 2) strcpy(inputfile, "map-phase1.txt");
+      else strcpy(inputfile, "random-map.txt");
 
    /* #########################################   GEREFTAN DATA AZ MAP  ##########################################*/
       int seprator_counter = 0, index_for_add_genetic = 0;// user move harkat karbaro migire
       FILE * inputs = fopen(inputfile, "r");
       fscanf(inputs, "%d", &side);
       char temp[100];
-      int kind_animals_number[26];
-      int kind_animals_number_index = 0;
 
       while(fscanf(inputs, "%s", temp) != EOF){
          if(temp[0] == 'F'){
@@ -108,7 +107,8 @@ int main()
             else{
                char animal = temp[0];
                fscanf(inputs, "%d", &number);
-               kind_animals_number[kind_animals_number_index] = number;
+               kind_animals_number[kind_animals_number_index][0] = (int)animal;
+               kind_animals_number[kind_animals_number_index][1] = number;
                kind_animals_number_index += 1;
                fscanf(inputs, "%s", temp);
                for(int i = 0; i < number; i++){
@@ -126,8 +126,9 @@ int main()
       }
       fclose(inputs);
 
+
       printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
-      4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
+4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
 
 	   scanf("%d", &user_move);
 	   if(user_move != 5){
@@ -146,6 +147,14 @@ int main()
       }
    }
 
+ /*  for(int i = 0; i < program_animals_index; i++){
+    char animal_sign = world[program_animals[i].row][program_animals[i].column];
+    int counter = 1;
+    i++;
+    while(animal_sign == world[program_animals[i].row][program_animals[i].column] && i < program_animals_index)i++, counter ++;
+    kind_animals_number[kind_animals_number_index] = counter;
+   }*/
+
 // /* ##################################################   SHORO BAZI   ##################################################*/
 
    printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
@@ -160,13 +169,16 @@ int main()
 	system("cls");
 
 	int sw = 1;
-
-	int counter_round = 1;
+	int counter_round = 1, check_reapeted_animal_for_log = 0;
 
    while(1){
-      LogGame(gamelog, 's', counter_round, 'C', 1, 1, 'p');
+    kind_animals_number_index = 0;
+    LogGame(gamelog, 's', counter_round, 'C', 1, 1, 'p');
+    counter_round += 1;
    	print();
+   	LogGame(gamelog, 'k', 0, User_Animal, user_animals_index, 0, 'u');
       for(int i = 0; i < user_animals_index; i++){
+        LogGame(gamelog, 'f', counter_round, User_Animal, user_animals_index, i, 'u');
          for(int k = 0; k < user_animals[i].movement_number; k++){
             do{
                if(!sw)printf("\a");
@@ -177,10 +189,19 @@ int main()
             system("cls");
             print();
          }
+         LogGame(gamelog, 't', counter_round, 'A', 0, i, 'u');
       }
       Sleep(2000);
       system("cls");
+      check_reapeted_animal_for_log = 0;
       for(int i = 0; i < program_animals_index; i++){
+        if(i >= check_reapeted_animal_for_log){
+            if(kind_animals_number[kind_animals_number_index][0] == User_Animal) kind_animals_number_index += 1;
+            LogGame(gamelog, 'k', 0, world[program_animals[i].row][program_animals[i].column], kind_animals_number[kind_animals_number_index][1], i, 'p');
+            check_reapeted_animal_for_log += kind_animals_number[kind_animals_number_index][1];
+            kind_animals_number_index += 1;
+        }
+        LogGame(gamelog, 'f', 0, 'E', 0, i, 'p');
          CreateWorldCopy();
          counter = 0;
          lastmojaveindex = 0;
@@ -202,7 +223,7 @@ int main()
         for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
-            Sleep(2000);
+            Sleep(1500);
             system("cls");
             if(!move_result){
                 for(int i = 0; i < side; i++){
@@ -213,6 +234,7 @@ int main()
                 CreateWorld3(program_animals[i].row, program_animals[i].column);
            }
          }
+         LogGame(gamelog, 't', 0, 'E', 0, i, 'p');
       }
    }
 

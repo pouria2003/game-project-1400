@@ -105,6 +105,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *c += 1;
             }
             else if(world[row][col + 1] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row, world[row][col], col + 1, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -119,6 +121,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *c += 1;
             }
             else if(world[row - 1][col + 1] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row - 1, world[row][col], col + 1, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -132,6 +136,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *r -= 1;
             }
             else if(world[row - 1][col] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row - 1, world[row][col], col, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -146,6 +152,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *c -= 1;
             }
             else if(world[row - 1][col - 1] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row - 1, world[row][col], col - 1, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -159,6 +167,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *c -= 1;
             }
             else if(world[row][col - 1] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row, world[row][col], col - 1, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -173,6 +183,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *c -= 1;
             }
             else if(world[row + 1][col - 1] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row + 1, world[row][col], col - 1, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -186,6 +198,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *r += 1;
             }
             else if(world[row + 1][col] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row + 1, world[row][col], col, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -200,6 +214,8 @@ int single_move(char code, int * r, int * c){      // code jahat harkato moshakh
                 *c += 1;
             }
             else if(world[row + 1][col + 1] == 'H'){
+                FILE * gamelog = fopen("gamelog.txt", "a");
+                LogGame(gamelog, 'w', row + 1, world[row][col], col + 1, 0, 'p');
                 win(world[*r][*c]);
                 return 1;
             }
@@ -495,11 +511,12 @@ int Move(int *row, int *column){
 
 void LogGame(FILE * gamelog, char mode, int round_number, char animal, int animal_number, int array_index, char whos_animal)  // mode s ==> start a new round   and   mode f ==> fill from section
 {                                                                                          // and  mode a ==>  fill to section  and  mode k fill kind section
-    if(mode == 's')
-        fprintf(gamelog, "%s%d%s", "__Round", round_number, " __\n");
+    if(mode == 's')                                                                         // mode  w  ==> win
+        fprintf(gamelog, "%s%d%s", "__Round", round_number, "__\n");
     else if(mode == 'k')
         fprintf(gamelog, "%s %c %s %d %s","Kind", animal, "has", animal_number, "animal(s), look at how their coordinate changed in this round:\n");
-
+    else if(mode == 'w')
+        fprintf(gamelog, "%s%d%c%d%s %c %s"," to (", round_number, ',', animal_number,")\nand in this movement type", animal, "won!");
     else{
         if(whos_animal == 'p'){
             if(mode == 'f'){
