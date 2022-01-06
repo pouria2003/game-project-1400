@@ -490,3 +490,32 @@ int Move(int *row, int *column){
 
 
 }
+
+/*##################################################################### LOG GAME ####################################################################*/
+
+void LogGame(FILE * gamelog, char mode, int round_number, char animal, int animal_number, int array_index, char whos_animal)  // mode s ==> start a new round   and   mode f ==> fill from section
+{                                                                                          // and  mode a ==>  fill to section  and  mode k fill kind section
+    if(mode == 's')
+        fprintf(gamelog, "%s%d%s", "__Round", round_number, " __\n");
+    else if(mode == 'k')
+        fprintf(gamelog, "%s %c %s %d %s","Kind", animal, "has", animal_number, "animal(s), look at how their coordinate changed in this round:\n");
+
+    else{
+        if(whos_animal == 'p'){
+            if(mode == 'f'){
+                fprintf(gamelog, "%s%d%c%d%c", "From (", program_animals[array_index].row, ',', program_animals[array_index].column, ')');
+            }
+            else {
+                fprintf(gamelog, "%s%d%c%d%s", " to (", program_animals[array_index].row, ',', program_animals[array_index].column, ")\n");
+            }
+        }
+        else{
+            if(mode == 'f'){
+                fprintf(gamelog, "%s%d%c%d%c", "From (", user_animals[array_index].row, ',', user_animals[array_index].column, ')');
+            }
+            else {
+                fprintf(gamelog, "%s%d%c%d%s", " to (", user_animals[array_index].row, ',', user_animals[array_index].column, ")\n");
+            }
+        }
+    }
+}
