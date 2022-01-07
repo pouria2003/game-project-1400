@@ -75,6 +75,7 @@ void win( char A )
 {
     FILE *cleansavedgame = fopen("savedgame.txt", "w");
     fclose(cleansavedgame);
+    system("cls");
      char str[5] = "Type";
      for (int i=0; i<4 ; i++)
      {

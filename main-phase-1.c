@@ -12,6 +12,7 @@ int main()
 {
    FILE * gamelog = fopen("gamelog.txt", "w");
    FILE * savedgame = fopen("savedgame.txt", "r");
+   fscanf(savedgame, " ");
    char User_Animal;
    char user_move;
    int kind_animals_number[20][2];
@@ -21,13 +22,12 @@ int main()
          world[i][j] = '.';
       }
    }
-   int g;
+   int g = 0;
    if(!feof(savedgame)){
-      printf("press 1 if you want to resume your previous game\n");
+      printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\npress 1 if you want to resume your previous game\n\
+Press 2 if you want to start a new game.\nEnter here : ");
+      scanf("%d", &g);
    }
-   printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\n\
-Press 2 if you want to start a new game with your own map.\nEnter here : ");
-    scanf("%d", &g);
     if(g == 1 && !feof(savedgame)){
         User_Animal = ResumeTheGame(savedgame);
         system("cls");
@@ -138,7 +138,6 @@ Press 2 if you want to start a new game with your own map.\nEnter here : ");
 
       printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
 4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
-      while ((getchar()) != '\n');
 	   user_move = getch();
 	   if(user_move != '5'){
 	      printf("see you later");
