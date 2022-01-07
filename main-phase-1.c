@@ -136,12 +136,12 @@ Press 2 if you want to start a new game with your own map.\nEnter here : ");
       fclose(inputs);
 
 
-      printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
-4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
+      printf("Hello player!\nWelcome to our game.\nHere's how the game works:\nYou can choose your move based on this\n1 2 3\n\
+4 5 6\n7 8 9\nConsider 5 as your current location and choose your move.\nYou can stop the game and resume it when you play again by pressing "Esc".\nYour type is %c.\nIf you are ready press number 5 : ", User_Animal);
       while ((getchar()) != '\n');
 	   user_move = getch();
 	   if(user_move != '5'){
-	      printf("see you later");
+	      printf("see you later!");
 	      exit(0);
 	   }
 
@@ -178,7 +178,7 @@ Press 2 if you want to start a new game with your own map.\nEnter here : ");
                   system("cls");
                   print();
                }
-               printf("choose your momve : ");
+               printf("choose your move : ");
                user_move = getch();
                if(user_move == esc){
                   SaveTheGame(User_Animal);
