@@ -4,14 +4,16 @@
 #include <string.h>
 #include "functions_phase-1.c"
 
+#define esc 27
+
 char ResumeTheGame(FILE *);
 
 int main()
 {
    FILE * gamelog = fopen("gamelog.txt", "w");
-   FILE * savedgame;
+   FILE * savedgame = fopen("savedgame.txt", "r");
    char User_Animal;
-   int user_move;
+   char user_move;
    int kind_animals_number[20][2];
     int kind_animals_number_index = 0;
    for(int i = 0; i <20; i++){
@@ -20,17 +22,20 @@ int main()
       }
    }
    int g;
-   printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\nPress 1 if you want to resume your previous game.\n\
+   if(!feof(savedgame)){
+      printf("press 1 if you want to resume your previous game\n");
+   }
+   printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\n\
 Press 2 if you want to start a new game with your own map.\nPress 3 if you want to start a new game with a random map.\nEnter here : ");
     scanf("%d", &g);
-    if(g == 1){
+    if(g == 1 && !feof(savedgame)){
         User_Animal = ResumeTheGame(savedgame);
         system("cls");
         printf("if you are ready press number 5 : ");
-        scanf("%d", &user_move);
-        if(user_move != 5){
-		printf("see you later");
-		exit(0);
+        user_move = getch();
+        if(user_move != '5'){
+		      printf("see you later");
+		      exit(0);
         }
     }
 
@@ -135,11 +140,11 @@ Press 2 if you want to start a new game with your own map.\nPress 3 if you want 
 
       printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
 4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
-
-	   scanf("%d", &user_move);
-	   if(user_move != 5){
-	   	printf("see you later");
-	   	exit(0);
+      while ((getchar()) != '\n');
+	   user_move = getch();
+	   if(user_move != '5'){
+	      printf("see you later");
+	      exit(0);
 	   }
 
     }
@@ -155,20 +160,12 @@ Press 2 if you want to start a new game with your own map.\nPress 3 if you want 
 
 
 // /* ##################################################   SHORO BAZI   ##################################################*/
-   printf("if you are ready press 5 : ");
-	scanf("%d", &user_move);
-	if(user_move != 5){
-		printf("see you later");
-		exit(0);
-	}
 
-	system("cls");
-
+   system("Cls");
 	int sw = 1;
 	int counter_round = 1, check_reapeted_animal_for_log = 0;
 
    while(1){
-   if(counter_round == 2)SaveTheGame(User_Animal);
     kind_animals_number_index = 0;
     LogGame(gamelog, 's', counter_round, 'C', 1, 1, 'p');
     counter_round += 1;
@@ -178,17 +175,26 @@ Press 2 if you want to start a new game with your own map.\nPress 3 if you want 
         LogGame(gamelog, 'f', counter_round, User_Animal, user_animals_index, i, 'u');
          for(int k = 0; k < user_animals[i].movement_number; k++){
             do{
-               if(!sw)printf("\a");
+               if(!sw){
+                  printf("\a");
+                  system("cls");
+                  print();
+               }
                printf("choose your momve : ");
-               scanf("%d", &user_move);
-               sw = single_move(user_move + '0', &user_animals[i].row, &user_animals[i].column);
+               user_move = getch();
+               if(user_move == esc){
+                  SaveTheGame(User_Animal);
+                  printf("\ngame saved. you can continue your game later.");
+                  exit(0);
+               }
+               sw = single_move(user_move, &user_animals[i].row, &user_animals[i].column);
             }while(!sw);
             system("cls");
             print();
          }
          LogGame(gamelog, 't', counter_round, 'A', 0, i, 'u');
       }
-      Sleep(2000);
+      Sleep(1500);
       system("cls");
       check_reapeted_animal_for_log = 0;
       for(int i = 0; i < program_animals_index; i++){
@@ -198,7 +204,7 @@ Press 2 if you want to start a new game with your own map.\nPress 3 if you want 
             check_reapeted_animal_for_log += kind_animals_number[kind_animals_number_index][1];
             kind_animals_number_index += 1;
         }
-        LogGame(gamelog, 'f', 0, 'E', 0, i, 'p');
+         LogGame(gamelog, 'f', 0, 'E', 0, i, 'p');
          CreateWorldCopy();
          counter = 0;
          lastmojaveindex = 0;
@@ -220,7 +226,7 @@ Press 2 if you want to start a new game with your own map.\nPress 3 if you want 
         for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
-            Sleep(500);
+            Sleep(1500);
             system("cls");
             if(!move_result){
                 for(int i = 0; i < side; i++){
@@ -246,11 +252,8 @@ char ResumeTheGame(FILE * savedgame)
    int i=0,row,column;
    savedgame = fopen("savedgame.txt","r");
    fscanf(savedgame, "%d ", &side);
-   printf("got %d as side\n", side);
    fscanf(savedgame, "%c ", &User_Animal);
-   printf("got %c as user animal\n", User_Animal);
-   Sleep(5000);
-    fscanf(savedgame,"%c ", &c);
+   fscanf(savedgame,"%c ", &c);
    do{
        fscanf(savedgame,"%d %d ",&row, &column);
        world[row][column] = c;
@@ -262,14 +265,10 @@ char ResumeTheGame(FILE * savedgame)
        fscanf(savedgame,"%d %d %d %d %d %d %d %d ",&program_animals[i].row,&program_animals[i].column,&program_animals[i].energy,&program_animals[i].single_move_energy,
        &program_animals[i].movement_number, &program_animals[i].reproduction_energy
        ,&program_animals[i].attack_energy, &program_animals[i].defense_energy);
-       printf("animal %c added in %d %d ba zhen e %d %d %d %d %d %d\n", c, program_animals[i].row, program_animals[i].column, program_animals[i].energy,
-            program_animals[i].single_move_energy, program_animals[i].movement_number, program_animals[i].reproduction_energy, program_animals[i].attack_energy, program_animals[i].defense_energy);
        world[program_animals[i].row][program_animals[i].column]=c;
        i++;
        program_animals_index++;
    }
     fclose(savedgame);
-   print();
-   Sleep(10000);
    return User_Animal;
 }

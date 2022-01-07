@@ -73,6 +73,8 @@ void LogGame(FILE * gamelog, char mode, int round_number, char animal, int anima
 
 void win( char A )
 {
+    FILE *cleansavedgame = fopen("savedgame.txt", "w");
+    fclose(cleansavedgame);
      char str[5] = "Type";
      for (int i=0; i<4 ; i++)
      {
