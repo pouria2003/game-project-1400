@@ -4,4 +4,7 @@ From (3,5) to (2,4)
 From (2,5) to (1,4)
 Kind C has 3 animal(s), look at how their coordinate changed in this round:
 From (4,7) to (5,4)
-From (5,6)
+From (5,6) to (5,3)
+From (7,1) to (4,1)
+Kind B has 3 animal(s), look at how their coordinate changed in this round:
+From (4,6)

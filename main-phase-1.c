@@ -26,7 +26,7 @@ int main()
       printf("press 1 if you want to resume your previous game\n");
    }
    printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\n\
-Press 2 if you want to start a new game with your own map.\nPress 3 if you want to start a new game with a random map.\nEnter here : ");
+Press 2 if you want to start a new game with your own map.\nEnter here : ");
     scanf("%d", &g);
     if(g == 1 && !feof(savedgame)){
         User_Animal = ResumeTheGame(savedgame);
@@ -40,13 +40,11 @@ Press 2 if you want to start a new game with your own map.\nPress 3 if you want 
     }
 
    else{
-      char inputfile[20];
-      if(g == 2) strcpy(inputfile, "map-phase1.txt");
-      else strcpy(inputfile, "random-map.txt");
-
+      
    /* #########################################   GEREFTAN DATA AZ MAP  ##########################################*/
+
       int seprator_counter = 0, index_for_add_genetic = 0;// user move harkat karbaro migire
-      FILE * inputs = fopen(inputfile, "r");
+      FILE * inputs = fopen("map_phase1.txt", "r");
       fscanf(inputs, "%d", &side);
       char temp[100];
 
