@@ -39,43 +39,71 @@ int counter = 0;
 int hx;
 int hy;
 
+/*############################################################## LOG THE GAME ######################################################*/
+
+void LogGame(FILE * gamelog, char mode, int round_number, char animal, int animal_number, int array_index, char whos_animal)  // mode s ==> start a new round   and   mode f ==> fill from section
+{                                                                                          // and  mode a ==>  fill to section  and  mode k fill kind section
+    if(mode == 's')                                                                         // mode  w  ==> win
+        fprintf(gamelog, "%s%d%s", "__Round", round_number, "__\n");
+    else if(mode == 'k')
+        fprintf(gamelog, "%s %c %s %d %s","Kind", animal, "has", animal_number, "animal(s), look at how their coordinate changed in this round:\n");
+    else if(mode == 'w')
+        fprintf(gamelog, "%s%d%c%d%s %c %s"," to (", round_number, ',', animal_number,")\nand in this movement type", animal, "won!");
+    else{
+        if(whos_animal == 'p'){
+            if(mode == 'f'){
+                fprintf(gamelog, "%s%d%c%d%c", "From (", program_animals[array_index].row, ',', program_animals[array_index].column, ')');
+            }
+            else {
+                fprintf(gamelog, "%s%d%c%d%s", " to (", program_animals[array_index].row, ',', program_animals[array_index].column, ")\n");
+            }
+        }
+        else{
+            if(mode == 'f'){
+                fprintf(gamelog, "%s%d%c%d%c", "From (", user_animals[array_index].row, ',', user_animals[array_index].column, ')');
+            }
+            else {
+                fprintf(gamelog, "%s%d%c%d%s", " to (", user_animals[array_index].row, ',', user_animals[array_index].column, ")\n");
+            }
+        }
+    }
+}
 
 /*######################################################################  WIN  ##############################################################################*/
 
 void win( char A )
 {
-	system("cls");
-    char str[5] = "Type";
-    for (int i=0; i<4 ; i++)
-    {
-        Sleep (200);
-        printf ("%c",str[i]);
-    }
-    Sleep (300);
-    printf (" %c ",A);
-    char str1[12] = "survived!!";
-    for (int i=0; i<10 ; i++)
-    {
-        Sleep(150);
-        printf ("%c",str1[i]);
-    }
-    for (int i=1; i<=10; i++)
-    {
-        system ("Color 07");
-        Sleep(200);
-        system ("Color 70");
-        Sleep(200);
-    }
-    system ("Color 07");
+     char str[5] = "Type";
+     for (int i=0; i<4 ; i++)
+     {
+         Sleep (200);
+         printf ("%c",str[i]);
+     }
+     Sleep (300);
+     printf (" %c ",A);
+     char str1[12] = "survived!!";
+     for (int i=0; i<10 ; i++)
+     {
+         Sleep(150);
+         printf ("%c",str1[i]);
+     }
+     for (int i=1; i<=10; i++)
+     {
+         system ("Color 07");
+         Sleep(200);
+         system ("Color 70");
+         Sleep(200);
+     }
+     system ("Color 07");
     system ("cls");
-    Sleep(1000);
-    char str2[200] = "Congratulations! Your actions towards saving your species across the apocalypse have been successful! Your kind will now live in peace and serenity.";
-    for (int i=0; i<148 ; i++)
-    {
-        if (i>=0 && i<=15) system ("Color 90");
-        printf ("%c",str2[i]);
-        Sleep(120);
-    }
+     Sleep(1000);
+     char str2[200] = "Congratulations! Your actions towards saving your species across the apocalypse have been successful! Your kind will now live in peace and serenity.";
+     for (int i=0; i<148 ; i++)
+     {
+         if (i>=0 && i<=15) system ("Color 90");
+         printf ("%c",str2[i]);
+         Sleep(120);
+     }
     exit (0);
 }
 
@@ -507,32 +535,35 @@ int Move(int *row, int *column){
 
 }
 
-/*##################################################################### LOG GAME ####################################################################*/
+/*############################################################## SAVE THE GAME ###########################################333#*/
 
-void LogGame(FILE * gamelog, char mode, int round_number, char animal, int animal_number, int array_index, char whos_animal)  // mode s ==> start a new round   and   mode f ==> fill from section
-{                                                                                          // and  mode a ==>  fill to section  and  mode k fill kind section
-    if(mode == 's')                                                                         // mode  w  ==> win
-        fprintf(gamelog, "%s%d%s", "__Round", round_number, "__\n");
-    else if(mode == 'k')
-        fprintf(gamelog, "%s %c %s %d %s","Kind", animal, "has", animal_number, "animal(s), look at how their coordinate changed in this round:\n");
-    else if(mode == 'w')
-        fprintf(gamelog, "%s%d%c%d%s %c %s"," to (", round_number, ',', animal_number,")\nand in this movement type", animal, "won!");
-    else{
-        if(whos_animal == 'p'){
-            if(mode == 'f'){
-                fprintf(gamelog, "%s%d%c%d%c", "From (", program_animals[array_index].row, ',', program_animals[array_index].column, ')');
-            }
-            else {
-                fprintf(gamelog, "%s%d%c%d%s", " to (", program_animals[array_index].row, ',', program_animals[array_index].column, ")\n");
-            }
-        }
-        else{
-            if(mode == 'f'){
-                fprintf(gamelog, "%s%d%c%d%c", "From (", user_animals[array_index].row, ',', user_animals[array_index].column, ')');
-            }
-            else {
-                fprintf(gamelog, "%s%d%c%d%s", " to (", user_animals[array_index].row, ',', user_animals[array_index].column, ")\n");
+void SaveTheGame(char User_Animal)
+{
+    FILE * savedgame = fopen("savedgame.txt","w");
+    fprintf(savedgame, "%d%c", side, '\n');
+    fprintf(savedgame, "%c%c", User_Animal, '\n');
+    for(int i = 0; i < side; i++){
+        for(int j = 0; j < side; j++){
+            if(world[i][j] == 'H' || world[i][j] == '#'){
+                fprintf(savedgame,"%c ", world[i][j]);
+                fprintf(savedgame,"%d %d ", i, j);
             }
         }
     }
+    fprintf(savedgame, "%c", '\n');
+    for(int i = 0; i < user_animals_index; i++){
+        fprintf(savedgame,"%c ",world[user_animals[i].row][user_animals[i].column]);
+        fprintf(savedgame,"%d %d %d %d %d %d %d %d", user_animals[i].row, user_animals[i].column, user_animals[i].energy, user_animals[i].single_move_energy,
+                user_animals[i].movement_number, user_animals[i].reproduction_energy
+                , user_animals[i].attack_energy, user_animals[i].defense_energy);
+        fprintf(savedgame, "%c",'\n');
+    }
+    for(int i = 0; i < program_animals_index; i++){
+        fprintf(savedgame,"%c ",world[program_animals[i].row][program_animals[i].column]);
+        fprintf(savedgame,"%d %d %d %d %d %d %d %d", program_animals[i].row, program_animals[i].column, program_animals[i].energy, program_animals[i].single_move_energy,
+                program_animals[i].movement_number, program_animals[i].reproduction_energy
+                , program_animals[i].attack_energy, program_animals[i].defense_energy);
+        fprintf(savedgame, "%c",'\n');
+    }
+    fclose(savedgame);
 }

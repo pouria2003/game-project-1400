@@ -4,13 +4,12 @@
 #include <string.h>
 #include "functions_phase-1.c"
 
-void SaveTheGame(FILE *, char);
 char ResumeTheGame(FILE *);
 
 int main()
 {
-    FILE * gamelog = fopen("gamelog.txt", "w");
-    FILE * savedgame;
+   FILE * gamelog = fopen("gamelog.txt", "w");
+   FILE * savedgame;
    char User_Animal;
    int user_move;
    int kind_animals_number[20][2];
@@ -21,11 +20,18 @@ int main()
       }
    }
    int g;
-   printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\nPress 1 if you want to resume your previous game.\nPress 2 if you want to start a new game with your own map.\nPress 3 if you want to start a new game with a random map.\nEnter here:");
+   printf("Hello player,welcome to the game!\nBefore we start choose how you want to play.\nPress 1 if you want to resume your previous game.\n\
+Press 2 if you want to start a new game with your own map.\nPress 3 if you want to start a new game with a random map.\nEnter here : ");
     scanf("%d", &g);
     if(g == 1){
         User_Animal = ResumeTheGame(savedgame);
         system("cls");
+        printf("if you are ready press number 5 : ");
+        scanf("%d", &user_move);
+        if(user_move != 5){
+		printf("see you later");
+		exit(0);
+        }
     }
 
    else{
@@ -139,7 +145,7 @@ int main()
     }
 
 /* #########################################   JODA KARDAN GONE HAYE KARBAR   ##########################################*/
-
+   user_animals_index = 0;
    for(int i = 0; i < program_animals_index; i++){
       if(world[program_animals[i].row][program_animals[i].column] == User_Animal){
          TransferToUserAnimals(i);
@@ -147,19 +153,9 @@ int main()
       }
    }
 
- /*  for(int i = 0; i < program_animals_index; i++){
-    char animal_sign = world[program_animals[i].row][program_animals[i].column];
-    int counter = 1;
-    i++;
-    while(animal_sign == world[program_animals[i].row][program_animals[i].column] && i < program_animals_index)i++, counter ++;
-    kind_animals_number[kind_animals_number_index] = counter;
-   }*/
 
 // /* ##################################################   SHORO BAZI   ##################################################*/
-
-   printf("Hello player\nWelcome to our game\nHere's how the game works.\nYou can choose your move based on this\n1 2 3\n\
-4 5 6\n7 8 9\nConsider 5 as yout current location and choose your move.\nyour type is %c.\nif you are ready press number 5 : ", User_Animal);
-
+   printf("if you are ready press 5 : ");
 	scanf("%d", &user_move);
 	if(user_move != 5){
 		printf("see you later");
@@ -172,6 +168,7 @@ int main()
 	int counter_round = 1, check_reapeted_animal_for_log = 0;
 
    while(1){
+   if(counter_round == 2)SaveTheGame(User_Animal);
     kind_animals_number_index = 0;
     LogGame(gamelog, 's', counter_round, 'C', 1, 1, 'p');
     counter_round += 1;
@@ -223,7 +220,7 @@ int main()
         for(int k = 0; k < program_animals[i].movement_number; k++){
             int move_result = Move(&program_animals[i].row, &program_animals[i].column);
             print();
-            Sleep(1500);
+            Sleep(500);
             system("cls");
             if(!move_result){
                 for(int i = 0; i < side; i++){
@@ -242,55 +239,37 @@ int main()
     return 0;
 }
 
-
-
-void SaveTheGame(FILE * savedgame, char User_Animal)
-{
-    savedgame = fopen("savedgame.txt","w");
-    fprintf(savedgame, "%d%c", side, '\n');
-    fscanf(savedgame, "%c%c", User_Animal, '\n');
-    for(int i = 0; i < side; i++){
-        for(int j = 0; j < side; j++){
-            if(world[i][j]=='H' || world[i][j]=='#'){
-                fprintf(savedgame,"%c ", world[i][j]);
-                fprintf(savedgame,"%d %d ",i,j);
-            }
-        }
-    }
-    fprintf(savedgame, "%s", "\n");
-    for(int i = 0; i < program_animals_index; i++){
-        fprintf(savedgame,"%c ",world[program_animals[i].row][program_animals[i].column]);
-        fprintf(savedgame,"%d %d %d %d %d %d %d", &program_animals[i].row, program_animals[i].column, program_animals[i].energy, program_animals[i].single_move_energy,
-                program_animals[i].movement_number, program_animals[i].reproduction_energy
-                , program_animals[i].attack_energy, program_animals[i].defense_energy);
-        fprintf(savedgame,"\n");
-    }
-    fclose(savedgame);
-}
-
-
-
 char ResumeTheGame(FILE * savedgame)
 {
-
+   program_animals_index = 0;
    char c, User_Animal;
    int i=0,row,column;
    savedgame = fopen("savedgame.txt","r");
-   fscanf(savedgame, "%d", &side);
-   fscanf(savedgame, "%c", &User_Animal);
+   fscanf(savedgame, "%d ", &side);
+   printf("got %d as side\n", side);
+   fscanf(savedgame, "%c ", &User_Animal);
+   printf("got %c as user animal\n", User_Animal);
+   Sleep(5000);
+    fscanf(savedgame,"%c ", &c);
    do{
-       fscanf(savedgame,"%c ", &c);
-       fscanf(savedgame,"%d %d ",&row,&column);
+       fscanf(savedgame,"%d %d ",&row, &column);
        world[row][column] = c;
+       fscanf(savedgame,"%c ", &c);
    }while(c=='H'||c=='#');
+   fseek(savedgame, -2, SEEK_CUR);
    while(!feof(savedgame)){
        fscanf(savedgame,"%c ", &c);
-       fscanf(savedgame,"%d %d %d %d %d %d %d",&program_animals[i].row,&program_animals[i].column,&program_animals[i].energy,&program_animals[i].single_move_energy,
+       fscanf(savedgame,"%d %d %d %d %d %d %d %d ",&program_animals[i].row,&program_animals[i].column,&program_animals[i].energy,&program_animals[i].single_move_energy,
        &program_animals[i].movement_number, &program_animals[i].reproduction_energy
        ,&program_animals[i].attack_energy, &program_animals[i].defense_energy);
+       printf("animal %c added in %d %d ba zhen e %d %d %d %d %d %d\n", c, program_animals[i].row, program_animals[i].column, program_animals[i].energy,
+            program_animals[i].single_move_energy, program_animals[i].movement_number, program_animals[i].reproduction_energy, program_animals[i].attack_energy, program_animals[i].defense_energy);
        world[program_animals[i].row][program_animals[i].column]=c;
        i++;
+       program_animals_index++;
    }
-   fclose(savedgame);
+    fclose(savedgame);
+   print();
+   Sleep(10000);
    return User_Animal;
 }
