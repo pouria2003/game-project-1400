@@ -98,6 +98,8 @@ int main()
                   world[row][col] = animal;
                   program_animals[program_animals_index].animal_coordinate.row = row;
                   program_animals[program_animals_index].animal_coordinate.column = col;
+                  for(int i = 0; i < 5; i++) program_animals[program_animals_index].purposes_distance[i] = -1;
+                  program_animals[program_animals_index].is_way_specified = 0;
                   program_animals_index++;
 
                }
@@ -105,6 +107,12 @@ int main()
          }
       }
       fclose(inputs);
+      for(int i = 0; i < program_animals_index; i++){
+        for(int f = 0; f < 5; f++){
+            printf("%d ", program_animals[i].purposes_distance[f]);
+        }
+        printf("\n");
+      }
       PrintW();
       for(int i = 0; i < foods_array_index; i++){
         printf("food is in %d %d and heaven is in %d %d \n", foods_array[i].food_coordinate.row, foods_array[i].food_coordinate.column, foods_array[i].closest_heaven_coordinate.row, foods_array[i].closest_heaven_coordinate.column);

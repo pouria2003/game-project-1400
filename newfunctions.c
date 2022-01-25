@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
+#include <math.h>
 
 #define maxside 20
 #define maxanimals 30
@@ -24,11 +25,13 @@ struct Animal{
     struct Coordinate animal_coordinate;
     int animal_energy;
     int single_move_energy;
-    int  movement_number;
+    int movement_number;
     int attack_energy;
     int defense_energy;
     int reproduction_energy;
     struct Coordinate purposes[5];
+    int purposes_distance[5];
+    short is_way_specified;
 };
 
 typedef struct Coordinate Coordinate;
@@ -57,8 +60,9 @@ Coordinate SpecifyWay_purpose;
 int SpecifyWay_minimum = 20;
 int DISTANCE;
 Coordinate FBW_purposes[5];
+int FBW_purposes_distance[5];
 Coordinate FBW_final_purposes[5];
-int FBW_purposes_index = 0;
+int FBW_final_purposes_distance[5];
 int minimum_distance = 50;
 
 int FindInteger(char * str)
@@ -107,7 +111,16 @@ void CodeReverser(char *codes)
     printf("%s", codes);
 }
 
-void IntArrCpy(Coordinate *arr, Coordinate *source_arr, int num)
+void CoorArrCpy(Coordinate *arr, Coordinate *source_arr, int num)
+{
+    for(; num > 0; num--){
+        *arr = *source_arr;
+        arr++;
+        source_arr++;
+    }
+}
+
+void IntArrCpy(int *arr, int *source_arr, int num)
 {
     for(; num > 0; num--){
         *arr = *source_arr;
@@ -513,7 +526,7 @@ int single_move(char code, Coordinate *curr_coor){
     return 1;
 }
 
-void MoveAnimal(Coordinate *animal_coor, Coordinate purpose_coor, int movement_number)
+void MakeCodeAndMove(Coordinate *animal_coor, Coordinate purpose_coor, int movement_number)
 {
     char *move_codes;
     int move_codes_index = 0;
@@ -577,7 +590,22 @@ void MoveAnimal(Coordinate *animal_coor, Coordinate purpose_coor, int movement_n
         single_move(move_codes[i], animal_coor);
 }
 
-void FindBestWay(Coordinate st_coor, int single_move_energy, int energy, int my_distance, int index) // distance name should change
+int IsAnyAnimalCloser(Coordinate food_coor, int rounds_to_food)
+{
+    for(int i = 0; i < program_animals_index; i++){
+        for(int j = 0; program_animals[i].purposes_distance[j] != -1; j++){
+            if(food_coor.row == program_animals[i].purposes[j].row, food_coor.column == program_animals[i].purposes[j].column){
+                if(rounds_to_food > ceil(program_animals[i].purposes_distance[j] / program_animals[i].movement_number))
+                    return 0;
+                else
+                    program_animals[i].is_way_specified = 0;
+            }
+        }
+    }
+    return 1;
+}
+
+void FindBestWay(Coordinate st_coor, int single_move_energy, int movement_number, int energy, int my_distance, int index) // distance name should change
 {
     printf("omadam to tabea jadid ba index = %d\n", index);
     for(int i = 0; i < foods_array_index; i++){
@@ -586,17 +614,17 @@ void FindBestWay(Coordinate st_coor, int single_move_energy, int energy, int my_
         CreateIntegerWorldCopy(st_coor);
         my_distance += FindDistance(st_coor, &foods_array[i].food_coordinate, CheckFood);
         printf("faselam ba ghazaye %d %d shode %d\n", foods_array[i].food_coordinate.row, foods_array[i].food_coordinate.column, my_distance);
-        if(my_distance * single_move_energy > energy || my_distance > minimum_distance){
+        if(my_distance * single_move_energy > energy || my_distance > minimum_distance || IsAnyAnimalCloser(foods_array[i].food_coordinate, ceil(my_distance / movement_number))){
             printf("if 1\n");
             my_distance -= integer_world_copy[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column];
             continue;
         }
         energy += foods_array[i].temp_food_energy;
         if(((my_distance + foods_array[i].closest_heaven_distance) * single_move_energy < energy) && (my_distance + foods_array[i].closest_heaven_distance < minimum_distance)){
-
             printf("if 2\n");
             minimum_distance = my_distance + foods_array[i].closest_heaven_distance;
-            IntArrCpy(FBW_final_purposes, FBW_purposes, index);
+            CoorArrCpy(FBW_final_purposes, FBW_purposes, index);
+            IntArrCpy(FBW_final_purposes_distance, FBW_purposes_distance, index);
             FBW_final_purposes[index] = foods_array[i].food_coordinate;
             FBW_final_purposes[index + 1] = foods_array[i].closest_heaven_coordinate;
             printf("minimum changed to : \n");
@@ -608,8 +636,9 @@ void FindBestWay(Coordinate st_coor, int single_move_energy, int energy, int my_
             printf("else \n");
             foods_array[i].temp_food_energy = 0;
             FBW_purposes[index] = foods_array[i].food_coordinate;
-            FindBestWay(foods_array[i].food_coordinate, single_move_energy, energy - (my_distance * single_move_energy), my_distance,index + 1);
-            printf("bagashtam tabea ghabli\n");
+            FBW_purposes_distance[index] = my_distance;
+            FindBestWay(foods_array[i].food_coordinate, single_move_energy, movement_number, energy - (my_distance * single_move_energy), my_distance,index + 1);
+            printf("bargashtam tabea ghabli\n");
         }
         my_distance -= integer_world_copy[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column];
         foods_array[i].temp_food_energy = foods_array[i].food_energy;
@@ -627,7 +656,18 @@ void noname(Animal *animal)
         CreateIntegerWorldCopy(animal->animal_coordinate);
         DISTANCE = 0;
         minimum_distance = 100;
-        FindBestWay(animal->animal_coordinate, animal->single_move_energy, animal->animal_energy, 0, 0);
-        IntArrCpy(animal->purposes, FBW_final_purposes, 4);
+        FindBestWay(animal->animal_coordinate, animal->single_move_energy, animal->movement_number, animal->animal_energy, 0, 0);
+        CoorArrCpy(animal->purposes, FBW_final_purposes, 5);
+        IntArrCpy(animal->purposes_distance, FBW_final_purposes_distance, 5);
     }
+}
+
+void ReadyForNewRound()
+{
+    printf("hello world\n");
+}
+
+void MoveAnimal(int index_of_animal)
+{
+    printf("hello world\n");
 }
