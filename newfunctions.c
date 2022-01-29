@@ -8,6 +8,8 @@
 #define maxkindanimals 10
 #define maxfood 30
 
+// 0 kardan current purpose index
+
 struct Coordinate{
    int row;
    int column;
@@ -30,6 +32,7 @@ struct Animal{
     int defense_energy;
     int reproduction_energy;
     struct Coordinate purposes[5];
+    int current_purpose_index;
     int purposes_distance[5];
     short is_way_specified;
 };
@@ -64,6 +67,7 @@ int FBW_purposes_distance[5];
 Coordinate FBW_final_purposes[5];
 int FBW_final_purposes_distance[5];
 int minimum_distance = 50;
+short FBW_return_value = 0;
 
 int FindInteger(char * str)
 {
@@ -95,6 +99,14 @@ int IsEqualStr(const char *str1, const char *str2)
     if(!(*str2))
         return 1;
     return 0;
+}
+
+void DeleteFood(int index)
+{
+    for(int i = index; i < foods_array_index - 1; i++){
+        foods_array[i] = foods_array[i + 1];
+    }
+    foods_array_index--;
 }
 
 void CodeReverser(char *codes)
@@ -409,111 +421,182 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
     }
 }
 
-int single_move(char code, Coordinate *curr_coor){
+int single_move(char code, Animal *animal){
+    int index_of_food;
     switch (code) {
         case '6':
-            if(world[curr_coor->row][curr_coor->column + 1] == '.'){
-                world[curr_coor->row][curr_coor->column + 1] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->column += 1;
+            if(world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == '.'){
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.column += 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                }
             }
-            else if(world[curr_coor->row][curr_coor->column + 1] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '9':
-            if(world[curr_coor->row - 1][curr_coor->column + 1] == '.'){
-                world[curr_coor->row - 1][curr_coor->column + 1] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->row -= 1;
-                curr_coor->column += 1;
+            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] == '.'){
+                world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.row -= 1;
+                animal->animal_coordinate.column += 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row - 1][curr_coor->column + 1] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '8':
-            if(world[curr_coor->row - 1][curr_coor->column] == '.'){
-                world[curr_coor->row - 1][curr_coor->column] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->row -= 1;
+            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] == '.'){
+                world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.row -= 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row - 1][curr_coor->column] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '7':
-            if(world[curr_coor->row - 1][curr_coor->column - 1] == '.'){
-                world[curr_coor->row - 1][curr_coor->column - 1] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->row -= 1;
-                curr_coor->column -= 1;
+            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] == '.'){
+                world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.row -= 1;
+                animal->animal_coordinate.column -= 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row - 1][curr_coor->column - 1] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '4':
-            if(world[curr_coor->row][curr_coor->column - 1] == '.'){
-                world[curr_coor->row][curr_coor->column - 1] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->column -= 1;
+            if(world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] == '.'){
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.column -= 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row][curr_coor->column - 1] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '1':
-            if(world[curr_coor->row + 1][curr_coor->column - 1] == '.'){
-                world[curr_coor->row + 1][curr_coor->column - 1] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->row += 1;
-                curr_coor->column -= 1;
+            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] == '.'){
+                world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.row += 1;
+                animal->animal_coordinate.column -= 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row + 1][curr_coor->column - 1] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '2':
-            if(world[curr_coor->row + 1][curr_coor->column] == '.'){
-                world[curr_coor->row + 1][curr_coor->column] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->row += 1;
+            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] == '.'){
+                world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.row += 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row + 1][curr_coor->column] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
             break;
 
         case '3':
-            if(world[curr_coor->row + 1][curr_coor->column + 1] == '.'){
-                world[curr_coor->row + 1][curr_coor->column + 1] = world[curr_coor->row][curr_coor->column];
-                world[curr_coor->row][curr_coor->column] = '.';
-                curr_coor->row += 1;
-                curr_coor->column += 1;
+            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] == '.'){
+                world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
+                world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
+                animal->animal_coordinate.row += 1;
+                animal->animal_coordinate.column += 1;
+                index_of_food = IsAnyFood(animal->animal_coordinate);
+                if(index_of_food != -1){
+                    if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
+                        animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
+                }
             }
-            else if(world[curr_coor->row + 1][curr_coor->column + 1] == 'H'){
-                win(world[curr_coor->row][curr_coor->column]);
+            else if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] == 'H'){
+                win(world[animal->animal_coordinate.row][animal->animal_coordinate.column]);
                 return 1;
             }
             else return 0;
@@ -605,6 +688,15 @@ int IsAnyAnimalCloser(Coordinate food_coor, int rounds_to_food)
     return 1;
 }
 
+int IsAnyFood(Coordinate coor)
+{
+    for(int i = 0; i < foods_array_index; i++){
+        if(coor.row == foods_array[i].food_coordinate.row && coor.column == foods_array[i].food_coordinate.column)
+            return i;
+    }
+    return -1;
+}
+
 void FindBestWay(Coordinate st_coor, int single_move_energy, int movement_number, int energy, int my_distance, int index) // distance name should change
 {
     printf("omadam to tabea jadid ba index = %d\n", index);
@@ -631,6 +723,7 @@ void FindBestWay(Coordinate st_coor, int single_move_energy, int movement_number
             for(int i = 0; i < 5; i++){
                 printf("%d %d\n" ,FBW_final_purposes[i].row, FBW_final_purposes[i].column);
             }
+            FBW_return_value = 1;
         }
         else{
             printf("else \n");
@@ -657,17 +750,36 @@ void noname(Animal *animal)
         DISTANCE = 0;
         minimum_distance = 100;
         FindBestWay(animal->animal_coordinate, animal->single_move_energy, animal->movement_number, animal->animal_energy, 0, 0);
-        CoorArrCpy(animal->purposes, FBW_final_purposes, 5);
-        IntArrCpy(animal->purposes_distance, FBW_final_purposes_distance, 5);
+        if(FBW_return_value){
+            CoorArrCpy(animal->purposes, FBW_final_purposes, 5);
+            IntArrCpy(animal->purposes_distance, FBW_final_purposes_distance, 5);
+        }
+    }
+    animal->is_way_specified = 1;
+}
+
+void CheckAnimalsHasFood(Coordinate food_coor)
+{
+    for(int animal = 0; animal < program_animals_index; animal++){
+        for(int i = 0; program_animals[animal].purposes_distance != -1 && i < 5; i++){
+            if(program_animals[animal].purposes[i].row == food_coor.row && program_animals[animal].purposes[i].column == food_coor.column){
+                program_animals[animal].is_way_specified = 0;
+            }
+        }
     }
 }
 
 void ReadyForNewRound()
 {
-    printf("hello world\n");
 }
 
 void MoveAnimal(int index_of_animal)
 {
-    printf("hello world\n");
+    if(!program_animals[index_of_animal].is_way_specified)
+        noname(&program_animals[index_of_animal]);
+    FindDistance(program_animals[index_of_animal].animal_coordinate, &program_animals[index_of_animal].purposes[program_animals[index_of_animal].current_purpose_index], CheckFood);
+    SpecifyWay(program_animals[index_of_animal].animal_coordinate, program_animals[index_of_animal].movement_number);
+    MakeCodeAndMove(&program_animals[index_of_animal].animal_coordinate, SpecifyWay_purpose, program_animals[index_of_animal].movement_number);
 }
+
+
