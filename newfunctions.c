@@ -784,3 +784,25 @@ void MoveAnimal(int index_of_animal)
     SpecifyWay(program_animals[index_of_animal].animal_coordinate, program_animals[index_of_animal].movement_number);
     MakeCodeAndMove(&program_animals[index_of_animal], SpecifyWay_purpose);
 }
+#############################################
+int is_user_alive=1; //age karbar bemire in 0 beshe va dige tuye main "choose you move"
+                    //print nakone
+void addFood(struct Coordinate,int energy){ 
+
+}
+void lose(char mode){  //mode= p ya u
+if(mode=='p'){
+printf("An animal of type %c died!", world[program_Animals[i].animal_coordinate.row][program_Animals[i].animal_coordinate.row]);
+program_Animals[i].animal_coordinate.row=-1;
+program_Animals[i].animal_coordinate.column=-1;
+addFood(program_Animals[i].animal_coordinate,program_Animals[i].animal_energy);
+}
+else{
+printf("your animal died!");
+user_Animals[i].animal_coordinate.row=-1;
+user_Animals[i].animal_coordinate.column=-1;
+addFood(user[i].animal_coordinate,user[i].animal_energy);
+   
+}
+foods_index++;
+}
