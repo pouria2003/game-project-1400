@@ -107,6 +107,7 @@ int main()
          }
       }
       fclose(inputs);
+      /*
       for(int i = 0; i < program_animals_index; i++){
         for(int f = 0; f < 5; f++){
             printf("%d ", program_animals[i].purposes_distance[f]);
@@ -118,10 +119,31 @@ int main()
         printf("food is in %d %d and heaven is in %d %d \n", foods_array[i].food_coordinate.row, foods_array[i].food_coordinate.column, foods_array[i].closest_heaven_coordinate.row, foods_array[i].closest_heaven_coordinate.column);
       }
 
-      noname(&program_animals[0]);
+      SpecifyPurposes(&program_animals[0]);
       printf("purposes is : \n");
       for(int i = 0; i < 5; i++){
-        printf("%d %d\n", program_animals[0].purposes[i].row, program_animals[0].purposes[i].column);
+        printf("%d %d and distance is %d\n", program_animals[0].purposes[i].row, program_animals[0].purposes[i].column, program_animals[0].purposes_distance[i]);
+      }
+      */
+
+      user_animals_index = 0;
+      for(int i = 0; i < program_animals_index; i++){
+          if(world[program_animals[i].row][program_animals[i].column] == User_Animal){
+              TransferToUserAnimals(i);
+              i--;
+          }
+      }
+
+      while(1){
+          for(int animal_index = 0; animal_index < user_animals_index; animal_index++){
+              for(int moves = 0; moves < user_animals[animal_index].movement_number; moves++){
+                  // beporsim harkatesho va bedim be single move
+              }
+          }
+
+          for(int animal_index = 0; animal_index < program_animals_index; animal_index++){
+              MoveAnimal(animal_index)
+          }
       }
 
       return 0;

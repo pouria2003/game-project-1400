@@ -69,6 +69,31 @@ int FBW_final_purposes_distance[5];
 int minimum_distance = 50;
 short FBW_return_value = 0;
 
+
+int FindInteger(char *);
+int IsEqualStr(const char *, const char *);
+void DeleteFood(int);
+void CodeReverser(char *);
+void CoorArrCpy(Coordinate *, Coordinate *, int);
+void IntArrCpy(int *, int *, int);
+void CreateIntegerWorldCopy(Coordinate);
+void CreateWayArray();
+void PrintW();
+void PrintIWC();
+void PrintWA();
+int IsVacant(int, int);
+int FindDistance(Coordinate, Coordinate *, int (*CheckStopCondition)(Coordinate, Coordinate *));
+void win(char);
+void SpecifyWay(Coordinate, int);
+int single_move(char, Animal *);
+void MakeCodeAndMove(Animal *, Coordinate);
+int IsAnyAnimalCloser(Coordinate, int);
+int IsAnyFood(Coordinate coor);
+void FindBestWay(Coordinate, int, int, int, int, int);
+void SpecifyPurposes(Animal *);
+void CheckAnimalsHasFood(Coordinate);
+void MoveAnimal(int);
+
 int FindInteger(char * str)
 {
    int ans = 0;                  // charracter haye string ro bejaye adade mikone '.'
@@ -266,7 +291,7 @@ int FindDistance(Coordinate current_coor, Coordinate *final_coor, int (*CheckSto
     }
 }
 
-void win( char A )
+void win(char A)
 {
     FILE *cleansavedgame = fopen("savedgame.txt", "w");
     fclose(cleansavedgame);
@@ -317,7 +342,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column;
             SpecifyWay_minimum = integer_world_copy[current_coor.row - 1][current_coor.column];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column);
         current_mojaver[current_mojaver_index].row = current_coor.row - 1;
         current_mojaver[current_mojaver_index].column = current_coor.column;
         current_mojaver_index++;
@@ -329,7 +353,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column - 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row + 1][current_coor.column - 1];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column - 1);
         current_mojaver[current_mojaver_index].row = current_coor.row + 1;
         current_mojaver[current_mojaver_index].column = current_coor.column - 1;
         current_mojaver_index++;
@@ -341,7 +364,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column + 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row + 1][current_coor.column + 1];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column + 1);
         current_mojaver[current_mojaver_index].row = current_coor.row + 1;
         current_mojaver[current_mojaver_index].column = current_coor.column + 1;
         current_mojaver_index++;
@@ -353,7 +375,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column - 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row - 1][current_coor.column - 1];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column - 1);
         current_mojaver[current_mojaver_index].row = current_coor.row - 1;
         current_mojaver[current_mojaver_index].column = current_coor.column - 1;
         current_mojaver_index++;
@@ -376,7 +397,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column + 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row][current_coor.column + 1];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row, current_coor.column + 1);
         current_mojaver[current_mojaver_index].row = current_coor.row;
         current_mojaver[current_mojaver_index].column = current_coor.column + 1;
         current_mojaver_index++;
@@ -388,7 +408,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column - 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row][current_coor.column - 1];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row, current_coor.column - 1);
         current_mojaver[current_mojaver_index].row = current_coor.row;
         current_mojaver[current_mojaver_index].column = current_coor.column - 1;
         current_mojaver_index++;
@@ -400,7 +419,6 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.column = current_coor.column;
             SpecifyWay_minimum = integer_world_copy[current_coor.row + 1][current_coor.column];
         }
-        printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row + 1, current_coor.column);
         current_mojaver[current_mojaver_index].row = current_coor.row + 1;
         current_mojaver[current_mojaver_index].column = current_coor.column;
         current_mojaver_index++;
@@ -421,7 +439,8 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
     }
 }
 
-int single_move(char code, Animal *animal){
+int single_move(char code, Animal *animal)
+{
     int index_of_food;
     switch (code) {
         case '6':
@@ -431,10 +450,12 @@ int single_move(char code, Animal *animal){
                 animal->animal_coordinate.column += 1;
                 index_of_food = IsAnyFood(animal->animal_coordinate);
                 if(index_of_food != -1){
-                    animal->animal_energy += foods_array[index_of_food].food_energy;
-                    DeleteFood(index_of_food);
                     if(animal->animal_coordinate.row == animal->purposes[animal->current_purpose_index].row && animal->animal_coordinate.column == animal->purposes[animal->current_purpose_index].column)
                         animal->current_purpose_index++;
+                    else
+                        CheckAnimalsHasFood(foods_array[index_of_food].food_coordinate);
+                    animal->animal_energy += foods_array[index_of_food].food_energy;
+                    DeleteFood(index_of_food);
                 }
             }
             else if(world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == 'H'){
@@ -609,14 +630,12 @@ int single_move(char code, Animal *animal){
     return 1;
 }
 
-void MakeCodeAndMove(Coordinate *animal_coor, Coordinate purpose_coor, int movement_number)
+void MakeCodeAndMove(Animal *animal, Coordinate purpose_coor)
 {
     char *move_codes;
     int move_codes_index = 0;
-    for(int i = 0; i < movement_number; i++){
+    for(int i = 0; i < animal->movement_number; i++){
         int number = integer_world_copy[purpose_coor.row][purpose_coor.column] + 1;
-        printf("number is %d\n", number);
-        printf("i am here\n");
         if(purpose_coor.column < side - 1 && integer_world_copy[purpose_coor.row][purpose_coor.column + 1] == number){
             move_codes[move_codes_index] = '6';
             move_codes_index++;
@@ -633,7 +652,6 @@ void MakeCodeAndMove(Coordinate *animal_coor, Coordinate purpose_coor, int movem
             move_codes[move_codes_index] = '8';
             move_codes_index++;
             move_codes[move_codes_index] = '\0';
-            printf("codes is %s\n", move_codes);
             purpose_coor.row -= 1;
         }
         else if(purpose_coor.row > 0 && purpose_coor.column > 0 && integer_world_copy[purpose_coor.row - 1][purpose_coor.column - 1] == number){
@@ -666,11 +684,9 @@ void MakeCodeAndMove(Coordinate *animal_coor, Coordinate purpose_coor, int movem
         }
     }
     move_codes[move_codes_index] = '\0';
-    printf("codes is %s\n", move_codes);
     CodeReverser(move_codes);
-    printf("codes is %s\n", move_codes);
     for(int i = 0; i < move_codes_index; i++)
-        single_move(move_codes[i], animal_coor);
+        single_move(move_codes[i], animal);
 }
 
 int IsAnyAnimalCloser(Coordinate food_coor, int rounds_to_food)
@@ -679,13 +695,13 @@ int IsAnyAnimalCloser(Coordinate food_coor, int rounds_to_food)
         for(int j = 0; program_animals[i].purposes_distance[j] != -1; j++){
             if(food_coor.row == program_animals[i].purposes[j].row, food_coor.column == program_animals[i].purposes[j].column){
                 if(rounds_to_food > ceil(program_animals[i].purposes_distance[j] / program_animals[i].movement_number))
-                    return 0;
+                    return 1;
                 else
                     program_animals[i].is_way_specified = 0;
             }
         }
     }
-    return 1;
+    return 0;
 }
 
 int IsAnyFood(Coordinate coor)
@@ -697,55 +713,46 @@ int IsAnyFood(Coordinate coor)
     return -1;
 }
 
-void FindBestWay(Coordinate st_coor, int single_move_energy, int movement_number, int energy, int my_distance, int index) // distance name should change
+void FindBestWay(Coordinate st_coor, int single_move_energy, int movement_number, int energy, int my_distance, int index)
 {
-    printf("omadam to tabea jadid ba index = %d\n", index);
+    int const_distance = my_distance;
     for(int i = 0; i < foods_array_index; i++){
         if(foods_array[i].temp_food_energy == 0)
             continue;
         CreateIntegerWorldCopy(st_coor);
         my_distance += FindDistance(st_coor, &foods_array[i].food_coordinate, CheckFood);
-        printf("faselam ba ghazaye %d %d shode %d\n", foods_array[i].food_coordinate.row, foods_array[i].food_coordinate.column, my_distance);
         if(my_distance * single_move_energy > energy || my_distance > minimum_distance || IsAnyAnimalCloser(foods_array[i].food_coordinate, ceil(my_distance / movement_number))){
-            printf("if 1\n");
-            my_distance -= integer_world_copy[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column];
+            my_distance = const_distance;
             continue;
         }
         energy += foods_array[i].temp_food_energy;
         if(((my_distance + foods_array[i].closest_heaven_distance) * single_move_energy < energy) && (my_distance + foods_array[i].closest_heaven_distance < minimum_distance)){
-            printf("if 2\n");
             minimum_distance = my_distance + foods_array[i].closest_heaven_distance;
             CoorArrCpy(FBW_final_purposes, FBW_purposes, index);
             IntArrCpy(FBW_final_purposes_distance, FBW_purposes_distance, index);
             FBW_final_purposes[index] = foods_array[i].food_coordinate;
             FBW_final_purposes[index + 1] = foods_array[i].closest_heaven_coordinate;
-            printf("minimum changed to : \n");
-            for(int i = 0; i < 5; i++){
-                printf("%d %d\n" ,FBW_final_purposes[i].row, FBW_final_purposes[i].column);
-            }
+            FBW_final_purposes_distance[index] = my_distance;
+            FBW_final_purposes_distance[index + 1] = -1;
             FBW_return_value = 1;
         }
         else{
-            printf("else \n");
             foods_array[i].temp_food_energy = 0;
             FBW_purposes[index] = foods_array[i].food_coordinate;
             FBW_purposes_distance[index] = my_distance;
-            FindBestWay(foods_array[i].food_coordinate, single_move_energy, movement_number, energy - (my_distance * single_move_energy), my_distance,index + 1);
-            printf("bargashtam tabea ghabli\n");
+            FindBestWay(foods_array[i].food_coordinate, single_move_energy, movement_number, energy - (my_distance * single_move_energy), my_distance, index + 1);
         }
-        my_distance -= integer_world_copy[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column];
+        my_distance = const_distance;
         foods_array[i].temp_food_energy = foods_array[i].food_energy;
         energy -= foods_array[i].temp_food_energy;
     }
 }
 
-void noname(Animal *animal)
+void SpecifyPurposes(Animal *animal)
 {
     DISTANCE = FindDistance(animal->animal_coordinate, &animal->purposes[0], CheckHeaven);
     if(animal->single_move_energy * DISTANCE < animal->animal_energy)
-        printf("animal can go to heaven in %d %d\n", animal->purposes[0].row, animal->purposes[0].column);
     else{
-        printf("dar badane elsim\n");
         CreateIntegerWorldCopy(animal->animal_coordinate);
         DISTANCE = 0;
         minimum_distance = 100;
@@ -761,7 +768,7 @@ void noname(Animal *animal)
 void CheckAnimalsHasFood(Coordinate food_coor)
 {
     for(int animal = 0; animal < program_animals_index; animal++){
-        for(int i = 0; program_animals[animal].purposes_distance != -1 && i < 5; i++){
+        for(int i = 0; program_animals[animal].purposes_distance[i] != -1 && i < 5; i++){
             if(program_animals[animal].purposes[i].row == food_coor.row && program_animals[animal].purposes[i].column == food_coor.column){
                 program_animals[animal].is_way_specified = 0;
             }
@@ -769,17 +776,11 @@ void CheckAnimalsHasFood(Coordinate food_coor)
     }
 }
 
-void ReadyForNewRound()
-{
-}
-
 void MoveAnimal(int index_of_animal)
 {
     if(!program_animals[index_of_animal].is_way_specified)
-        noname(&program_animals[index_of_animal]);
+        SpecifyPurposes(&program_animals[index_of_animal]);
     FindDistance(program_animals[index_of_animal].animal_coordinate, &program_animals[index_of_animal].purposes[program_animals[index_of_animal].current_purpose_index], CheckFood);
     SpecifyWay(program_animals[index_of_animal].animal_coordinate, program_animals[index_of_animal].movement_number);
-    MakeCodeAndMove(&program_animals[index_of_animal].animal_coordinate, SpecifyWay_purpose, program_animals[index_of_animal].movement_number);
+    MakeCodeAndMove(&program_animals[index_of_animal], SpecifyWay_purpose);
 }
-
-
