@@ -125,7 +125,7 @@ int main()
         printf("%d %d and distance is %d\n", program_animals[0].purposes[i].row, program_animals[0].purposes[i].column, program_animals[0].purposes_distance[i]);
       }
       */
-
+/*
       user_animals_index = 0;
       for(int i = 0; i < program_animals_index; i++){
           if(world[program_animals[i].row][program_animals[i].column] == User_Animal){
@@ -145,6 +145,14 @@ int main()
               MoveAnimal(animal_index)
           }
       }
+*/
 
+
+
+        CreateIntegerWorldCopy(program_animals[0].animal_coordinate);
+        SpecifyPurposes(program_animals);
+        for(int i = 0; i < 5; i++){
+            printf("%d %d and distance is %d", program_animals.purposes[i], program_animals.purposes_distance[i]);
+        }
       return 0;
 }
