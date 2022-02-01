@@ -368,6 +368,7 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
         if(integer_world_copy[current_coor.row - 1][current_coor.column] < SpecifyWay_minimum && integer_world_copy[current_coor.row - 1][current_coor.column] != 0){
             SpecifyWay_purpose.row = current_coor.row - 1;
             SpecifyWay_purpose.column = current_coor.column;
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
             SpecifyWay_minimum = integer_world_copy[current_coor.row - 1][current_coor.column];
         }
         //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column);
@@ -376,12 +377,13 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
         current_mojaver_index++;
     }
     //printf("2 %d %d\n", program_animals[0].animal_coordinate.row, program_animals[0].animal_coordinate.column);
-    if(current_coor.row < side && current_coor.column > 0 && IsVacant(current_coor.row + 1, current_coor.column - 1)){
+    if(current_coor.row + 1 < side && current_coor.column > 0 && IsVacant(current_coor.row + 1, current_coor.column - 1)){
         way_array[current_coor.row + 1][current_coor.column - 1] = SpecifyWay_counter + 1;
         if(integer_world_copy[current_coor.row + 1][current_coor.column - 1] < SpecifyWay_minimum && integer_world_copy[current_coor.row + 1][current_coor.column - 1] != 0){
             SpecifyWay_purpose.row = current_coor.row + 1;
             SpecifyWay_purpose.column = current_coor.column - 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row + 1][current_coor.column - 1];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
         //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column - 1);
         current_mojaver[current_mojaver_index].row = current_coor.row + 1;
@@ -389,12 +391,13 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
         current_mojaver_index++;
     }
     //printf("3 %d %d\n", program_animals[0].animal_coordinate.row, program_animals[0].animal_coordinate.column);
-    if(current_coor.row < side && current_coor.column < side && IsVacant(current_coor.row + 1, current_coor.column + 1)){
+    if(current_coor.row + 1< side && current_coor.column + 1 < side && IsVacant(current_coor.row + 1, current_coor.column + 1)){
         way_array[current_coor.row + 1][current_coor.column + 1] = SpecifyWay_counter + 1;
         if(integer_world_copy[current_coor.row + 1][current_coor.column + 1] < SpecifyWay_minimum && integer_world_copy[current_coor.row + 1][current_coor.column + 1] != 0){
             SpecifyWay_purpose.row = current_coor.row + 1;
             SpecifyWay_purpose.column = current_coor.column + 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row + 1][current_coor.column + 1];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
         //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column + 1);
         current_mojaver[current_mojaver_index].row = current_coor.row + 1;
@@ -408,6 +411,7 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.row = current_coor.row - 1;
             SpecifyWay_purpose.column = current_coor.column - 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row - 1][current_coor.column - 1];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
         //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column - 1);
         current_mojaver[current_mojaver_index].row = current_coor.row - 1;
@@ -415,24 +419,27 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
         current_mojaver_index++;
     }
     //printf("5 %d %d\n", program_animals[0].animal_coordinate.row, program_animals[0].animal_coordinate.column);
-    if(current_coor.row > 0 && current_coor.column < side && IsVacant(current_coor.row - 1, current_coor.column + 1)){
+    if(current_coor.row > 0 && current_coor.column + 1 < side && IsVacant(current_coor.row - 1, current_coor.column + 1)){
         way_array[current_coor.row - 1][current_coor.column + 1] = SpecifyWay_counter + 1;
         if(integer_world_copy[current_coor.row - 1][current_coor.column + 1] < SpecifyWay_minimum && integer_world_copy[current_coor.row - 1][current_coor.column + 1] != 0){
             SpecifyWay_purpose.row = current_coor.row - 1;
             SpecifyWay_purpose.column = current_coor.column + 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row - 1][current_coor.column + 1];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
+        //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row - 1, current_coor.column + 1);
         current_mojaver[current_mojaver_index].row = current_coor.row - 1;
         current_mojaver[current_mojaver_index].column = current_coor.column + 1;
         current_mojaver_index++;
     }
     //printf("6 %d %d\n", program_animals[0].animal_coordinate.row, program_animals[0].animal_coordinate.column);
-    if(current_coor.column < side && IsVacant(current_coor.row, current_coor.column + 1)){
+    if(current_coor.column + 1 < side && IsVacant(current_coor.row, current_coor.column + 1)){
         way_array[current_coor.row][current_coor.column + 1] = SpecifyWay_counter + 1;
         if(integer_world_copy[current_coor.row][current_coor.column + 1] < SpecifyWay_minimum && integer_world_copy[current_coor.row][current_coor.column + 1] != 0){
             SpecifyWay_purpose.row = current_coor.row;
             SpecifyWay_purpose.column = current_coor.column + 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row][current_coor.column + 1];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
         //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row, current_coor.column + 1);
         current_mojaver[current_mojaver_index].row = current_coor.row;
@@ -446,6 +453,7 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
             SpecifyWay_purpose.row = current_coor.row;
             SpecifyWay_purpose.column = current_coor.column - 1;
             SpecifyWay_minimum = integer_world_copy[current_coor.row][current_coor.column - 1];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
         //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row, current_coor.column - 1);
         current_mojaver[current_mojaver_index].row = current_coor.row;
@@ -453,14 +461,15 @@ void SpecifyWay(Coordinate current_coor, int movement_number)
         current_mojaver_index++;
     }
     //printf("8 %d %d\n", program_animals[0].animal_coordinate.row, program_animals[0].animal_coordinate.column);
-    if(current_coor.row < side && IsVacant(current_coor.row + 1, current_coor.column)){
+    if(current_coor.row + 1 < side && IsVacant(current_coor.row + 1, current_coor.column)){
         way_array[current_coor.row + 1][current_coor.column] = SpecifyWay_counter + 1;
         if(integer_world_copy[current_coor.row + 1][current_coor.column] < SpecifyWay_minimum && integer_world_copy[current_coor.row + 1][current_coor.column] != 0){
             SpecifyWay_purpose.row = current_coor.row + 1;
             SpecifyWay_purpose.column = current_coor.column;
             SpecifyWay_minimum = integer_world_copy[current_coor.row + 1][current_coor.column];
+            //printf("sp pur changed to %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
         }
-        ////printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row + 1, current_coor.column);
+        //printf("%d putted in %d %d\n", SpecifyWay_counter + 1, current_coor.row + 1, current_coor.column);
         current_mojaver[current_mojaver_index].row = current_coor.row + 1;
         current_mojaver[current_mojaver_index].column = current_coor.column;
         current_mojaver_index++;
@@ -675,16 +684,16 @@ int single_move(char code, Animal *animal)
 
 void MakeCodeAndMove(Animal *animal, Coordinate purpose_coor)
 {
-    PrintIWC();
-    printf("\n\n");
-    PrintWA();
-    printf("purpose is %d %d", purpose_coor.row, purpose_coor.column);
-    Sleep(5000);
+    //PrintIWC();
+    //printf("\n\n");
+    //();
+    //printf("purpose is %d %d", purpose_coor.row, purpose_coor.column);
+    //S//leep(5000);
     //printf("animal oomad inja alan to khune %d %d e va energy %d\n", animal->animal_coordinate.row, animal->animal_coordinate.column, animal->animal_energy);
     char move_codes[7];
     int move_codes_index = 0;
-    printf("%d\n", way_array[purpose_coor.row][purpose_coor.column]);
-    for(int i = 0; way_array[purpose_coor.row][purpose_coor.column] != 1 && i < 5; i++){
+    //printf("%d\n", way_array[purpose_coor.row][purpose_coor.column]);
+    for(int i = 0; way_array[purpose_coor.row][purpose_coor.column] != 1 ; i++){
 
         int number = way_array[purpose_coor.row][purpose_coor.column] - 1;
         //printf("number is %d\n", number);
@@ -746,11 +755,14 @@ void MakeCodeAndMove(Animal *animal, Coordinate purpose_coor)
     //printf("ta tahesh omadim\n");
     //Sleep(2000);
     move_codes[move_codes_index] = '\0';
-    printf("codes is %s\n", move_codes);
-    Sleep(5000);
+    //PrintWA();
+    //printf("purpose is %d %d\n", SpecifyWay_purpose.row, SpecifyWay_purpose.column);
+    //Sleep(2000);
+    //printf("codes is %s and move code index is %d\n", move_codes, move_codes_index);
+    //Sleep(2000);
     CodeReverser(move_codes);
-    printf("codes is %s\n", move_codes);
-    Sleep(5000);
+    //printf("codes is %s and move code index is %d\n", move_codes, move_codes_index);
+    //Sleep(2000);
     for(int i = 0; i < move_codes_index; i++)
         single_move(move_codes[i], animal);
 }
@@ -812,9 +824,9 @@ void FindBestWay(Coordinate st_coor, int single_move_energy, int movement_number
             FBW_final_purposes_distance[index] = my_distance;
             FBW_final_purposes_distance[index + 1] = -1;
             //printf("minimum changed to : \n");
-            for(int i = 0; i < 5; i++){
-                //printf("%d %d\n" ,FBW_final_purposes[i].row, FBW_final_purposes[i].column);
-            }
+            //for(int i = 0; i < 5; i++){
+            //    printf("%d %d\n" ,FBW_final_purposes[i].row, FBW_final_purposes[i].column);
+            //}
             FBW_return_value = 1;
         }
         else{
@@ -849,7 +861,8 @@ void SpecifyPurposes(Animal *animal)
         //printf("distace is %d single move energy is %d and total energy is %d\n", distance, animal->single_move_energy, animal->animal_energy);
     }
     else{
-       //printf("dar badane elsim\n");
+        FBW_return_value = 0;
+        //printf("dar badane elsim\n");
         //CreateIntegerWorldCopy(animal->animal_coordinate);
         distance = 0;
         minimum_distance = 100;
@@ -892,17 +905,18 @@ void MoveAnimal(int index_of_animal)
     CreateIntegerWorldCopy(program_animals[index_of_animal].animal_coordinate);
     //printf("step 3 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
     //Sleep(1000);
-    FindDistance(program_animals[index_of_animal].animal_coordinate, &program_animals[index_of_animal].purposes[program_animals[index_of_animal].current_purpose_index], CheckFood);
+    FindDistance(program_animals[index_of_animal].purposes[program_animals[index_of_animal].current_purpose_index], &program_animals[index_of_animal].animal_coordinate,  CheckFood);
     //printf("step 4 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
     //Sleep(1000);
     CreateWayArray(program_animals[index_of_animal].animal_coordinate);
+    SpecifyWay_minimum = 100;
+    SpecifyWay_counter = 1;
     SpecifyWay(program_animals[index_of_animal].animal_coordinate, program_animals[index_of_animal].movement_number);
     //printf("step 5 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
     //Sleep(1000);
     //PrintWA();
     MakeCodeAndMove(&program_animals[index_of_animal], SpecifyWay_purpose);
     //printf("step 6 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
-    //Sleep(1000);
-    //system("cls");
-    PrintW();
+    Sleep(1000);
+    system("cls");
 }
