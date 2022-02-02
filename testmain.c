@@ -2,16 +2,18 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string.h>
-#include "testfunc.c"
+#include "test.c"
 #include <conio.h>
+#include <time.h>
 
 #define esc 27
 
 char ResumeTheGame(FILE *);
 
+
 int main()
 {
-   char User_Animal;
+   srand(time(0));
    char user_move;
    int sw = 1;
    for(int i = 0; i <20; i++)
@@ -119,7 +121,15 @@ int main()
    while(1){
 
       for(int animalIndex = 0; animalIndex < user_animals_index; animalIndex++){
+         if(!IsAnimalAlive(&user_animals[animalIndex])){
+
+            continue;
+         }
          for(int nmove = 0; nmove < user_animals[animalIndex].movement_number; nmove++){
+            if(!IsAnimalAlive(&user_animals[animalIndex])){
+
+                continue;
+            }
             do{
                system("cls");
                PrintW();
