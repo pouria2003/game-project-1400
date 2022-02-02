@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string.h>
-#include "test.c"
+#include "functions_phase_2.c"
 #include <conio.h>
 #include <time.h>
 
@@ -23,7 +23,7 @@ int main()
 /* #########################################   GEREFTAN DATA AZ MAP  ##########################################*/
 
    int seprator_counter = 0, index_for_add_genetic = 0;// user move harkat karbaro migire
-   FILE * inputs = fopen("map_phase1.txt", "r");
+   FILE * inputs = fopen("map_phase2.txt", "r");
    fscanf(inputs, "%d", &side);
    char temp[100];
    while(fscanf(inputs, "%s", temp) != EOF){
