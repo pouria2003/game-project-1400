@@ -177,3 +177,24 @@ void reproduction(char mode){
     }
 }
 //tuye main baad az harkate har heyvun
+
+int is_user_alive=1; //age karbar bemire in 0 beshe va dige tuye main "choose you move"
+void addFood(struct Coordinate,int energy){ //print nakone
+
+}
+void lose(char mode){  
+if(mode=='p'){
+printf("An animal of type %c died!", world[program_Animals[i].animal_coordinate.row][program_Animals[i].animal_coordinate.row]);
+program_Animals[i].animal_coordinate.row=-1;
+program_Animals[i].animal_coordinate.column=-1;
+addFood(program_Animals[i].animal_coordinate,program_Animals[i].animal_energy);
+}
+else{
+printf("your animal died!");
+user_Animals[i].animal_coordinate.row=-1;
+user_Animals[i].animal_coordinate.column=-1;
+addFood(user[i].animal_coordinate,user[i].animal_energy);
+   
+}
+foods_index++;
+}
