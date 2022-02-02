@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <math.h>
+#include <time.h>
 
 #define maxside 20
 #define maxanimals 30
@@ -49,7 +50,7 @@ int user_animals_index;
 int side = 5;
 Food foods_array[maxfood];
 int foods_array_index = 0;
-
+char User_Animal;
 
 Coordinate current_mojaver[40];
 Coordinate previous_mojaver[40];
@@ -71,6 +72,7 @@ short FBW_return_value = 0;
 
 int FindInteger(char *);
 int IsEqualStr(const char *, const char *);
+int Random(int, int);
 void DeleteFood(int);
 void CodeReverser(char *);
 void CoorArrCpy(Coordinate *, Coordinate *, int);
@@ -82,6 +84,7 @@ void PrintIWC();
 void PrintWA();
 int IsVacant(int, int);
 int FindDistance(Coordinate, Coordinate *, int (*CheckStopCondition)(Coordinate, Coordinate *));
+void Lose(Animal *, char);
 void win(char);
 void SpecifyWay(Coordinate, int);
 int single_move(char, Animal *);
@@ -91,6 +94,7 @@ int IsAnyFood(Coordinate coor);
 void FindBestWay(Coordinate, int, int, int, int, int);
 void SpecifyPurposes(Animal *);
 void CheckAnimalsHasFood(Coordinate);
+void AddFood(Coordinate, int);
 void MoveAnimal(int index_of_animal);
 
 int FindInteger(char * str)
@@ -123,6 +127,11 @@ int IsEqualStr(const char *str1, const char *str2)
     if(!(*str2))
         return 1;
     return 0;
+}
+
+int Random(int min, int max)
+{
+    return (rand() % (max - min + 1) + min);
 }
 
 void TransferToUserAnimals(int trans_index){
@@ -316,6 +325,18 @@ int FindDistance(Coordinate current_coor, Coordinate *final_coor, int (*CheckSto
         current_mojaver_index = 0;
         FindDistance(previous_mojaver[0], final_coor, CheckStopCondition);
     }
+}
+
+void Lose(Animal *animal, char mode)
+{
+    if(mode=='p')
+        printf("An animal of type %c died!", world[animal->animal_coordinate.row][animal->animal_coordinate.row]);
+    else
+        printf("your animal died!");
+
+    animal->animal_coordinate.row = -1;
+    animal->animal_coordinate.column = -1;
+    AddFood(animal->animal_coordinate, animal->animal_energy);
 }
 
 void win(char A)
@@ -678,7 +699,9 @@ int single_move(char code, Animal *animal)
         default :
             return 0;
     }
-
+    animal->animal_energy -= animal->single_move_energy;
+    if(animal->animal_energy < animal->single_move_energy)
+        Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
     return 1;
 }
 
@@ -887,6 +910,16 @@ void CheckAnimalsHasFood(Coordinate food_coor)
             }
         }
     }
+}
+
+void AddFood(Coordinate fcoor, int fenergy)
+{
+    foods_array[foods_array_index].food_coordinate = fcoor;
+    foods_array[foods_array_index].food_energy = fenergy;
+    CreateIntegerWorldCopy(fcoor);
+    foods_array[foods_array_index].closest_heaven_distance = FindDistance(fcoor, &foods_array[foods_array_index].closest_heaven_coordinate, CheckHeaven);
+    foods_array[foods_array_index].temp_food_energy = fenergy;
+    foods_array_index++;
 }
 
 void MoveAnimal(int index_of_animal)

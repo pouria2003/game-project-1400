@@ -4,7 +4,7 @@ int a,b,f=0,r,c,attacker,attackerR,attackerC,attacker_index,attacker_wins,defend
 char winner;  //a,d
 void fight(int i){
     if(random(0,1)==0) return;
-    for(a=-1;a<=1;a++){ 
+    for(a=-1;a<=1;a++){
         for(b=-1;b<=1;b++){
             if(world[program_animals[i].animal_coordinate.row][program_animals[i].animal_coordinate.column] != world[program_animals[i].animal_coordinate.row + a][program_animals[i].animal_coordinate.column + b]) {
                 r=program_animals[i].animal_coordinate.row+a;
@@ -28,7 +28,7 @@ void fight(int i){
                 }
             }
         }
-    } 
+    }
     program_animals[attacker_index].animal_energy=program_animals[attacker_index].animal_energy-(program_animals[attacker_index].single_move_energy*3);
     if(program_animals[attacker_index].animal_energy>program_animals[defender_index].animal_energy) winner='a';
     else winner='d';
@@ -63,13 +63,13 @@ int isAnyAnimal(int c, int r,char mode){
         for(i=0 ; i< program_animals_index ; i++){
             if(c==program_animals[i].animal_coordinate.row && r==program_animals[i].animal_coordinate.column)
                 return(i);
-        } 
+        }
     }
     else{
         for(i=0 ; i< program_animals_index ; i++){
             if(c==user_animals[i].animal_coordinate.row && r==user_animals[i].animal_coordinate.column)
                 return(i);
-        } 
+        }
     }
     return(-1);
 }
@@ -78,16 +78,16 @@ int findPrimaryInfo(int kind,char mode){
     if(mode=='e'){
         for(i=0; ;i++){
             if(primary_info[i][0]==kind) return(primary_info[i][2]);
-        }    
+        }
     }
     else{
         for(i=0; ;i++){
             if(primary_info[i][0]==kind) return(primary_info[i][1]);
-        } 
+        }
     }
     return(-1);
 }
-void reproduction(char mode){ 
+void reproduction(char mode){
     int i,j,r,c,sw=0,a,b,index,xR,yR; //sw byad avale tabe sefr beshe
     char kind;
     if(random(0,1)==0)  return;
@@ -102,7 +102,7 @@ void reproduction(char mode){
                     continue;
                 if(kind == world[x+a][y+b]){            //// user_animals[i] == world[][] ?
                     index=isAnyAnimal(x+a,y+b,'u');
-                    if(index==-1)return; //in niaz nist bashe  
+                    if(index==-1)return; //in niaz nist bashe
                     else if(user_animals[index].animal_energy>=user_animals[index].reproduction_energy) sw=1;
                     break;
                 }
@@ -120,10 +120,10 @@ void reproduction(char mode){
     user_animals[user_animals_index].attack_energy = random(20,500);
     user_animals[user_animals_index].defense_energy = random(20,500);
     do{
-    int k=1; 
+    int k=1;
     do{
-    xR=random(-k,k);  
-    yR=random(-k,k); 
+    xR=random(-k,k);
+    yR=random(-k,k);
     }while(xR!=-k||yR!=k||xR!=k||yR!=-k);
     r=x+xR;
     c=y+yR;
@@ -135,7 +135,7 @@ void reproduction(char mode){
     world[r][c]=kind;
     }
     }
-    else{ 
+    else{
     if(program_animals[i].energy<program_animals[i].reproduction_energy) return();
     int x=program_animals[i].animal_coordinate.row;
     int y=program_animals[i].animal_coordinate.column;
@@ -144,7 +144,7 @@ void reproduction(char mode){
        for(b=-1;b<=1;b++){
             if(program_animals[i]==world[x+a][y+b]){
                 index=isAnyAnimal(x+a,y+b,'p');
-                if(index==-1)return(); //in niaz nist bashe  
+                if(index==-1)return(); //in niaz nist bashe
                 else if(program_animals[index].energy>=program_animals[index].reproduction_energy) sw=1;
                 break;
           }
@@ -160,10 +160,10 @@ void reproduction(char mode){
     program_animals[program_animals_index].attack_energy=random(20,500);
     program_animals[program_animals_index].defense_energy=random(20,500);
     do{
-    int k=1; 
+    int k=1;
     do{
-    xR=random(-k,k);  
-    yR=random(-k,k); 
+    xR=random(-k,k);
+    yR=random(-k,k);
     }while(xR!=-k||yR!=k||xR!=k||yR!=-k);
     r=x+xR;
     c=y+yR;
@@ -182,19 +182,17 @@ int is_user_alive=1; //age karbar bemire in 0 beshe va dige tuye main "choose yo
 void addFood(struct Coordinate,int energy){ //print nakone
 
 }
-void lose(char mode){  
-if(mode=='p'){
-printf("An animal of type %c died!", world[program_Animals[i].animal_coordinate.row][program_Animals[i].animal_coordinate.row]);
-program_Animals[i].animal_coordinate.row=-1;
-program_Animals[i].animal_coordinate.column=-1;
-addFood(program_Animals[i].animal_coordinate,program_Animals[i].animal_energy);
-}
-else{
-printf("your animal died!");
-user_Animals[i].animal_coordinate.row=-1;
-user_Animals[i].animal_coordinate.column=-1;
-addFood(user[i].animal_coordinate,user[i].animal_energy);
-   
-}
-foods_index++;
+void lose(char mode){
+    if(mode=='p'){
+        printf("An animal of type %c died!", world[program_Animals[i].animal_coordinate.row][program_Animals[i].animal_coordinate.row]);
+        program_Animals[i].animal_coordinate.row=-1;
+        program_Animals[i].animal_coordinate.column=-1;
+        addFood(program_Animals[i].animal_coordinate,program_Animals[i].animal_energy);
+    }
+    else{
+        printf("your animal died!");
+        user_Animals[i].animal_coordinate.row=-1;
+        user_Animals[i].animal_coordinate.column=-1;
+        addFood(user[i].animal_coordinate,user[i].animal_energy);
+    }
 }
