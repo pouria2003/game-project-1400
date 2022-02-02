@@ -1,3 +1,5 @@
+
+/*
 #include "testfunc.c"
 int primary_info[20][3];
 int a,b,f=0,r,c,attacker,attackerR,attackerC,attacker_index,attacker_wins,defender_index,defenderR,defenderC;
@@ -137,3 +139,12 @@ void reproduction(struct Animal * animal_arr, int animal_arr_index){
     }
 }
 //tuye main baad az harkate har heyvun
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include<time.h>
+
+int randint(int min, int max)
+{
+    return (rand() % (max - min + 1) + min);
+}
