@@ -1,32 +1,31 @@
 
-/*
-#include "testfunc.c"
+#include "functions_phase_2.c"
 int primary_info[20][3];
 int a,b,f=0,r,c,attacker,attackerR,attackerC,attacker_index,attacker_wins,defender_index,defenderR,defenderC;
 char winner;  //a,d
-void fight(int i){
-    if(random(0,1)==0) return;
-    for(a=-1;a<=1;a++){
-        for(b=-1;b<=1;b++){
-            if(world[program_animals[i].animal_coordinate.row][program_animals[i].animal_coordinate.column] != world[program_animals[i].animal_coordinate.row + a][program_animals[i].animal_coordinate.column + b]) {
-                r=program_animals[i].animal_coordinate.row+a;
-                c=program_animals[i].animal_coordinate.column+b;
-                attacker=random(1,2);
+void fight(int animal_index){
+    if(random(0, 1) == 0) return;
+    for(a = -1; a <= 1; a++){
+        for(b = -1; b <= 1; b++){
+            if(world[program_animals[animal_index].animal_coordinate.row][program_animals[animal_index].animal_coordinate.column] != world[program_animals[animal_index].animal_coordinate.row + a][program_animals[animal_index].animal_coordinate.column + b]) {
+                r = program_animals[animal_index].animal_coordinate.row + a;
+                c = program_animals[animal_index].animal_coordinate.column + b;
+                attacker = random(1,2);
                 if(attacker==1){
-                    attackerR=program_animals[i].animal_coordinate.row;
-                    attackerC=program_animals[i].animal_coordinate.column;
-                    attacker_index=i;
+                    attackerR=program_animals[animal_index].animal_coordinate.row;
+                    attackerC=program_animals[animal_index].animal_coordinate.column;
+                    attacker_index=animal_index;
                     defender_index=isAnyAnimal(attackerR,attackerC,'p');
-                    defenderR=program_animals[i].animal_coordinate.row+a;
-                    defenderC=program_animals[i].animal_coordinate.column+b;
+                    defenderR=program_animals[animal_index].animal_coordinate.row+a;
+                    defenderC=program_animals[animal_index].animal_coordinate.column+b;
                 }
                 else{
-                    attackerR=program_animals[i].animal_coordinate.row+a;
-                    attackerC=program_animals[i].animal_coordinate.column+b;
+                    attackerR=program_animals[animal_index].animal_coordinate.row+a;
+                    attackerC=program_animals[animal_index].animal_coordinate.column+b;
                     attacker_index=isAnyAnimal(attackerR,attackerC,'p');
-                    defender_index=i;
-                    defenderR=program_animals[i].animal_coordinate.row;
-                    defenderC=program_animals[i].animal_coordinate.column;
+                    defender_index=animal_index;
+                    defenderR=program_animals[animal_index].animal_coordinate.row;
+                    defenderC=program_animals[animal_index].animal_coordinate.column;
                 }
             }
         }
@@ -91,60 +90,66 @@ int findPrimaryInfo(int kind,char mode){
     return(-1);
 }
 
-void reproduction(struct Animal * animal_arr, int animal_arr_index){
-    int i,j,r,c,sw=0,a,b,index,xR,yR; //sw byad avale tabe sefr beshe
+void reproduction(struct Animal * animal_arr, int *animal_arr_index, int animal_index){
+    int j,r,c,sw=0,a,b,index,xR,yR; //sw byad avale tabe sefr beshe
     char kind;
-    if(random(0,1)==0)  return;
-    if(animal_arr[i].animal_energy<animal_arr[i].reproduction_energy) return;
-    int x=animal_arr[i].animal_coordinate.row;
-    int y=animal_arr[i].animal_coordinate.column;
-    kind=world[x][y];
-    for(a=-1;a<=1;a++){
-       for(b=-1;b<=1;b++){
+    if(random(0, 1) == 0)  return;
+    if(animal_arr[animal_index].animal_energy < animal_arr[animal_index].reproduction_energy) return;
+    int x = animal_arr[animal_index].animal_coordinate.row;
+    int y = animal_arr[animal_index].animal_coordinate.column;
+    kind = world[x][y];
+    for(a = -1; a <= 1; a++){
+       for(b = -1; b <= 1; b++){
             if(a == 0 && b == 0)
                 continue;
-            if(kind == world[x+a][y+b]){            //// user_animals[i] == world[][] ?
-                index=isAnyAnimal(x+a,y+b,'u');
-                if(index==-1)return; //in niaz nist bashe
-                else if(animal_arr[index].animal_energy>=animal_arr[index].reproduction_energy) sw=1;
+            if(kind == world[x+a][y+b]){           //// user_animals[i] == world[][] ?
+                index = isAnyAnimal(x + a, y + b, 'u');
+                if(index==-1)
+                    index = isAnyAnimal(x + a, y + b, 'p');
+                else if(animal_arr[index].animal_energy >= animal_arr[index].reproduction_energy) sw = 1;
                 break;
             }
         }
-        if(sw)          //// har do halghe break beshe
+        if(sw)        //// har do halghe break beshe
             break;
     }
     if(sw == 1){
-        animal_arr[i].animal_energy -= animal_arr[i].reproduction_energy/2;
-        animal_arr[index].animal_energy -= animal_arr[index].reproduction_energy/2;
-        animal_arr[animal_arr_index].animal_energy = findPrimaryInfo(kind,'e');
-        animal_arr[animal_arr_index].single_move_energy=random(20,200);
-        animal_arr[animal_arr_index].movement_number = random(1,3);
-        animal_arr[animal_arr_index].reproduction_energy = random(60,600);
-        animal_arr[animal_arr_index].attack_energy = random(20,500);
-        animal_arr[animal_arr_index].defense_energy = random(20,500);
-        do{
-            int k=1;
-            do{
-                xR=random(-k,k);
-                yR=random(-k,k);
-            }while(xR!=-k||yR!=k||xR!=k||yR!=-k);
-            r=x+xR;
-            c=y+yR;
-            k++;
-        }while(world[r][c]!='.');
-        animal_arr[animal_arr_index].animal_coordinate.row=r;
-        animal_arr[animal_arr_index].animal_coordinate.column=c;
-        animal_arr_index++;
-        world[r][c]=kind;
+        animal_arr[animal_index].animal_energy -= animal_arr[animal_index].reproduction_energy / 2;
+        animal_arr[index].animal_energy -= animal_arr[index].reproduction_energy / 2;
+        animal_arr[*animal_arr_index].animal_energy = findPrimaryInfo(kind,'e');
+        animal_arr[*animal_arr_index].single_move_energy = random(20,200);
+        animal_arr[*animal_arr_index].movement_number = random(1,3);
+        animal_arr[*animal_arr_index].reproduction_energy = random(60,600);
+        animal_arr[*animal_arr_index].attack_energy = random(20,500);
+        animal_arr[*animal_arr_index].defense_energy = random(20,500);
+        int k = 0;
+        while(++k){
+            for(int i = -k; i <= k; i++){
+                for(int j = -k; j <= k; j++){
+                    if(world[r + i][c + j] == '.'){
+                        animal_arr[*animal_arr_index].animal_coordinate.row=r;
+                        animal_arr[*animal_arr_index].animal_coordinate.column=c;
+                        *animal_arr_index++;
+                        world[r ][c]=kind;
+                        return;
+                    }
+                }
+            }
+        }
+        // do{
+        //     int k=1;
+        //     do{
+        //         xR=random(-k,k);
+        //         yR=random(-k,k);
+        //     }while(xR != 0 && yR != 0);
+        //     r = x + xR;
+        //     c = y +yR;
+        //     k++;
+        // }while(world[r][c]!='.');
+        // animal_arr[*animal_arr_index].animal_coordinate.row=r;
+        // animal_arr[*animal_arr_index].animal_coordinate.column=c;
+        // *animal_arr_index++;
+        // world[r][c]=kind;
     }
 }
 //tuye main baad az harkate har heyvun
-*/
-#include <stdio.h>
-#include <stdlib.h>
-#include<time.h>
-
-int randint(int min, int max)
-{
-    return (rand() % (max - min + 1) + min);
-}
