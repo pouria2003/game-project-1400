@@ -101,6 +101,42 @@ void AddFood(Coordinate, int);
 void reproduction(Animal[], int *, int);
 void MoveAnimal(int index_of_animal);
 
+
+void LogGame(FILE * gamelog, char mode, int round_number, char animal, int animal_number, int array_index, char whos_animal,char animal2)  // mode s ==> start a new round   and   mode f ==> fill from section
+{                                                                                                                                          // and  mode a ==>  fill to section  and  mode k fill kind section
+    if(mode == 's')                                                                                                                        // mode  w  ==> win mode r==> reproduction  g==>give energy mode b==> battle
+        fprintf(gamelog, "%s%d%s", "__Round", round_number, "__\n");             
+    else if(mode == 'k')
+        fprintf(gamelog, "%s %c %s %d %s","Kind", animal, "has", animal_number, "animal(s), look at how their coordinate changed in this round:\n");
+    else if(mode == 'w')
+        fprintf(gamelog, "%s%d%c%d%s %c %s"," to (", round_number, ',', animal_number,")\nand in this movement type", animal, "won!");
+    else if(mode=='r')
+        fprintf(gamelog,"Reproduction of type %c", animal);
+    else if(mode=='g')
+        fprintf(gamelog,"An animal of type %c gave its energy to another animal of its kind");
+    else if (mode=='b')
+    fprintf(gamelog,"Two animals of types %c & %c fought and type %c won",animal,animal2,animal2);
+    else{
+        if(whos_animal == 'p'){
+            if(mode == 'f'){
+                fprintf(gamelog, "%s%d%c%d%c", "From (", program_animals[array_index].row, ',', program_animals[array_index].column, ')');
+            }
+            else {
+                fprintf(gamelog, "%s%d%c%d%s", " to (", program_animals[array_index].row, ',', program_animals[array_index].column, ")\n");
+            }
+        }
+        else{
+            if(mode == 'f'){
+                fprintf(gamelog, "%s%d%c%d%c", "From (", user_animals[array_index].row, ',', user_animals[array_index].column, ')');
+            }
+            else {
+                fprintf(gamelog, "%s%d%c%d%s", " to (", user_animals[array_index].row, ',', user_animals[array_index].column, ")\n");
+            }
+        }
+    }
+}
+
+
 int FindInteger(char * str)
 {
    int ans = 0;                  // charracter haye string ro bejaye adade mikone '.'
@@ -1105,4 +1141,23 @@ void MoveAnimal(int index_of_animal)
     Sleep(1000);
     system("cls");
 }
+
+
+void beepNtimes(int n){
+    for(int i=0 ; i<n ; i++){
+        Beep(600,900);
+    }
+}
+
+
+int warning(char move){
+x=user_animals[i].animal_coordinate.row;
+y=user_animals[i].animal_coordinate.column;   
+if(move=='5'||(move=='1' &&(x+1>=side||y-1<0))||(move=='2'&& x+1>=side)||(move=='3'&&(x+1>=side||y+1>=side))||(move=='4'&&y-1<0)||(move=='6'&&y+1>=side)|| (move=='7'&&(x-1<0 || y-1<0))||if(move=='8'&& x-1<0)||(move=='9'&&(x-1<0||y+1>=side))){
+beepNtimes(4);
+printf("you can't choose this move, choose again:");
+return(0);
+}
+else return(1);
+} 
 
