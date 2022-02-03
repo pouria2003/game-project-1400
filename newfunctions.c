@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> phase3funcs
 #include "functions_phase_2.c"
 int primary_info[20][3];
 int a,b,f=0,r,c,attacker,attackerR,attackerC,attacker_index,attacker_wins,defender_index,defenderR,defenderC;
