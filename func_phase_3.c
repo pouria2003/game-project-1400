@@ -376,7 +376,7 @@ void Lose(Animal *animal, char mode)
 
 }
 
-void win(char A)
+void win(char winner, char user_animal)
 {
     FILE *cleansavedgame = fopen("savedgame.txt", "w");
     fclose(cleansavedgame);
@@ -388,7 +388,7 @@ void win(char A)
          //printf ("%c",str[i]);
      }
      Sleep (300);
-     printf (" %c ",A);
+     printf (" %c ",winner);
      char str1[12] = "survived!!";
      for (int i=0; i<10 ; i++)
      {
@@ -405,13 +405,32 @@ void win(char A)
      system ("Color 07");
     system ("cls");
      Sleep(1000);
+   if (user_animal == winner){
      char str2[200] = "Congratulations! Your actions towards saving your species across the apocalypse have been successful! Your kind will now live in peace and serenity.";
      for (int i=0; i<148 ; i++)
      {
          if (i>=0 && i<=15) system ("Color 90");
          printf ("%c",str2[i]);
          Sleep(120);
-     }
+     }}
+   else if (user_animal != winner){
+        char str3[40] = "Your type has been extincted!!";
+        for (int i=0; i<30 ; i++)
+        {
+            Sleep(200);
+            printf ("%c",str3[i]);
+        }
+        Sleep(200);
+        for (int i=1; i<=10; i++)
+        {
+            system ("Color 40");
+            Sleep(200);
+            system ("Color 07");
+            Sleep(200);
+        }
+        system ("Color 07");
+        system ("cls");
+   }
     exit (0);
 }
 
