@@ -1106,3 +1106,21 @@ void MoveAnimal(int index_of_animal)
     system("cls");
 }
 
+
+void print_info(char mode){
+if(mode=='f'){
+  printf("Foods:\n");
+  for(int i=0 ; i<foods_array_index ; i++)
+  printf("F(%d,%d):energy=%d\n", foods_array[i].food_coordinate.row+1,foods_array[i].food_coordinate.column+1,foods_array[i].food_energy);
+  }
+  else{
+    int i=0;
+    printf("Your animals:\n");
+    do{
+    char user=world[user_animals[i].animal_coordinate.row][user_animals[i].animal_coordinate.column];
+    }while(user_animals[i].animal_coordinate.row==-1);
+    for( i=0 ; i<user_animals_index ; i++)
+    if(user_animals[i].animal_coordinate.row!=-1)
+    printf("%c(%d,%d):energy=%d\n",user,user_animals[i].animal_coordinate.row,user_animals[i].animal_coordinate.column,user_animals[i].animal_energy);
+  }
+}
