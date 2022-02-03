@@ -340,6 +340,7 @@ int FindDistance(Coordinate current_coor, Coordinate *final_coor, int (*CheckSto
 
 void Lose(Animal *animal, char mode)
 {
+
     system("cls");
     PrintW();
     if(mode=='p')
@@ -354,6 +355,7 @@ void Lose(Animal *animal, char mode)
     //Sleep(5000);
     animal->animal_coordinate.row = -1;
     animal->animal_coordinate.row = -1;
+
 }
 
 void win(char A)
@@ -547,7 +549,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -573,7 +578,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -598,7 +606,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -624,7 +635,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -649,7 +663,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -675,7 +692,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -700,7 +720,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -726,7 +749,10 @@ int SingleMove(char code, Animal *animal)
                     animal->animal_energy += foods_array[index_of_food].food_energy;
                     DeleteFood(index_of_food);
                 }
+                printf("ngle move energy hast %d\nenergy animal bood %d ", animal->single_move_energy, animal->animal_energy);
                 animal->animal_energy -= animal->single_move_energy;
+                printf("shod %d\n", animal->animal_energy);
+                Sleep(4000);
                 if(animal->animal_energy < animal->single_move_energy)
                     Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
             }
@@ -740,9 +766,6 @@ int SingleMove(char code, Animal *animal)
         default :
             return 0;
     }
-    animal->animal_energy -= animal->single_move_energy;
-    if(animal->animal_energy < animal->single_move_energy)
-        Lose(animal, ((User_Animal == world[animal->animal_coordinate.row][animal->animal_coordinate.column]) ? 'u' : 'p'));
     return 1;
 }
 
@@ -829,6 +852,8 @@ void MakeCodeAndMove(Animal *animal, Coordinate purpose_coor, int index_of_anima
     //Sleep(2000);
     for(int i = 0; i < move_codes_index; i++){
         SingleMove(move_codes[i], animal);
+        if(!IsAnimalAlive(animal))
+            return;
         printf("in ghablesh \n");
         reproduction(program_animals, &program_animals_index, index_of_animal);
         printf("in badesh \n");
@@ -971,15 +996,15 @@ void AddFood(Coordinate fcoor, int fenergy)
 int isAnyAnimal(int c, int r,char mode)
 {
     int i;
-    if(mode=='p'){
-        for(i=0 ; i< program_animals_index ; i++){
-            if(c==program_animals[i].animal_coordinate.row && r==program_animals[i].animal_coordinate.column)
+    if(mode == 'p'){
+        for(i = 0 ; i < program_animals_index ; i++){
+            if(c == program_animals[i].animal_coordinate.row && r == program_animals[i].animal_coordinate.column)
                 return(i);
         }
     }
     else{
-        for(i=0 ; i< program_animals_index ; i++){
-            if(c==user_animals[i].animal_coordinate.row && r==user_animals[i].animal_coordinate.column)
+        for(i = 0 ; i< user_animals_index ; i++){
+            if(c == user_animals[i].animal_coordinate.row && r == user_animals[i].animal_coordinate.column)
                 return(i);
         }
     }
@@ -1009,10 +1034,14 @@ int findPrimaryInfo(int kind, char mode)
 
 void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
 {
+    printf("%p\n", animal_arr);
+    Sleep(5000);
+    printf("man heyvoon khune %d %d omadam bbinam mishe reproduct konam ya na\n", animal_arr[animal_index].animal_coordinate.row, animal_arr[animal_index].animal_coordinate.column);
+    Sleep(5000);
     int j,r,c,sw=0,a,b,index,xR,yR; //sw byad avale tabe sefr beshe
     char kind;
     if(Random(0, 1) == 0)  return;
-    if(animal_arr[animal_index].animal_energy < animal_arr[animal_index].reproduction_energy) return;
+    //if(animal_arr[animal_index].animal_energy < animal_arr[animal_index].reproduction_energy) return;
     int x = animal_arr[animal_index].animal_coordinate.row;
     int y = animal_arr[animal_index].animal_coordinate.column;
     kind = world[x][y];
@@ -1020,22 +1049,29 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
        for(b = -1; b <= 1; b++){
             if(a == 0 && b == 0)
                 continue;
-            if(kind == world[x+a][y+b]){
+            if(kind == world[x + a][y + b]){
                 index = isAnyAnimal(x + a, y + b, 'u');
                 if(index==-1)
                     index = isAnyAnimal(x + a, y + b, 'p');
-                else if(animal_arr[index].animal_energy >= animal_arr[index].reproduction_energy) sw = 1;
-                break;
+                if(animal_arr[index].animal_energy >= animal_arr[index].reproduction_energy){
+                    printf("khb heyvoon khune %d %d ro peyda kardam :)\n", x + a, y + b);
+                    r = x + a;
+                    c = y + b;
+                    Sleep(5000);
+                    sw = 1;
+                    break;
+                }
             }
         }
         if(sw)        //// har do halghe break beshe
             break;
     }
     if(sw == 1){
-        printf("$$$$$$$$$$$  in repro  $$$$$$$$$$$$$$$$\n");
+        printf("$$$$$$$$$$$  dige mikham shoro konime:)  $$$$$$$$$$$$$$$$\n");
+        Sleep(5000);
         animal_arr[animal_index].animal_energy -= animal_arr[animal_index].reproduction_energy / 2;
         animal_arr[index].animal_energy -= animal_arr[index].reproduction_energy / 2;
-        animal_arr[*animal_arr_index].animal_energy = findPrimaryInfo(kind,'e');
+        animal_arr[*animal_arr_index].animal_energy = findPrimaryInfo(kind, 'e');
         animal_arr[*animal_arr_index].single_move_energy = Random(20,200);
         animal_arr[*animal_arr_index].movement_number = Random(1,3);
         animal_arr[*animal_arr_index].reproduction_energy = Random(60,600);
@@ -1045,11 +1081,18 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
         while(++k){
             for(int i = -k; i <= k; i++){
                 for(int j = -k; j <= k; j++){
+                    printf("r = %d , c = %d, k = %d\n", r, c, k);
+                    Sleep(5000);
                     if(world[r + i][c + j] == '.'){
-                        animal_arr[*animal_arr_index].animal_coordinate.row=r;
-                        animal_arr[*animal_arr_index].animal_coordinate.column=c;
-                        *animal_arr_index++;
-                        world[r ][c]=kind;
+                        printf("khune %d %d baraye bachamon khalie XD\n", r + i, c + j);
+                        animal_arr[*animal_arr_index].animal_coordinate.row = r + i;
+                        animal_arr[*animal_arr_index].animal_coordinate.column = c + j;
+                        printf("animal %d to %d %d ba ene %d, attack energy %d , single move energy %d, movement number %d, \n", *animal_arr_index, animal_arr[*animal_arr_index].animal_coordinate.row,
+                         animal_arr[*animal_arr_index].animal_coordinate.column, animal_arr[*animal_arr_index].animal_energy, animal_arr[*animal_arr_index].attack_energy, animal_arr[*animal_arr_index].single_move_energy, animal_arr[*animal_arr_index].movement_number);
+                        (*animal_arr_index) += 1;
+                        world[r + i][c + j] = kind;
+                        printf("done \n");
+                        Sleep(10000);
                         return;
                     }
                 }
@@ -1074,7 +1117,7 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
 
 void MoveAnimal(int index_of_animal)
 {
-    if(!IsAnimalAlive)
+    if(!IsAnimalAlive(&program_animals[index_of_animal]))
         return;
     //printf("heyvoon %d oomad inja \n", index_of_animal);
     //Sleep(1000);
@@ -1102,7 +1145,7 @@ void MoveAnimal(int index_of_animal)
     //PrintWA();
     MakeCodeAndMove(&program_animals[index_of_animal], SpecifyWay_purpose, index_of_animal);
     //printf("step 6 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
-    Sleep(1000);
+    //Sleep(1000);
     system("cls");
 }
 

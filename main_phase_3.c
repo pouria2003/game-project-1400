@@ -92,6 +92,7 @@ for(int i = 0; i < 30; i++){
                 fscanf(inputs, "%d", &number);
                 primary_info[primary_info_index][0] = (int)animal;
                 primary_info[primary_info_index][1] = number;
+                primary_info_index++;
                 fscanf(inputs, "%s", temp);
                 for(int i = 0; i < number; i++){
                     row = FindInteger(temp);
@@ -103,12 +104,15 @@ for(int i = 0; i < 30; i++){
                     program_animals[program_animals_index].is_way_specified = 0;
                     program_animals[program_animals_index].current_purpose_index = 0;
                     program_animals_index++;
-                } 
+                }
             }
         }
     }
     fclose(inputs);
-
+    for(int i = 0; i < primary_info_index; i++){
+        printf("kind %c tedad %d energy %d\n", primary_info[i][0], primary_info[i][1], primary_info[i][2]);
+    }
+/*
    printf("Hello player!\nWelcome to our game.\nHere's how the game works:\nYou can choose your move based on this\n1 2 3\n\
 4 5 6\n7 8 9\nConsider 5 as your current location and choose your move.\nYou can stop the game and resume it when you play again by pressing \"Esc\".\nYour type is %c.\nIf you are ready press number 5 : ", User_Animal);
 	user_move = getch();
@@ -117,14 +121,13 @@ for(int i = 0; i < 30; i++){
 	   exit(0);
 	}
 
-   user_animals_index = 0;
-   for(int i = 0; i < program_animals_index; i++){
+    user_animals_index = 0;
+    for(int i = 0; i < program_animals_index; i++){
       if(world[program_animals[i].animal_coordinate.row][program_animals[i].animal_coordinate.column] == User_Animal){
          TransferToUserAnimals(i);
          i--;
       }
-   }
-
+    }
     while(1){
         for(int animalIndex = 0; animalIndex < user_animals_index; animalIndex++){
             if(!IsAnimalAlive(&user_animals[animalIndex]))
@@ -135,18 +138,26 @@ for(int i = 0; i < 30; i++){
                 do{
                     system("cls");
                     PrintW();
-                    printf("choose your move : ");
+                    printf("choose your move for animal in %d %d : ", user_animals[animalIndex].animal_coordinate.row, user_animals[animalIndex].animal_coordinate.column);
                     user_move = getch();
+                    if(user_move == esc)
+                        exit(0);
                     sw = SingleMove(user_move, &user_animals[animalIndex]);
                     if(!sw)
                         printf("\a");
                     else{
                         printf("in ghablesh\n");
+                        printf("%p\n", user_animals);
+                        Sleep(5000);
                         reproduction(user_animals, &user_animals_index, animalIndex);
-                        printf("in badesh \n");
+                        printf("in badesh user animal ham hast %d\n", user_animals_index);
                         Sleep(2000);
                     }
                 }while(!sw);
+                for(int i = 0; i < user_animals_index; i++){
+                    printf("heyvoon %d dar khune %d %d\n", i, user_animals[i].animal_coordinate.row, user_animals[i].animal_coordinate.column);
+                }
+            Sleep(10000);
             }
         }
         system("cls");
@@ -154,5 +165,6 @@ for(int i = 0; i < 30; i++){
             MoveAnimal(animalIndex);
         }
     }
+    */
     return 0;
 }
