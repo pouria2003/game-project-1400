@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <Windows.h>
 #include <string.h>
-#include "functions_phase_3.c"
+#include "functions_phase_4.c"
 #include <conio.h>
 #include <time.h>
 
@@ -132,6 +132,13 @@ int main()
                 continue;
             }
             do{
+                system("cls");
+                PrintW();
+                UserGiveEnergyShow(animalIndex);
+                user_move = getch();
+                UserGiveEnergy(animalIndex, user_move);
+                if(!IsAnimalAlive(&user_animals[animalIndex]))
+                    continue;
                 system("cls");
                 PrintW();
                 UserFightShow(&user_animals[animalIndex]);
