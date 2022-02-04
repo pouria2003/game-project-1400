@@ -71,6 +71,8 @@ Coordinate FBW_final_purposes[5];
 int FBW_final_purposes_distance[5];
 int minimum_distance = 50;
 short FBW_return_value = 0;
+short keep_defenders[8];
+short keep_defenders_index = 0;
 
 
 int FindInteger(char *);
@@ -1053,7 +1055,7 @@ int isAnyAnimal(int c, int r,char mode)
     int i;
     if(mode == 'p'){
         for(i = 0 ; i < program_animals_index ; i++){
-            if(c == program_animals[i].animal_coordinate.row && r == program_animals[i].animal_coordinate.column)
+            if((c == program_animals[i].animal_coordinate.row) && (r == program_animals[i].animal_coordinate.column))
                 return(i);
         }
     }
@@ -1182,13 +1184,11 @@ Animal* FightOrNo(Animal *animal)
                 animal_arr = program_animals;
 				if(index_of_defender == -1){
 					index_of_defender = isAnyAnimal(animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, 'u');
+                    if(index_of_defender == -1)return NULL;
                     animal_arr = user_animals;
 				}
-				if((animal->attack_energy > animal_arr[index_of_defender].defense_energy) && (animal_arr[index_of_defender].animal_energy > 3 * animal->single_move_energy)){
-                    printf("animal khune %d %dmikhad ba animal khune %d bejange \n", animal->animal_coordinate.row, animal->animal_coordinate.column, animal_arr[index_of_defender].animal_coordinate.row, animal_arr[index_of_defender].animal_coordinate.column);
-                    Sleep(8000);
+				if((animal->attack_energy > animal_arr[index_of_defender].defense_energy) && (animal_arr[index_of_defender].animal_energy > 3 * animal->single_move_energy))
                     return (&animal_arr[index_of_defender]);
-                }
             }
         }
     }
@@ -1203,7 +1203,6 @@ void Fight(Animal *attacker, Animal *defender)
 		Lose(defender, (world[defender->animal_coordinate.row][defender->animal_coordinate.column] == User_Animal) ? 'u' : 'p');
 		attacker->animal_energy -= 3 * attacker->single_move_energy;
         attacker->is_way_specified = 0;
-		printf("in ono kosht\n");
 	}
 	else if(attacker->attack_energy > defender->defense_energy)
 		return;
@@ -1211,9 +1210,46 @@ void Fight(Animal *attacker, Animal *defender)
 		Lose(attacker, (world[attacker->animal_coordinate.row][attacker->animal_coordinate.column] == User_Animal) ? 'u' : 'p');
 		defender->animal_energy -= 3 * (defender->single_move_energy);
         defender->is_way_specified = 0;
-		printf("on ino kosht\n");
 	}
-    Sleep(5000);
+}
+
+void UserFightShow(Animal *animal)
+{
+    keep_defenders_index = 0;
+    int animals_counter = 1;
+    for(int drow = -1; drow <= 1; drow++){
+        for(int dcol = -1; dcol <= 1; dcol++){
+            if(world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != '.' && world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != User_Animal && world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != '$' && world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != '#'){
+                int index_of_defender = isAnyAnimal(animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, 'p');
+                if(index_of_defender == -1){
+                    return;
+                }
+                keep_defenders[keep_defenders_index] = index_of_defender;
+                keep_defenders_index++;
+                if(animals_counter == 1)
+                    printf("animals you can fight : \n");
+                printf("*%d : animal in %d %d with defense energy %d and energy %d\n", animals_counter, animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, program_animals[index_of_defender].defense_energy, program_animals[index_of_defender].animal_energy);
+                animals_counter++;
+            }
+        }
+    }
+    if(animals_counter == 1)    printf("no animal for attack please enter 0\n");
+    else printf("choose which one or 0 for no one : \n");
+}
+
+void UserFight(Animal *user, char which_one)
+{
+    if(which_one == '0')
+        return;
+    else if(which_one > '9' || which_one < '0')
+        return;
+    else if(which_one - '0' > keep_defenders_index + 1){
+        beepNtimes(2);
+        return;
+    }
+    else{
+        Fight(user, &program_animals[keep_defenders[which_one - '0' - 1]]);
+    }
 }
 
 void MoveAnimal(int index_of_animal)
@@ -1224,7 +1260,7 @@ void MoveAnimal(int index_of_animal)
     //Sleep(1000);
 
     PrintW();
-    Sleep(3000);
+    Sleep(1500);
     //printf("step 1 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
     //Sleep(1000);
     if(!program_animals[index_of_animal].is_way_specified)
