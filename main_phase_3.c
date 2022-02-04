@@ -141,8 +141,8 @@ int main()
                 sw = SingleMove(user_move, &user_animals[animalIndex]);
                 if(user_move == esc)
                     exit(0);
-                if(!sw)
-                    printf("\a");
+                if(!sw || WrongUserMove(user_move, animalIndex))
+                    beepNtimes(3);
             }while(!sw);
         }
       }

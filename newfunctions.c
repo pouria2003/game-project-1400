@@ -188,7 +188,7 @@ void LogGame(FILE * gamelog, char mode, int round_number, char animal, int anima
     else{
         if(whos_animal == 'p'){
             if(mode == 'f'){
-                fprintf(gamelog, "%s%d%c%d%c", "From (", program_animals[array_index].row, ',', program_animals[array_index].column, ')');
+                fprintf(gamelog, "%s%d%c%d%c", "From (", program_animals[array_index].animal_coordinate.row, ',', program_animals[array_index].column, ')');
             }
             else {
                 fprintf(gamelog, "%s%d%c%d%s", " to (", program_animals[array_index].row, ',', program_animals[array_index].column, ")\n");
@@ -213,7 +213,7 @@ void beepNtimes(int n){
 }
 
 
-
+/*
 int warning(char move){
 x=user_animals[i].animal_coordinate.row;
 y=user_animals[i].animal_coordinate.column;   
@@ -224,3 +224,24 @@ return(0);
 }
 else return(1);
 }   
+*/
+
+Animal* FightOrNo(Animal *animal)
+{
+    Animal *animal_arr = NULL;
+	for(int drow = -1; drow <= 1; drow++){
+		for(int dcol = -1; dcol <= 1; dcol++){
+			if(world[animal->animal_coordinate.row][animal->animal_coordinate.column] != world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol]){
+				int index_of_defender = isAnyAnimal(animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, 'p');
+                animal_arr = program_animals;
+				if(index_of_defender == -1){
+					index_of_defender = isAnyAnimal(animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, 'u');
+                    animal_arr = user_animals;
+				}
+				if((animal->attack_energy > animal_arr[index_of_defender].defense_energy) && (animal_arr[index_of_defender].animal_energy > 3 * animal->single_move_energy))
+                    return (&animal_arr[index_of_defender]);
+            }
+        }
+    }
+    return NULL;
+}

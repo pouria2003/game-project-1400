@@ -88,6 +88,7 @@ void PrintWA();
 void PrintFoodInfo();
 void AddFoodToWorld();
 int IsVacant(int, int);
+int WrongUserMove(char, int);
 int FindDistance(Coordinate, Coordinate *, int (*CheckStopCondition)(Coordinate, Coordinate *));
 void Lose(Animal *, char);
 void win(char);
@@ -101,6 +102,8 @@ void SpecifyPurposes(Animal *);
 void CheckAnimalsHasFood(Coordinate);
 void AddFood(Coordinate, int);
 void reproduction(Animal[], int *, int);
+Animal* FightOrNo(Animal *);
+void Fight(Animal *, Animal *);
 void MoveAnimal(int index_of_animal);
 
 int FindInteger(char * str)
@@ -132,6 +135,12 @@ int IsAnimalAlive(const Animal * animal)
 int Random(int min, int max)
 {
     return (rand() % (max - min + 1) + min);
+}
+
+void beepNtimes(int n){
+    for(int i=0 ; i<n ; i++){
+        Beep(500, 300);
+    }
 }
 
 int IsEqualStr(const char *str1, const char *str2)
@@ -242,7 +251,7 @@ void AddFoodToWorld()
 {
     for(int i = 0; i < foods_array_index; i++){
         if(world[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column] == '.')
-            world[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column] = 'F';
+            world[foods_array[i].food_coordinate.row][foods_array[i].food_coordinate.column] = '$';
     }
 }
 
@@ -266,7 +275,7 @@ void PrintWA()
 
 int IsVacant(int row, int column)
 {
-    if((world[row][column] == '.' || world[row][column] == 'H' || world[row][column] == 'F') && (way_array[row][column] == 0))return 1;
+    if((world[row][column] == '.' || world[row][column] == 'H' || world[row][column] == '$') && (way_array[row][column] == 0))return 1;
     return 0;
 }
 
@@ -357,6 +366,16 @@ int FindDistance(Coordinate current_coor, Coordinate *final_coor, int (*CheckSto
     }
 }
 
+int WrongUserMove(char user_move, int index)
+{
+    int r = user_animals[index].animal_coordinate.row;
+    int c = user_animals[index].animal_coordinate.column;
+    if((r == 0 && user_move > '6') || (r == side - 1 && user_move == '3') || (r == side - 1 && user_move == '6') || (r == side - 1 && user_move == '9')
+    || (c == 0 && user_move == '7') || (c == 0 && user_move == '4') || (c == 0 && user_move == '1') || (c == side - 1 && user_move < '4'))
+        return 1;
+    return 0;
+}
+
 void Lose(Animal *animal, char mode)
 {
 
@@ -377,16 +396,16 @@ void Lose(Animal *animal, char mode)
 
 }
 
-void win(char winner, char user_animal)
+void win(char winner)
 {
-    FILE *cleansavedgame = fopen("savedgame.txt", "w");
-    fclose(cleansavedgame);
+    //FILE *cleansavedgame = fopen("savedgame.txt", "w");
+    //fclose(cleansavedgame);
     system("cls");
      char str[5] = "Type";
      for (int i=0; i<4 ; i++)
      {
          Sleep (200);
-         //printf ("%c",str[i]);
+         printf ("%c",str[i]);
      }
      Sleep (300);
      printf (" %c ",winner);
@@ -406,7 +425,7 @@ void win(char winner, char user_animal)
      system ("Color 07");
     system ("cls");
      Sleep(1000);
-   if (user_animal == winner){
+   if (User_Animal == winner){
      char str2[200] = "Congratulations! Your actions towards saving your species across the apocalypse have been successful! Your kind will now live in peace and serenity.";
      for (int i=0; i<148 ; i++)
      {
@@ -414,7 +433,7 @@ void win(char winner, char user_animal)
          printf ("%c",str2[i]);
          Sleep(120);
      }}
-   else if (user_animal != winner){
+   else if (User_Animal != winner){
         char str3[40] = "Your type has been extincted!!";
         for (int i=0; i<30 ; i++)
         {
@@ -574,7 +593,7 @@ int SingleMove(char code, Animal *animal)
     int index_of_food;
     switch (code) {
         case '6':
-            if(world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == '.' || world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == 'F'){
+            if(world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == '.' || world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] == '$'){
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column + 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.column += 1;
@@ -602,7 +621,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '9':
-            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] == '.' || world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] == 'F'){
+            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] == '.' || world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] == '$'){
                 world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column + 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.row -= 1;
@@ -631,7 +650,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '8':
-            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] == '.' || world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] == 'F'){
+            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] == '.' || world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] == '$'){
                 world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.row -= 1;
@@ -659,7 +678,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '7':
-            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] == '.' || world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] == 'F'){
+            if(world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] == '.' || world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] == '$'){
                 world[animal->animal_coordinate.row - 1][animal->animal_coordinate.column - 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.row -= 1;
@@ -688,7 +707,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '4':
-            if(world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] == '.' || world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] == 'F'){
+            if(world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] == '.' || world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] == '$'){
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column - 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.column -= 1;
@@ -716,7 +735,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '1':
-            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] == '.' || world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] == 'F'){
+            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] == '.' || world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] == '$'){
                 world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column - 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.row += 1;
@@ -745,7 +764,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '2':
-            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] == '.' || world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] == 'F'){
+            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] == '.' || world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] == '$'){
                 world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.row += 1;
@@ -773,7 +792,7 @@ int SingleMove(char code, Animal *animal)
             break;
 
         case '3':
-            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] == '.' || world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] == 'F'){
+            if(world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] == '.' || world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] == '$'){
                 world[animal->animal_coordinate.row + 1][animal->animal_coordinate.column + 1] = world[animal->animal_coordinate.row][animal->animal_coordinate.column];
                 world[animal->animal_coordinate.row][animal->animal_coordinate.column] = '.';
                 animal->animal_coordinate.row += 1;
@@ -892,10 +911,8 @@ void MakeCodeAndMove(Animal *animal, Coordinate purpose_coor, int index_of_anima
         SingleMove(move_codes[i], animal);
         if(!IsAnimalAlive(animal))
             return;
-        printf("in ghablesh \n");
         reproduction(program_animals, &program_animals_index, index_of_animal);
-        printf("in badesh \n");
-        Sleep(2000);
+        Fight(animal, FightOrNo(animal));
     }
 }
 
@@ -1105,8 +1122,8 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
             break;
     }
     if(sw == 1){
-        printf("$$$$$$$$$$$  dige mikham shoro konime:)  $$$$$$$$$$$$$$$$\n");
-        Sleep(5000);
+        //printf("$$$$$$$$$$$  dige mikham shoro konime:)  $$$$$$$$$$$$$$$$\n");
+        //Sleep(5000);
         animal_arr[animal_index].animal_energy -= animal_arr[animal_index].reproduction_energy / 2;
         animal_arr[index].animal_energy -= animal_arr[index].reproduction_energy / 2;
         animal_arr[*animal_arr_index].animal_energy = findPrimaryInfo(kind, 'e');
@@ -1121,7 +1138,7 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
                 for(int j = -k; j <= k; j++){
                     //printf("r = %d , c = %d, k = %d\n", r, c, k);
                     //Sleep(5000);
-                    if(world[r + i][c + j] == '.' || world[r + i][c + j] == 'F'){
+                    if(world[r + i][c + j] == '.' || world[r + i][c + j] == '$'){
                         //printf("khune %d %d baraye bachamon khalie XD\n", r + i, c + j);
                         animal_arr[*animal_arr_index].animal_coordinate.row = r + i;
                         animal_arr[*animal_arr_index].animal_coordinate.column = c + j;
@@ -1151,6 +1168,52 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
         // *animal_arr_index++;
         // world[r][c]=kind;
     }
+}
+
+Animal* FightOrNo(Animal *animal)
+{
+    if(Random(0, 1))
+        return NULL;
+    Animal *animal_arr = NULL;
+	for(int drow = -1; drow <= 1; drow++){
+		for(int dcol = -1; dcol <= 1; dcol++){
+			if(world[animal->animal_coordinate.row][animal->animal_coordinate.column] != world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol]){
+				int index_of_defender = isAnyAnimal(animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, 'p');
+                animal_arr = program_animals;
+				if(index_of_defender == -1){
+					index_of_defender = isAnyAnimal(animal->animal_coordinate.row + drow, animal->animal_coordinate.column + dcol, 'u');
+                    animal_arr = user_animals;
+				}
+				if((animal->attack_energy > animal_arr[index_of_defender].defense_energy) && (animal_arr[index_of_defender].animal_energy > 3 * animal->single_move_energy)){
+                    printf("animal khune %d %dmikhad ba animal khune %d bejange \n", animal->animal_coordinate.row, animal->animal_coordinate.column, animal_arr[index_of_defender].animal_coordinate.row, animal_arr[index_of_defender].animal_coordinate.column);
+                    Sleep(8000);
+                    return (&animal_arr[index_of_defender]);
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
+void Fight(Animal *attacker, Animal *defender)
+{
+    if(defender == NULL)
+        return;
+	if(attacker->attack_energy > defender->defense_energy){
+		Lose(defender, (world[defender->animal_coordinate.row][defender->animal_coordinate.column] == User_Animal) ? 'u' : 'p');
+		attacker->animal_energy -= 3 * attacker->single_move_energy;
+        attacker->is_way_specified = 0;
+		printf("in ono kosht\n");
+	}
+	else if(attacker->attack_energy > defender->defense_energy)
+		return;
+	else{
+		Lose(attacker, (world[attacker->animal_coordinate.row][attacker->animal_coordinate.column] == User_Animal) ? 'u' : 'p');
+		defender->animal_energy -= 3 * (defender->single_move_energy);
+        defender->is_way_specified = 0;
+		printf("on ino kosht\n");
+	}
+    Sleep(5000);
 }
 
 void MoveAnimal(int index_of_animal)
@@ -1186,5 +1249,3 @@ void MoveAnimal(int index_of_animal)
     //Sleep(1000);
     system("cls");
 }
-
-
