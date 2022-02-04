@@ -235,8 +235,11 @@ void PrintW()
 {
     AddFoodToWorld();
     for(int i = 0; i < side; i++){
-        for(int j = 0; j < side; j++)
-            printf("%c ", world[i][j]);
+        printf("|");
+        for(int j = 0; j < side; j++){
+            printf("%c", world[i][j]);
+            printf("|");
+        }
         printf("\n");
     }
 }
@@ -1217,6 +1220,7 @@ void UserFightShow(Animal *animal)
 {
     keep_defenders_index = 0;
     int animals_counter = 1;
+    printf("your are in %d %d with energy %d \n", animal->animal_coordinate.row, animal->animal_coordinate.column, animal->animal_energy);
     for(int drow = -1; drow <= 1; drow++){
         for(int dcol = -1; dcol <= 1; dcol++){
             if(world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != '.' && world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != User_Animal && world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != '$' && world[animal->animal_coordinate.row + drow][animal->animal_coordinate.column + dcol] != '#'){
@@ -1252,6 +1256,55 @@ void UserFight(Animal *user, char which_one)
     }
 }
 
+void GiveEnergy(Animal *animal)
+{
+    if(Random(0, 1))
+        return;
+    if(animal->purposes_distance[0] == -1){
+        for(int i = 0; i < program_animals_index; i++){
+            if(program_animals[i].purposes_distance[0] != -1){
+                program_animals[i].animal_energy += animal->single_move_energy;
+                animal->animal_energy -= animal->single_move_energy;
+                if(animal->animal_energy < animal->single_move_energy){
+                    Lose(animal, 'p');
+                }
+            }
+        }
+    }
+}
+
+void UserGiveEnergyShow(int index)
+{
+    int animal_counter = 1;
+    if(user_animals_index == 1)
+        return; 
+    printf("your current animal is %d %d with energy %d and others : \n", user_animals[index].animal_coordinate.row, user_animals[index].animal_coordinate.column, user_animals[index].animal_energy);
+    for(int i = 0; i < user_animals_index; i++){
+        if(i == index)
+            continue;
+        printf("*%d animal in %d %d have %d energy\n", animal_counter, user_animals
+        [i].animal_coordinate.row, user_animals[i].animal_coordinate.column, user_animals[i].animal_energy);
+    }
+    printf("choose which one or 0 for no one");
+}
+
+void UserGiveEnergy(int index, char to_which)
+{
+    int int_to_which = to_which - '0';
+    if(int_to_which < 1)
+        return;
+    else if(to_which <= user_animals_index )
+        return;
+    else if(int_to_which <= index){
+        user_animals[index].animal_energy -= user_animals[index].single_move_energy;
+        user_animals[int_to_which - 1].animal_energy += user_animals[index].single_move_energy;
+    }
+    else{
+        user_animals[index].animal_energy -= user_animals[index].single_move_energy;
+        user_animals[int_to_which].animal_energy += user_animals[index].single_move_energy;
+    }
+}
+
 void MoveAnimal(int index_of_animal)
 {
     if(!IsAnimalAlive(&program_animals[index_of_animal]))
@@ -1261,27 +1314,27 @@ void MoveAnimal(int index_of_animal)
 
     PrintW();
     Sleep(1500);
-    //printf("step 1 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
+    //printf("step 1 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column)
     //Sleep(1000);
     if(!program_animals[index_of_animal].is_way_specified)
         SpecifyPurposes(&program_animals[index_of_animal]);
-    //printf("step 2 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
+    //printf("step 2 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column)
     //Sleep(1000);
     CreateIntegerWorldCopy(program_animals[index_of_animal].animal_coordinate);
-    //printf("step 3 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
+    //printf("step 3 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column)
     //Sleep(1000);
     FindDistance(program_animals[index_of_animal].purposes[program_animals[index_of_animal].current_purpose_index], &program_animals[index_of_animal].animal_coordinate,  CheckFood);
-    //printf("step 4 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
+    //printf("step 4 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column)
     //Sleep(1000);
     CreateWayArray(program_animals[index_of_animal].animal_coordinate);
     SpecifyWay_minimum = 100;
     SpecifyWay_counter = 1;
     SpecifyWay(program_animals[index_of_animal].animal_coordinate, program_animals[index_of_animal].movement_number);
-    //printf("step 5 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
+    //printf("step 5 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column)
     //Sleep(1000);
     //PrintWA();
     MakeCodeAndMove(&program_animals[index_of_animal], SpecifyWay_purpose, index_of_animal);
-    //printf("step 6 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column);
+    //printf("step 6 %d %d \n", program_animals[index_of_animal].animal_coordinate.row, program_animals[index_of_animal].animal_coordinate.column)
     //Sleep(1000);
     system("cls");
 }

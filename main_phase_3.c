@@ -22,7 +22,7 @@ int main()
 
 /* #########################################   GEREFTAN DATA AZ MAP  ##########################################*/
     int seprator_counter = 0, index_for_add_genetic = 0;// user move harkat karbaro migire
-    FILE * inputs = fopen("map_phase2.txt", "r");
+    FILE * inputs = fopen("map_phase3.txt", "r");
     fscanf(inputs, "%d", &side);
     char temp[100];
     while(fscanf(inputs, "%s", temp) != EOF){
@@ -134,9 +134,18 @@ int main()
             do{
                 system("cls");
                 PrintW();
+                UserGiveEnergyShow(animalIndex);
+                user_move = getch();
+                UserGiveEnergy(animalIndex, user_move);
+                if(!IsAnimalAlive(&user_animals[animalIndex]))
+                    continue;
+                system("cls");
+                PrintW();
                 UserFightShow(&user_animals[animalIndex]);
                 user_move = getch();
                 UserFight(&user_animals[animalIndex], user_move);
+                if(!IsAnimalAlive(&user_animals[animalIndex]))
+                    continue;
                 system("cls");
                 PrintW();
                 printf("for animal in %d %d whith energy %d adn single move energy %d\nchoose your move : ", user_animals[animalIndex].animal_coordinate.row, 
