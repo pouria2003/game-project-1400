@@ -119,23 +119,24 @@ int main()
    }
 
    while(1){
-
       for(int animalIndex = 0; animalIndex < user_animals_index; animalIndex++){
          if(!IsAnimalAlive(&user_animals[animalIndex])){
-
             continue;
          }
          for(int nmove = 0; nmove < user_animals[animalIndex].movement_number; nmove++){
             if(!IsAnimalAlive(&user_animals[animalIndex])){
-
                 continue;
             }
             do{
                system("cls");
                PrintW();
-               printf("choose your move : ");
+              printf("for animal in %d %d whith energy %d adn single move energy %d\nchoose your move : ", user_animals[animalIndex].animal_coordinate.row, 
+                user_animals[animalIndex].animal_coordinate.column, user_animals[animalIndex].animal_energy, user_animals[animalIndex].single_move_energy);
+                PrintFoodInfo();
                user_move = getch();
-               sw = single_move(user_move, &user_animals[animalIndex]);
+               if(user_move == esc)
+                  exit(0);
+               sw = SingleMove(user_move, &user_animals[animalIndex]);
                if(!sw)
                   printf("\a");
             }while(!sw);

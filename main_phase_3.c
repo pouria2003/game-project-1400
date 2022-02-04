@@ -134,7 +134,8 @@ int main()
             do{
                 system("cls");
                 PrintW();
-                printf("choose your move for animal in %d %d : ", user_animals[animalIndex].animal_coordinate.row, user_animals[animalIndex].animal_coordinate.column);
+                printf("for animal in %d %d whith energy %d adn single move energy %d\nchoose your move : ", user_animals[animalIndex].animal_coordinate.row, 
+                user_animals[animalIndex].animal_coordinate.column, user_animals[animalIndex].animal_energy, user_animals[animalIndex].single_move_energy);
                 PrintFoodInfo();
                 user_move = getch();
                 sw = SingleMove(user_move, &user_animals[animalIndex]);

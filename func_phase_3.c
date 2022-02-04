@@ -232,8 +232,9 @@ void PrintW()
 
 void PrintFoodInfo()
 {
+    printf("\nfoods : \n");
     for(int i = 0; i < foods_array_index; i++){
-        printf("food in %d %d have %d energy\n", foods_array[i].food_coordinate.row, foods_array[i].food_coordinate.column, foods_array[i].food_energy);
+        printf("in %d %d have %d energy\n", foods_array[i].food_coordinate.row, foods_array[i].food_coordinate.column, foods_array[i].food_energy);
     }
 }
 
@@ -1052,10 +1053,10 @@ int findPrimaryInfo(int kind, char mode)
 
 void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
 {
-    printf("%p\n", animal_arr);
-    Sleep(5000);
-    printf("man heyvoon khune %d %d omadam bbinam mishe reproduct konam ya na\n", animal_arr[animal_index].animal_coordinate.row, animal_arr[animal_index].animal_coordinate.column);
-    Sleep(5000);
+    //printf("%p\n", animal_arr);
+    //Sleep(5000);
+    //printf("man heyvoon khune %d %d omadam bbinam mishe reproduct konam ya na\n", animal_arr[animal_index].animal_coordinate.row, animal_arr[animal_index].animal_coordinate.column);
+    //Sleep(5000);
     int j,r,c,sw=0,a,b,index,xR,yR; //sw byad avale tabe sefr beshe
     char kind;
     if(Random(0, 1) == 0)  return;
@@ -1072,10 +1073,10 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
                 if(index==-1)
                     index = isAnyAnimal(x + a, y + b, 'p');
                 if(animal_arr[index].animal_energy >= animal_arr[index].reproduction_energy){
-                    printf("khb heyvoon khune %d %d ro peyda kardam :)\n", x + a, y + b);
+                    //printf("khb heyvoon khune %d %d ro peyda kardam :)\n", x + a, y + b);
                     r = x + a;
                     c = y + b;
-                    Sleep(5000);
+                    //Sleep(5000);
                     sw = 1;
                     break;
                 }
@@ -1099,18 +1100,18 @@ void reproduction(Animal animal_arr[], int *animal_arr_index, int animal_index)
         while(++k){
             for(int i = -k; i <= k; i++){
                 for(int j = -k; j <= k; j++){
-                    printf("r = %d , c = %d, k = %d\n", r, c, k);
-                    Sleep(5000);
+                    //printf("r = %d , c = %d, k = %d\n", r, c, k);
+                    //Sleep(5000);
                     if(world[r + i][c + j] == '.' || world[r + i][c + j] == 'F'){
-                        printf("khune %d %d baraye bachamon khalie XD\n", r + i, c + j);
+                        //printf("khune %d %d baraye bachamon khalie XD\n", r + i, c + j);
                         animal_arr[*animal_arr_index].animal_coordinate.row = r + i;
                         animal_arr[*animal_arr_index].animal_coordinate.column = c + j;
-                        printf("animal %d to %d %d ba ene %d, attack energy %d , single move energy %d, movement number %d, \n", *animal_arr_index, animal_arr[*animal_arr_index].animal_coordinate.row,
-                         animal_arr[*animal_arr_index].animal_coordinate.column, animal_arr[*animal_arr_index].animal_energy, animal_arr[*animal_arr_index].attack_energy, animal_arr[*animal_arr_index].single_move_energy, animal_arr[*animal_arr_index].movement_number);
+                        //printf("animal %d to %d %d ba ene %d, attack energy %d , single move energy %d, movement number %d, \n", *animal_arr_index, animal_arr[*animal_arr_index].animal_coordinate.row,
+                         //animal_arr[*animal_arr_index].animal_coordinate.column, animal_arr[*animal_arr_index].animal_energy, animal_arr[*animal_arr_index].attack_energy, animal_arr[*animal_arr_index].single_move_energy, animal_arr[*animal_arr_index].movement_number);
                         (*animal_arr_index) += 1;
                         world[r + i][c + j] = kind;
-                        printf("done \n");
-                        Sleep(10000);
+                        //printf("done \n");
+                        //Sleep(10000);
                         return;
                     }
                 }
